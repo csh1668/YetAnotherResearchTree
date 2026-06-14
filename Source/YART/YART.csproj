@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{627A159A-E263-4847-A064-87818783C4E4}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>YART</RootNamespace>
+        <AssemblyName>YART</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <!-- 시스템에 4.7.2 타기팅 팩이 없을 때 NuGet 참조 어셈블리로 대체 -->
+        <FrameworkPathOverride Condition="!Exists('$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2') And Exists('$(UserProfile)\.netfx-ref-assemblies\net472\build\.NETFramework\v4.7.2')">$(UserProfile)\.netfx-ref-assemblies\net472\build\.NETFramework\v4.7.2</FrameworkPathOverride>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-1.6|AnyCPU' ">
+      <OutputPath>..\..\Assemblies</OutputPath>
+      <Optimize>true</Optimize>
+      <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="0Harmony">
+          <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Assembly-CSharp">
+          <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="netstandard">
+          <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\netstandard.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="UnityEngine">
+          <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+          <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+          <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+          <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+          <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Data\ResearchSearchEngine.cs" />
+        <Compile Include="Data\SearchNormalizer.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="Data\Constraints.cs" />
+        <Compile Include="Data\GraphKey.cs" />
+        <Compile Include="Data\ResearchChannel.cs" />
+        <Compile Include="Data\ResearchGraph.cs" />
+        <Compile Include="Data\ResearchNode.cs" />
+        <Compile Include="Data\ResearchQueueManager.cs" />
+        <Compile Include="Compat\WorldTechLevelCompat.cs" />
+        <Compile Include="Compat\GravshipCompat.cs" />
+        <Compile Include="Utils\GUIDrawingUtilities.cs" />
+        <Compile Include="Utils\HistoryNavigator.cs" />
+        <Compile Include="Utils\SuffixStructure.cs" />
+        <Compile Include="Utils\Temporary.cs" />
+        <Compile Include="Assets.cs" />
+        <Compile Include="Rendering\EdgeRenderer.cs" />
+        <Compile Include="Rendering\GLLineBatcher.cs" />
+        <Compile Include="Rendering\GLSolidQuadBatcher.cs" />
+        <Compile Include="Rendering\GLTexturedQuadBatcher.cs" />
+        <Compile Include="Rendering\GUIScreenTransform.cs" />
+        <Compile Include="GraphBuildPipeline.cs" />
+        <Compile Include="SearchableFloatMenu.cs" />
+        <Compile Include="MainTabWindow_YART.cs" />
+        <Compile Include="MainTabWindow_YART.Canvas.cs" />
+        <Compile Include="MainTabWindow_YART.Interaction.cs" />
+        <Compile Include="MainTabWindow_YART.Edges.cs" />
+        <Compile Include="MainTabWindow_YART.Nodes.cs" />
+        <Compile Include="MainTabWindow_YART.TopBar.cs" />
+        <Compile Include="MainTabWindow_YART.SearchUI.cs" />
+        <Compile Include="MainTabWindow_YART.QueueBar.cs" />
+        <Compile Include="MainTabWindow_YART.LeftPanel.cs" />
+        <Compile Include="MainTabWindow_YART.Perf.cs" />
+        <Compile Include="Patches.cs" />
+        <Compile Include="YARTMod.cs" />
+        <Compile Include="YARTModSettings.cs" />
+        <Compile Include="LayoutExport.cs" />
+        <Compile Include="SugiyamaLayout.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <!-- 검색 다국어: Unihan 베이크 한자 읽기 테이블(병음/음독), gz 임베디드 -->
+        <EmbeddedResource Include="Resources\cjk_readings.txt.gz" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>

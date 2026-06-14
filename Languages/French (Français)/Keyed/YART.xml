@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <YART_Settings_ReplaceTab>Remplacer l'onglet de recherche d'origine par YART (par défaut : activé)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>Lorsque cette option est désactivée, le bouton Recherche ouvre la fenêtre de recherche d'origine.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Colorer les recherches inter-époques selon leur époque effective (par défaut : activé)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>Lorsqu'une recherche nécessite un prérequis de technologie supérieure, elle est placée dans la zone de cette époque supérieure. Activé : la colorer aussi selon cette époque effective (en accord avec la zone). Désactivé : conserver la couleur de l'époque propre à la recherche. S'applique instantanément, aucune reconstruction nécessaire.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>Reconstruire le graphe de recherche</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>Régénère l'arbre en arrière-plan.</YART_Settings_RebuildDesc>
+  <YART_Building>Construction de l'arbre de recherche...</YART_Building>
+  <YART_BuildingHint>L'arbre est généré en arrière-plan.</YART_BuildingHint>
+  <YART_SearchPlaceholder>Rechercher...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>console de communication</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Nom de la recherche, débloque, description, etc.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>Nom du mod, identifiant de paquet</YART_SearchHint_ModDesc>
+  <YART_StartNow>Rechercher</YART_StartNow>
+  <YART_Stop>Arrêter</YART_Stop>
+  <YART_Queue>File d'attente</YART_Queue>
+  <YART_QueueChain>Mettre en file ({0})</YART_QueueChain>
+  <YART_Unqueue>Retirer de la file ({0})</YART_Unqueue>
+  <YART_InProgress>En cours</YART_InProgress>
+  <YART_Completed>Terminé</YART_Completed>
+  <YART_Locked>Verrouillé</YART_Locked>
+  <YART_GoToOriginal>Aller au graphe d'origine</YART_GoToOriginal>
+  <YART_ShowInfoCard>Ouvrir l'onglet d'information</YART_ShowInfoCard>
+  <YART_UnlockedContent>Contenu débloqué</YART_UnlockedContent>
+  <YART_Prerequisites>Prérequis</YART_Prerequisites>
+  <YART_Unlocks>Débloque</YART_Unlocks>
+  <YART_None>Aucun</YART_None>
+  <YART_Requires>Nécessite</YART_Requires>
+  <YART_LockedReasons>Verrouillé :</YART_LockedReasons>
+  <YART_Finished>Achevé</YART_Finished>
+  <YART_Cost>Coût : {0}</YART_Cost>
+  <YART_CostProgress>Coût : {0} / {1}</YART_CostProgress>
+  <YART_Progress>Progression : {0} / {1}</YART_Progress>
+  <YART_Techprints>Schémas techniques : {0} / {1}</YART_Techprints>
+  <YART_Tab>Onglet : {0}</YART_Tab>
+  <YART_TechLevelUndefined>indéfini</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>Requis par {0} recherche(s) dans d'autres onglets :</YART_RequiredByExternal>
+  <YART_QueueEmpty>La file d'attente de recherche est vide.</YART_QueueEmpty>
+  <YART_Clear>Vider</YART_Clear>
+  <YART_ClearTooltip>Vider toute la file d'attente de recherche sur ce canal.</YART_ClearTooltip>
+  <YART_ClearConfirm>Vider la file d'attente de recherche ? ({0} en file)</YART_ClearConfirm>
+  <YART_CannotStartYet>Impossible de démarrer pour l'instant : {0}\nLes prérequis ou les conditions ne sont pas remplis.</YART_CannotStartYet>
+  <YART_AllTabs>Tous les onglets</YART_AllTabs>
+  <YART_AllTabsTooltip>Afficher toutes les catégories de recherche dans un arbre unifié</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>Catégorie de recherche (ajoutée par des mods)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Passer à la fenêtre de recherche d'origine</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Passer à l'arbre de recherche YART</YART_SwitchToYART>
+  <YART_Idle>(inactif)</YART_Idle>
+  <YART_ZoomTooltip>Clic : réinitialiser le zoom à 100 %\nOrigine : ajuster tout l'arbre à l'écran</YART_ZoomTooltip>
+
+</LanguageData>

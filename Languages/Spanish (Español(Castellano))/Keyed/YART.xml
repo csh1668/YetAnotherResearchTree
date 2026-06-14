@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <YART_Settings_ReplaceTab>Reemplazar la pestaña de investigación original por YART (por defecto: activado)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>Cuando está desactivado, el botón de Investigación abre la ventana de investigación original.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Colorear la investigación entre eras según su era efectiva (por defecto: activado)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>Cuando una investigación requiere un prerrequisito de mayor nivel tecnológico, se coloca en la zona de esa era superior. Activado: además la colorea según esa era efectiva (coincide con la zona). Desactivado: conserva el color de la era propia de la investigación. Se aplica al instante, sin necesidad de reconstruir.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>Reconstruir el árbol de investigación</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>Regenera el árbol en segundo plano.</YART_Settings_RebuildDesc>
+  <YART_Building>Construyendo el árbol de investigación...</YART_Building>
+  <YART_BuildingHint>El árbol se genera en segundo plano.</YART_BuildingHint>
+  <YART_SearchPlaceholder>Buscar...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>consola de comunicaciones</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Nombre de la investigación, desbloqueos, descripción, etc.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>Nombre del mod, ID del paquete</YART_SearchHint_ModDesc>
+  <YART_StartNow>Investigar</YART_StartNow>
+  <YART_Stop>Detener</YART_Stop>
+  <YART_Queue>En cola</YART_Queue>
+  <YART_QueueChain>En cola ({0})</YART_QueueChain>
+  <YART_Unqueue>Quitar de la cola ({0})</YART_Unqueue>
+  <YART_InProgress>En curso</YART_InProgress>
+  <YART_Completed>Completada</YART_Completed>
+  <YART_Locked>Bloqueada</YART_Locked>
+  <YART_GoToOriginal>Ir al árbol original</YART_GoToOriginal>
+  <YART_ShowInfoCard>Abrir ficha de detalles</YART_ShowInfoCard>
+  <YART_UnlockedContent>Contenido desbloqueado</YART_UnlockedContent>
+  <YART_Prerequisites>Prerrequisitos</YART_Prerequisites>
+  <YART_Unlocks>Desbloquea</YART_Unlocks>
+  <YART_None>Ninguno</YART_None>
+  <YART_Requires>Requiere</YART_Requires>
+  <YART_LockedReasons>Bloqueada:</YART_LockedReasons>
+  <YART_Finished>Terminada</YART_Finished>
+  <YART_Cost>Coste: {0}</YART_Cost>
+  <YART_CostProgress>Coste: {0} / {1}</YART_CostProgress>
+  <YART_Progress>Progreso: {0} / {1}</YART_Progress>
+  <YART_Techprints>Tecnoplanos: {0} / {1}</YART_Techprints>
+  <YART_Tab>Pestaña: {0}</YART_Tab>
+  <YART_TechLevelUndefined>sin definir</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>Requerida por {0} investigaciones en otras pestañas:</YART_RequiredByExternal>
+  <YART_QueueEmpty>La cola de investigación está vacía.</YART_QueueEmpty>
+  <YART_Clear>Vaciar</YART_Clear>
+  <YART_ClearTooltip>Vacía toda la cola de investigación de este canal.</YART_ClearTooltip>
+  <YART_ClearConfirm>¿Vaciar la cola de investigación? ({0} en cola)</YART_ClearConfirm>
+  <YART_CannotStartYet>Aún no se puede iniciar: {0}\nNo se cumplen los prerrequisitos o requisitos.</YART_CannotStartYet>
+  <YART_AllTabs>Todas las pestañas</YART_AllTabs>
+  <YART_AllTabsTooltip>Mostrar todas las categorías de investigación en un único árbol unificado</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>Categoría de investigación (añadida por mods)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Cambiar a la ventana de investigación original</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Cambiar al árbol de investigación de YART</YART_SwitchToYART>
+  <YART_Idle>(inactivo)</YART_Idle>
+  <YART_ZoomTooltip>Clic: restablecer el zoom al 100%\nInicio: ajustar todo el árbol a la pantalla</YART_ZoomTooltip>
+
+</LanguageData>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <YART_Settings_ReplaceTab>Заменить ванильную вкладку исследований на YART (по умолчанию: вкл.)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>Когда отключено, кнопка «Исследовать» открывает стандартное окно исследований.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Окрашивать межэпоховые исследования по их фактической эпохе (по умолчанию: вкл.)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>Когда для исследования требуется более высокотехнологичное предварительное условие, оно размещается в зоне этой более высокой эпохи. Вкл.: также окрашивать его по этой фактической эпохе (в тон зоне). Выкл.: сохранять цвет собственной эпохи исследования. Применяется мгновенно, перестроение не требуется.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>Перестроить граф исследований</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>Заново строит дерево в фоновом режиме.</YART_Settings_RebuildDesc>
+  <YART_Building>Построение дерева исследований...</YART_Building>
+  <YART_BuildingHint>Дерево строится в фоновом режиме.</YART_BuildingHint>
+  <YART_SearchPlaceholder>Поиск...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>консоль связи</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Название исследования, что открывает, описание и т. д.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@мод</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>Название мода, ID пакета</YART_SearchHint_ModDesc>
+  <YART_StartNow>Исследовать</YART_StartNow>
+  <YART_Stop>Остановить</YART_Stop>
+  <YART_Queue>В очередь</YART_Queue>
+  <YART_QueueChain>В очередь ({0})</YART_QueueChain>
+  <YART_Unqueue>Убрать из очереди ({0})</YART_Unqueue>
+  <YART_InProgress>В процессе</YART_InProgress>
+  <YART_Completed>Завершено</YART_Completed>
+  <YART_Locked>Заблокировано</YART_Locked>
+  <YART_GoToOriginal>Перейти к исходному графу</YART_GoToOriginal>
+  <YART_ShowInfoCard>Открыть карточку сведений</YART_ShowInfoCard>
+  <YART_UnlockedContent>Открываемое содержимое</YART_UnlockedContent>
+  <YART_Prerequisites>Требования</YART_Prerequisites>
+  <YART_Unlocks>Открывает</YART_Unlocks>
+  <YART_None>Нет</YART_None>
+  <YART_Requires>Требуется</YART_Requires>
+  <YART_LockedReasons>Заблокировано:</YART_LockedReasons>
+  <YART_Finished>Завершено</YART_Finished>
+  <YART_Cost>Стоимость: {0}</YART_Cost>
+  <YART_CostProgress>Стоимость: {0} / {1}</YART_CostProgress>
+  <YART_Progress>Прогресс: {0} / {1}</YART_Progress>
+  <YART_Techprints>Чертежи: {0} / {1}</YART_Techprints>
+  <YART_Tab>Вкладка: {0}</YART_Tab>
+  <YART_TechLevelUndefined>не определён</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>Требуется для {0} исследований на других вкладках:</YART_RequiredByExternal>
+  <YART_QueueEmpty>Очередь исследований пуста.</YART_QueueEmpty>
+  <YART_Clear>Очистить</YART_Clear>
+  <YART_ClearTooltip>Очистить всю очередь исследований на этом канале.</YART_ClearTooltip>
+  <YART_ClearConfirm>Очистить очередь исследований? (в очереди: {0})</YART_ClearConfirm>
+  <YART_CannotStartYet>Пока нельзя начать: {0}\nТребования или условия не выполнены.</YART_CannotStartYet>
+  <YART_AllTabs>Все вкладки</YART_AllTabs>
+  <YART_AllTabsTooltip>Показать все категории исследований в одном общем дереве</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>Категория исследований (добавлена модами)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Переключиться на стандартное окно исследований</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Переключиться на дерево исследований YART</YART_SwitchToYART>
+  <YART_Idle>(простой)</YART_Idle>
+  <YART_ZoomTooltip>Щелчок: сбросить масштаб до 100%\nHome: вписать всё дерево в экран</YART_ZoomTooltip>
+
+</LanguageData>

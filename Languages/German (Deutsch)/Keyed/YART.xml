@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <YART_Settings_ReplaceTab>Vanilla-Forschungs-Tab durch YART ersetzen (Standard: an)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>Wenn deaktiviert, öffnet die Forschungs-Schaltfläche das Vanilla-Forschungsfenster.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Epochenübergreifende Forschung nach ihrer effektiven Epoche einfärben (Standard: an)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>Wenn eine Forschung eine Voraussetzung höherer Techstufe benötigt, wird sie in der Zone dieser höheren Epoche platziert. An: sie auch nach dieser effektiven Epoche einfärben (passend zur Zone). Aus: die eigene Epochenfarbe der Forschung beibehalten. Wird sofort übernommen, kein Neuaufbau nötig.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>Forschungsgraph neu aufbauen</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>Erzeugt den Baum im Hintergrund neu.</YART_Settings_RebuildDesc>
+  <YART_Building>Forschungsbaum wird aufgebaut...</YART_Building>
+  <YART_BuildingHint>Der Baum wird im Hintergrund erzeugt.</YART_BuildingHint>
+  <YART_SearchPlaceholder>Suchen...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>Funkkonsole</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Forschungsname, Freischaltungen, Beschreibung usw.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>Mod-Name, Paket-ID</YART_SearchHint_ModDesc>
+  <YART_StartNow>Forschen</YART_StartNow>
+  <YART_Stop>Stoppen</YART_Stop>
+  <YART_Queue>Einreihen</YART_Queue>
+  <YART_QueueChain>Einreihen ({0})</YART_QueueChain>
+  <YART_Unqueue>Entfernen ({0})</YART_Unqueue>
+  <YART_InProgress>Forschung läuft</YART_InProgress>
+  <YART_Completed>Abgeschlossen</YART_Completed>
+  <YART_Locked>Gesperrt</YART_Locked>
+  <YART_GoToOriginal>Zum ursprünglichen Graphen</YART_GoToOriginal>
+  <YART_ShowInfoCard>Infokarte öffnen</YART_ShowInfoCard>
+  <YART_UnlockedContent>Freigeschaltete Inhalte</YART_UnlockedContent>
+  <YART_Prerequisites>Voraussetzungen</YART_Prerequisites>
+  <YART_Unlocks>Schaltet frei</YART_Unlocks>
+  <YART_None>Keine</YART_None>
+  <YART_Requires>Benötigt</YART_Requires>
+  <YART_LockedReasons>Gesperrt:</YART_LockedReasons>
+  <YART_Finished>Abgeschlossen</YART_Finished>
+  <YART_Cost>Kosten: {0}</YART_Cost>
+  <YART_CostProgress>Kosten: {0} / {1}</YART_CostProgress>
+  <YART_Progress>Fortschritt: {0} / {1}</YART_Progress>
+  <YART_Techprints>Techpläne: {0} / {1}</YART_Techprints>
+  <YART_Tab>Tab: {0}</YART_Tab>
+  <YART_TechLevelUndefined>nicht definiert</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>Benötigt von {0} Forschungen in anderen Tabs:</YART_RequiredByExternal>
+  <YART_QueueEmpty>Die Forschungs-Warteschlange ist leer.</YART_QueueEmpty>
+  <YART_Clear>Leeren</YART_Clear>
+  <YART_ClearTooltip>Die gesamte Forschungs-Warteschlange dieses Kanals leeren.</YART_ClearTooltip>
+  <YART_ClearConfirm>Forschungs-Warteschlange leeren? ({0} eingereiht)</YART_ClearConfirm>
+  <YART_CannotStartYet>Kann noch nicht gestartet werden: {0}\nVoraussetzungen oder Anforderungen nicht erfüllt.</YART_CannotStartYet>
+  <YART_AllTabs>Alle Tabs</YART_AllTabs>
+  <YART_AllTabsTooltip>Alle Forschungskategorien in einem vereinten Baum anzeigen</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>Forschungskategorie (von Mods hinzugefügt)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Zum Vanilla-Forschungsfenster wechseln</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Zum YART-Forschungsbaum wechseln</YART_SwitchToYART>
+  <YART_Idle>(untätig)</YART_Idle>
+  <YART_ZoomTooltip>Klick: Zoom auf 100 % zurücksetzen\nPos1: gesamten Baum auf dem Bildschirm einpassen</YART_ZoomTooltip>
+
+</LanguageData>

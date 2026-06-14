@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <YART_Settings_ReplaceTab>Substituir a aba de pesquisa padrão pelo YART (padrão: ligado)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>Quando desativado, o botão de Pesquisa abre a janela de pesquisa padrão do jogo.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Colorir pesquisas entre eras pela era efetiva (padrão: ligado)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>Quando uma pesquisa exige um pré-requisito de tecnologia mais avançada, ela é colocada na zona dessa era superior. Ligado: também a colore pela era efetiva (combinando com a zona). Desligado: mantém a cor da própria era da pesquisa. Aplica-se na hora, sem precisar reconstruir.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>Reconstruir grafo de pesquisa</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>Gera a árvore novamente em segundo plano.</YART_Settings_RebuildDesc>
+  <YART_Building>Construindo árvore de pesquisa...</YART_Building>
+  <YART_BuildingHint>A árvore é gerada em segundo plano.</YART_BuildingHint>
+  <YART_SearchPlaceholder>Pesquisar...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>console de comunicações</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Nome da pesquisa, desbloqueios, descrição, etc.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>Nome do mod, ID do pacote</YART_SearchHint_ModDesc>
+  <YART_StartNow>Pesquisar</YART_StartNow>
+  <YART_Stop>Parar</YART_Stop>
+  <YART_Queue>Fila</YART_Queue>
+  <YART_QueueChain>Enfileirar ({0})</YART_QueueChain>
+  <YART_Unqueue>Remover da fila ({0})</YART_Unqueue>
+  <YART_InProgress>Em andamento</YART_InProgress>
+  <YART_Completed>Concluído</YART_Completed>
+  <YART_Locked>Bloqueado</YART_Locked>
+  <YART_GoToOriginal>Ir para o grafo original</YART_GoToOriginal>
+  <YART_ShowInfoCard>Abrir ficha de informações</YART_ShowInfoCard>
+  <YART_UnlockedContent>Conteúdo desbloqueado</YART_UnlockedContent>
+  <YART_Prerequisites>Pré-requisitos</YART_Prerequisites>
+  <YART_Unlocks>Desbloqueia</YART_Unlocks>
+  <YART_None>Nenhum</YART_None>
+  <YART_Requires>Requer</YART_Requires>
+  <YART_LockedReasons>Bloqueado:</YART_LockedReasons>
+  <YART_Finished>Concluído</YART_Finished>
+  <YART_Cost>Custo: {0}</YART_Cost>
+  <YART_CostProgress>Custo: {0} / {1}</YART_CostProgress>
+  <YART_Progress>Progresso: {0} / {1}</YART_Progress>
+  <YART_Techprints>Techprints: {0} / {1}</YART_Techprints>
+  <YART_Tab>Aba: {0}</YART_Tab>
+  <YART_TechLevelUndefined>indefinido</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>Exigido por {0} pesquisa(s) em outras abas:</YART_RequiredByExternal>
+  <YART_QueueEmpty>A fila de pesquisa está vazia.</YART_QueueEmpty>
+  <YART_Clear>Limpar</YART_Clear>
+  <YART_ClearTooltip>Limpar toda a fila de pesquisa deste canal.</YART_ClearTooltip>
+  <YART_ClearConfirm>Limpar a fila de pesquisa? ({0} na fila)</YART_ClearConfirm>
+  <YART_CannotStartYet>Ainda não é possível iniciar: {0}\nPré-requisitos ou requisitos não atendidos.</YART_CannotStartYet>
+  <YART_AllTabs>Todas as abas</YART_AllTabs>
+  <YART_AllTabsTooltip>Mostrar todas as categorias de pesquisa em uma única árvore unificada</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>Categoria de pesquisa (adicionada por mods)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Alternar para a janela de pesquisa padrão</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Alternar para a árvore de pesquisa do YART</YART_SwitchToYART>
+  <YART_Idle>(ocioso)</YART_Idle>
+  <YART_ZoomTooltip>Clique: redefinir zoom para 100%\nHome: ajustar toda a árvore à tela</YART_ZoomTooltip>
+
+</LanguageData>

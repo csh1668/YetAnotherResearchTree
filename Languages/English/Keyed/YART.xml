@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings -->
+  <YART_Settings_ReplaceTab>Replace vanilla research tab with YART (default: on)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>When disabled, the Research button opens the vanilla research window.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Color cross-era research by its effective era (default: on)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>When a research requires a higher-tech prerequisite, it is placed in that higher era's zone. On: also color it by that effective era (matches the zone). Off: keep the research's own era color. Applies instantly, no rebuild needed.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>Rebuild research graph</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>Regenerates the tree in the background.</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>Export research tree structure to Desktop (dev)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>Writes the research tree structure to Desktop\YART_layout_graph.json.</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART: layout graph exported to {0}</YART_Export_Done>
+  <YART_Export_Empty>YART: no graph to export (rebuild failed or empty).</YART_Export_Empty>
+  <YART_Export_Failed>YART: layout export failed — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
+  <YART_Building>Building research tree...</YART_Building>
+  <YART_BuildingHint>The tree is generated in the background.</YART_BuildingHint>
+
+  <!-- Search -->
+  <YART_SearchPlaceholder>Search...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>comms electricity</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Research name, unlocks, description, etc.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>Mod name, package ID</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
+  <YART_StartNow>Research</YART_StartNow>
+  <YART_Stop>Stop</YART_Stop>
+  <YART_Queue>Queue</YART_Queue>
+  <YART_QueueChain>Queue ({0})</YART_QueueChain>
+  <YART_Unqueue>Unqueue ({0})</YART_Unqueue>
+  <YART_InProgress>In Progress</YART_InProgress>
+  <YART_Completed>Completed</YART_Completed>
+  <YART_Locked>Locked</YART_Locked>
+  <YART_GoToOriginal>Go to original graph</YART_GoToOriginal>
+  <YART_ShowInfoCard>Open info card</YART_ShowInfoCard>
+
+  <!-- Detail panel -->
+  <YART_UnlockedContent>Unlocked Content</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>Toggle icon / list view</YART_ToggleUnlockedView>
+  <YART_Prerequisites>Prerequisites</YART_Prerequisites>
+  <YART_Unlocks>Unlocks</YART_Unlocks>
+  <YART_None>None</YART_None>
+  <YART_Requires>Requires</YART_Requires>
+  <YART_LockedReasons>Locked:</YART_LockedReasons>
+  <YART_Finished>Finished</YART_Finished>
+  <YART_Cost>Cost: {0}</YART_Cost>
+  <YART_CostProgress>Cost: {0} / {1}</YART_CostProgress>
+  <YART_Progress>Progress: {0} / {1}</YART_Progress>
+  <YART_Techprints>Techprints: {0} / {1}</YART_Techprints>
+  <YART_Tab>Tab: {0}</YART_Tab>
+  <YART_TechLevelUndefined>undefined</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>Required by {0} research in other tabs:</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
+  <YART_QueueEmpty>The research queue is empty.</YART_QueueEmpty>
+  <YART_Clear>Clear</YART_Clear>
+  <YART_ClearTooltip>Clear the entire research queue on this channel.</YART_ClearTooltip>
+  <YART_ClearConfirm>Clear the research queue? ({0} queued)</YART_ClearConfirm>
+  <YART_CannotStartYet>Cannot start yet: {0}\nPrerequisites or requirements not met.</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
+  <YART_AllTabs>All tabs</YART_AllTabs>
+  <YART_AllTabsTooltip>Show all research categories in one unified tree</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>Research category (added by mods)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Switch to the vanilla research window</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Switch to the YART research tree</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
+  <YART_Idle>(idle)</YART_Idle>
+  <YART_ZoomTooltip>Click: reset zoom to 100%\nHome: fit whole tree on screen</YART_ZoomTooltip>
+
+</LanguageData>

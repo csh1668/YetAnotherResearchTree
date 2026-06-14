@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- 설정 -->
+  <YART_Settings_ReplaceTab>바닐라 연구 탭을 YART로 교체 (기본값: O)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>끄면 연구 버튼이 바닐라 연구 창을 엽니다.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>시대 연구를 유효 시대 색으로 표시 (기본값: O)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>연구가 더 높은 기술 시대의 선행 연구를 요구하면 그 높은 시대 구역에 배치됩니다. 켜면 그 유효 시대 색으로도 표시합니다(구역 색과 일치). 끄면 연구 본래의 시대 색을 유지합니다. 즉시 적용되며 재생성이 필요 없습니다.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>연구 그래프 재생성</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>백그라운드에서 트리를 다시 생성합니다.</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>연구 트리 구조 내보내기 (개발용)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>연구 트리 구조를 바탕화면\YART_layout_graph.json으로 내보냅니다.</YART_Settings_ExportGraphDesc>
+
+  <!-- 생성 안내 -->
+  <YART_Building>연구 트리 생성 중...</YART_Building>
+  <YART_BuildingHint>트리는 백그라운드에서 생성됩니다</YART_BuildingHint>
+
+  <!-- 검색 -->
+  <YART_SearchPlaceholder>검색...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>통신기 전기</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>연구 이름, 해금 내용, 설명 등</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@모드</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>모드 이름, 패키지 ID</YART_SearchHint_ModDesc>
+
+  <!-- 동작 -->
+  <YART_StartNow>연구</YART_StartNow>
+  <YART_Stop>중단</YART_Stop>
+  <YART_Queue>예약</YART_Queue>
+  <YART_QueueChain>예약 ({0})</YART_QueueChain>
+  <YART_Unqueue>예약 취소 ({0})</YART_Unqueue>
+  <YART_InProgress>연구 중</YART_InProgress>
+  <YART_Completed>완료됨</YART_Completed>
+  <YART_Locked>잠김</YART_Locked>
+  <YART_GoToOriginal>원본 그래프로 이동</YART_GoToOriginal>
+  <YART_ShowInfoCard>정보 카드 열기</YART_ShowInfoCard>
+
+  <!-- 상세 패널 -->
+  <YART_UnlockedContent>연구 보상</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>아이콘 / 목록 보기 전환</YART_ToggleUnlockedView>
+  <YART_Prerequisites>선행 연구</YART_Prerequisites>
+  <YART_Unlocks>해금</YART_Unlocks>
+  <YART_None>없음</YART_None>
+  <YART_Requires>요구 사항</YART_Requires>
+  <YART_LockedReasons>잠김:</YART_LockedReasons>
+  <YART_Finished>완료</YART_Finished>
+  <YART_Cost>비용: {0}</YART_Cost>
+  <YART_CostProgress>비용: {0} / {1}</YART_CostProgress>
+  <YART_Progress>진행도: {0} / {1}</YART_Progress>
+  <YART_Techprints>기술 청사진: {0} / {1}</YART_Techprints>
+  <YART_Tab>탭: {0}</YART_Tab>
+  <YART_TechLevelUndefined>미정의</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>다른 탭의 연구 {0}개가 요구함:</YART_RequiredByExternal>
+
+  <!-- 예약 바 -->
+  <YART_QueueEmpty>연구 큐가 비어 있습니다.</YART_QueueEmpty>
+  <YART_Clear>비우기</YART_Clear>
+  <YART_ClearTooltip>현재 채널의 연구 큐를 모두 비웁니다.</YART_ClearTooltip>
+  <YART_ClearConfirm>연구 큐를 비울까요? ({0}개)</YART_ClearConfirm>
+  <YART_CannotStartYet>아직 시작할 수 없음: {0}\n선행 연구 또는 요구 사항이 충족되지 않았습니다.</YART_CannotStartYet>
+
+  <!-- 탭 / 통합 / 전환 -->
+  <YART_AllTabs>전체 탭</YART_AllTabs>
+  <YART_AllTabsTooltip>모든 연구 분류를 하나의 통합 트리로 표시</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>연구 분류 (모드 추가)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>바닐라 연구 창으로 전환</YART_SwitchToVanilla>
+  <YART_SwitchToYART>YART 연구 트리로 전환</YART_SwitchToYART>
+
+  <!-- 채널 칩 / 줌 -->
+  <YART_Idle>(대기 중)</YART_Idle>
+  <YART_ZoomTooltip>클릭: 줌 100%로 초기화\nHome: 전체 트리를 화면에 맞춤</YART_ZoomTooltip>
+
+</LanguageData>

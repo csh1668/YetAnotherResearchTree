@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>LayoutHarness</AssemblyName>
+    <RootNamespace>LayoutHarness</RootNamespace>
+  </PropertyGroup>
+
+  <!-- 진짜 레이아웃 소스를 링크 컴파일 — 절대 갈라지지 않는다. 게임 타입은 Shims.cs가 대체. -->
+  <ItemGroup>
+    <Compile Include="..\YART\SugiyamaLayout.cs" Link="_linked\SugiyamaLayout.cs" />
+    <Compile Include="..\YART\Data\Constraints.cs" Link="_linked\Constraints.cs" />
+  </ItemGroup>
+
+</Project>

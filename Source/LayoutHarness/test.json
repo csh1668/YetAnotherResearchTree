@@ -1,0 +1,17 @@
+{"graphs":[{"key":"Test/Mini","nodes":[
+{"id":"A","label":"Alpha","tech":2,"proxy":false},
+{"id":"B","label":"Beta","tech":2,"proxy":false},
+{"id":"C","label":"Gamma","tech":2,"proxy":false},
+{"id":"D","label":"Delta","tech":4,"proxy":false},
+{"id":"E","label":"Epsilon","tech":2,"proxy":false},
+{"id":"F","label":"Zeta","tech":2,"proxy":false},
+{"id":"G","label":"Eta","tech":4,"proxy":false}
+],"edges":[
+{"from":"A","to":"B"},
+{"from":"B","to":"C"},
+{"from":"C","to":"D"},
+{"from":"A","to":"D"},
+{"from":"A","to":"E"},
+{"from":"A","to":"F"},
+{"from":"D","to":"G"}
+]}]}

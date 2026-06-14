@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <YART_Settings_ReplaceTab>Zastąp domyślną zakładkę badań przez YART (domyślnie: wł.)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>Po wyłączeniu przycisk Badania otwiera domyślne okno badań.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Koloruj badania międzyepokowe wg ich rzeczywistej epoki (domyślnie: wł.)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>Gdy badanie wymaga wymogu o wyższym poziomie technologicznym, zostaje umieszczone w strefie tej wyższej epoki. Wł.: dodatkowo koloruj je wg tej rzeczywistej epoki (pasuje do strefy). Wył.: zachowaj kolor własnej epoki badania. Działa natychmiast, bez potrzeby przebudowy.</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>Przebuduj graf badań</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>Generuje drzewo ponownie w tle.</YART_Settings_RebuildDesc>
+  <YART_Building>Budowanie drzewa badań...</YART_Building>
+  <YART_BuildingHint>Drzewo jest generowane w tle.</YART_BuildingHint>
+  <YART_SearchPlaceholder>Szukaj...</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>konsola komunikacyjna</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Nazwa badania, odblokowania, opis itp.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>Nazwa moda, identyfikator pakietu</YART_SearchHint_ModDesc>
+  <YART_StartNow>Badaj</YART_StartNow>
+  <YART_Stop>Zatrzymaj</YART_Stop>
+  <YART_Queue>Do kolejki</YART_Queue>
+  <YART_QueueChain>Do kolejki ({0})</YART_QueueChain>
+  <YART_Unqueue>Usuń z kolejki ({0})</YART_Unqueue>
+  <YART_InProgress>W toku</YART_InProgress>
+  <YART_Completed>Ukończone</YART_Completed>
+  <YART_Locked>Zablokowane</YART_Locked>
+  <YART_GoToOriginal>Przejdź do oryginalnego grafu</YART_GoToOriginal>
+  <YART_ShowInfoCard>Otwórz kartę informacyjną</YART_ShowInfoCard>
+  <YART_UnlockedContent>Odblokowana zawartość</YART_UnlockedContent>
+  <YART_Prerequisites>Wymagania wstępne</YART_Prerequisites>
+  <YART_Unlocks>Odblokowuje</YART_Unlocks>
+  <YART_None>Brak</YART_None>
+  <YART_Requires>Wymaga</YART_Requires>
+  <YART_LockedReasons>Zablokowane:</YART_LockedReasons>
+  <YART_Finished>Ukończono</YART_Finished>
+  <YART_Cost>Koszt: {0}</YART_Cost>
+  <YART_CostProgress>Koszt: {0} / {1}</YART_CostProgress>
+  <YART_Progress>Postęp: {0} / {1}</YART_Progress>
+  <YART_Techprints>Druki technologiczne: {0} / {1}</YART_Techprints>
+  <YART_Tab>Zakładka: {0}</YART_Tab>
+  <YART_TechLevelUndefined>nieokreślony</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>Wymagane przez {0} badań w innych zakładkach:</YART_RequiredByExternal>
+  <YART_QueueEmpty>Kolejka badań jest pusta.</YART_QueueEmpty>
+  <YART_Clear>Wyczyść</YART_Clear>
+  <YART_ClearTooltip>Wyczyść całą kolejkę badań na tym kanale.</YART_ClearTooltip>
+  <YART_ClearConfirm>Wyczyścić kolejkę badań? ({0} w kolejce)</YART_ClearConfirm>
+  <YART_CannotStartYet>Nie można jeszcze rozpocząć: {0}\nWymagania wstępne lub warunki nie są spełnione.</YART_CannotStartYet>
+  <YART_AllTabs>Wszystkie zakładki</YART_AllTabs>
+  <YART_AllTabsTooltip>Pokaż wszystkie kategorie badań w jednym połączonym drzewie</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>Kategoria badań (dodana przez mody)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Przełącz na domyślne okno badań</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Przełącz na drzewo badań YART</YART_SwitchToYART>
+  <YART_Idle>(bezczynny)</YART_Idle>
+  <YART_ZoomTooltip>Kliknij: zresetuj powiększenie do 100%\nHome: dopasuj całe drzewo do ekranu</YART_ZoomTooltip>
+
+</LanguageData>

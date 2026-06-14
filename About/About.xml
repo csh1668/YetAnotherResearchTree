@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <name>Yet Another Research Tree (YART)</name>
+    <author>SeoHyeon</author>
+    <packageId>seohyeon.yart</packageId>
+    <supportedVersions>
+        <li>1.6</li>
+    </supportedVersions>
+    <description>Yet Another Research Tree (YART) replaces the vanilla research tab with a custom, graph-based tech tree.
+
+Features
+- Automatic graph layout of all research, including projects and tabs added by other mods.
+- Smooth zoom and pan with custom rendering and level-of-detail node cards.
+- Per-channel research queue with drag-to-reorder (vanilla bench, Anomaly knowledge, and more).
+- Fast search by research name, unlocked content, description, or @mod.
+- Unified view that merges every research category into one tree — or browse per tab.
+- Switch back to the vanilla research window at any time.
+
+Compatibility
+- Honors other mods' research requirements automatically through the vanilla CanStartNow path (e.g. Rimedieval, Medieval Overhaul).
+- World Tech Level: hides research above the world's tech level.
+- Vanilla Gravship Expanded: shows Gravtech research as its own channel.
+- Semi Random Research (Unofficial and Progression Fork): its "Go to Tech Tree" button opens YART.
+
+Requires Harmony. Works with the base game and all official DLCs.</description>
+    <modDependencies>
+        <li>
+            <packageId>brrainz.harmony</packageId>
+            <displayName>Harmony</displayName>
+            <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+        </li>
+    </modDependencies>
+    <loadAfter>
+        <li>Ludeon.RimWorld</li>
+        <li>Ludeon.RimWorld.Royalty</li>
+        <li>Ludeon.RimWorld.Ideology</li>
+        <li>Ludeon.RimWorld.Biotech</li>
+        <li>Ludeon.RimWorld.Anomaly</li>
+        <li>Ludeon.RimWorld.Odyssey</li>
+        <li>brrainz.harmony</li>
+    </loadAfter>
+</ModMetaData>

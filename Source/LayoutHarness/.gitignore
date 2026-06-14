@@ -1,0 +1,5 @@
+bin/
+obj/
+*.svg
+# YART_layout_graph.json 등 게임이 내보낸 덤프와 임시 출력은 커밋하지 않음
+YART_layout_graph.json

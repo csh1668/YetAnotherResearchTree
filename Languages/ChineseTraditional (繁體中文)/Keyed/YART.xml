@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <YART_Settings_ReplaceTab>以 YART 取代原版研究分頁（預設：開啟）</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>關閉後，研究按鈕將開啟原版研究視窗。</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>依有效時代為跨時代研究上色（預設：開啟）</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>當某項研究需要更高科技的前置條件時，會被放置於該較高時代的區域。開啟：同時依該有效時代為其上色（與區域一致）。關閉：保留研究本身的時代顏色。即時生效，無需重建。</YART_Settings_EraColorDesc>
+  <YART_Settings_Rebuild>重建研究圖譜</YART_Settings_Rebuild>
+  <YART_Settings_RebuildDesc>於背景重新產生研究樹。</YART_Settings_RebuildDesc>
+  <YART_Building>正在建立研究樹…</YART_Building>
+  <YART_BuildingHint>研究樹於背景產生中。</YART_BuildingHint>
+  <YART_SearchPlaceholder>搜尋…</YART_SearchPlaceholder>
+  <YART_SearchHint_WordsSyntax>通訊台</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>研究名稱、解鎖內容、說明等。</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_ModSyntax>@模組</YART_SearchHint_ModSyntax>
+  <YART_SearchHint_ModDesc>模組名稱、套件 ID</YART_SearchHint_ModDesc>
+  <YART_StartNow>研究</YART_StartNow>
+  <YART_Stop>停止</YART_Stop>
+  <YART_Queue>排入佇列</YART_Queue>
+  <YART_QueueChain>排入佇列（{0}）</YART_QueueChain>
+  <YART_Unqueue>移出佇列（{0}）</YART_Unqueue>
+  <YART_InProgress>進行中</YART_InProgress>
+  <YART_Completed>已完成</YART_Completed>
+  <YART_Locked>已鎖定</YART_Locked>
+  <YART_GoToOriginal>前往原始圖譜</YART_GoToOriginal>
+  <YART_ShowInfoCard>開啟資訊卡</YART_ShowInfoCard>
+  <YART_UnlockedContent>解鎖內容</YART_UnlockedContent>
+  <YART_Prerequisites>前置條件</YART_Prerequisites>
+  <YART_Unlocks>解鎖</YART_Unlocks>
+  <YART_None>無</YART_None>
+  <YART_Requires>需要</YART_Requires>
+  <YART_LockedReasons>已鎖定：</YART_LockedReasons>
+  <YART_Finished>已完成</YART_Finished>
+  <YART_Cost>消耗：{0}</YART_Cost>
+  <YART_CostProgress>消耗：{0} / {1}</YART_CostProgress>
+  <YART_Progress>進度：{0} / {1}</YART_Progress>
+  <YART_Techprints>科技藍圖：{0} / {1}</YART_Techprints>
+  <YART_Tab>分頁：{0}</YART_Tab>
+  <YART_TechLevelUndefined>未指定</YART_TechLevelUndefined>
+  <YART_RequiredByExternal>被其他分頁中的 {0} 項研究所需：</YART_RequiredByExternal>
+  <YART_QueueEmpty>研究佇列為空。</YART_QueueEmpty>
+  <YART_Clear>清空</YART_Clear>
+  <YART_ClearTooltip>清空此通道上的整個研究佇列。</YART_ClearTooltip>
+  <YART_ClearConfirm>要清空研究佇列嗎？（已排入 {0} 項）</YART_ClearConfirm>
+  <YART_CannotStartYet>尚無法開始：{0}\n未滿足前置條件或要求。</YART_CannotStartYet>
+  <YART_AllTabs>所有分頁</YART_AllTabs>
+  <YART_AllTabsTooltip>於單一統合研究樹中顯示所有研究類別</YART_AllTabsTooltip>
+  <YART_TabDropdownTooltip>研究類別（由模組新增）</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>切換至原版研究視窗</YART_SwitchToVanilla>
+  <YART_SwitchToYART>切換至 YART 研究樹</YART_SwitchToYART>
+  <YART_Idle>（閒置）</YART_Idle>
+  <YART_ZoomTooltip>點擊：將縮放重設為 100%\nHome 鍵：將整棵研究樹縮放至適合畫面</YART_ZoomTooltip>
+
+</LanguageData>
