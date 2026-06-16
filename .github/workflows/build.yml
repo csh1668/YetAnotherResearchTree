@@ -3,11 +3,12 @@ name: Build YART
 on:
   push:
     branches: [ main ]
-    tags:
-      - 'v*'
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+
+permissions:
+  contents: write   # Release 생성에 필요
 
 jobs:
   build:
@@ -51,11 +52,26 @@ jobs:
         path: Assemblies/YART.dll
         retention-days: 7
 
+    # ---- main push에서만: 모드 전체를 zip으로 묶어 Release 배포 (비스팀 유저용) ----
+    - name: Package mod
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      shell: pwsh
+      run: |
+        $stage = "dist/YetAnotherResearchTree"
+        New-Item -ItemType Directory -Force -Path $stage | Out-Null
+        # 런타임 파일만 포함 (Source/Refs/.github 등 개발 파일 제외)
+        Copy-Item -Recurse -Force About, Assemblies, Languages, Textures $stage
+        Remove-Item -Force "$stage/Assemblies/.gitkeep" -ErrorAction SilentlyContinue
+        Compress-Archive -Path $stage -DestinationPath YetAnotherResearchTree.zip -Force
+        Get-Item YetAnotherResearchTree.zip | Select-Object Name, Length
+
     - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/')
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
       with:
-        files: Assemblies/YART.dll
-        generate_release_notes: true
+        tag_name: build-${{ github.run_number }}
+        name: Build ${{ github.run_number }}
+        files: YetAnotherResearchTree.zip
+        generate_release_notes: true   # 직전 release 이후 커밋/PR로 변경 사항 자동 작성
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
