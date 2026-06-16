@@ -65,12 +65,22 @@ jobs:
         Compress-Archive -Path $stage -DestinationPath YetAnotherResearchTree.zip -Force
         Get-Item YetAnotherResearchTree.zip | Select-Object Name, Length
 
+    # 릴리스 이름 = KST 날짜(2026-06-17). 같은 날 여러 번 빌드해도 충돌 없도록 태그엔 시각(HHmm)을 붙임.
+    - name: Determine release name (KST date)
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      id: ver
+      shell: pwsh
+      run: |
+        $kst = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::UtcNow, 'Korea Standard Time')
+        Add-Content -Path $env:GITHUB_OUTPUT -Value "date=$($kst.ToString('yyyy-MM-dd'))"
+        Add-Content -Path $env:GITHUB_OUTPUT -Value "tag=$($kst.ToString('yyyy-MM-dd-HHmm'))"
+
     - name: Create Release
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: build-${{ github.run_number }}
-        name: Build ${{ github.run_number }}
+        tag_name: ${{ steps.ver.outputs.tag }}
+        name: ${{ steps.ver.outputs.date }}
         files: YetAnotherResearchTree.zip
         generate_release_notes: true   # 직전 release 이후 커밋/PR로 변경 사항 자동 작성
       env:
