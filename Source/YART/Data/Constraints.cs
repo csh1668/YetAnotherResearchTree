@@ -193,9 +193,14 @@ namespace YART.Data
         public const float LayoutChainHashQuantum = 0.5f;
 
         // 스프링 이완 반복 횟수 (Gauss-Seidel 스윕 수)
-        public const int LayoutSpringPasses = 8;
+        public const int LayoutSpringPasses = 16;
 
         // 스프링 self-anchor 계수 — 현재 Y를 이웃 평균으로부터 얼마나 잡아당기나
         public const float LayoutSpringSelfAnchor = 0.05f;
+
+        // Tikhonov 중심 정규화 λ_base — barycenter 분모에만 더해 각 노드를 0(중심선)으로 당김. 엣지 L2와 조인트로
+        // 최소화돼 드리프트·트리높이를 줄이되 fault-line은 안 생긴다(단일 볼록해). 매 패스 높이 슬랙(현재높이/H_floor)에
+        // 비례해 스케일되므로, 높이가 이미 바닥인 그래프(예: 통합)는 자동으로 무효 → 슬랜트 손해 없음. 클수록 여유 그래프를 더 압축. 0=비활성.
+        public const float LayoutSpringCenterAnchor = 0.8f;
     }
 }

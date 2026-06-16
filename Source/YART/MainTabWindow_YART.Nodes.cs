@@ -8,33 +8,23 @@ using YART.Rendering;
 
 namespace YART
 {
-    // 노드 렌더링: 글래스 패널 배경(상태/시대 색), 프록시 점선 테두리, 라벨/리치 카드/큐 배지
     public partial class MainTabWindow_YART
     {
-        /// <summary>
-        /// 리치 카드(C) 전환 정도. 0 = A 미니멀, 1 = C 리치 카드.
-        /// </summary>
         private static float GetRichCardLerp(float zoom)
         {
             return Mathf.InverseLerp(Constraints.RichCardZoomStart, Constraints.RichCardZoomFull, zoom);
         }
 
-        // 대표 해금 아이콘: unlocked[0]을 노드 좌측에 크게(노드 높이 거의 채움) 표시 (LOD에서도 보임).
-        // 리치 스트립은 대표를 제외한 나머지(index 1..)를 최대 5개 표시.
         private const int RichCardStripMax = 5;
 
-        /// <summary>대표 아이콘 사각형 (좌측, 세로 중앙, 노드 높이 거의 채움). zoom >= NodeTextMinZoom에서만 그린다.</summary>
         private static Rect RepIconRect(Rect nodeRectScreen, float zoom)
         {
             float sz = (Constraints.NodeSize.y - 8f) * zoom; // ≈42*zoom — 노드 높이 거의 채움
             return new Rect(nodeRectScreen.x + 4f * zoom, nodeRectScreen.center.y - sz / 2f, sz, sz);
         }
 
-        /// <summary>대표 아이콘이 차지하는 좌측 인셋 (라벨/스트립을 이만큼 오른쪽으로 민다). pad4 + icon + gap6.</summary>
         private static float RepInset(float zoom) => (Constraints.NodeSize.y + 2f) * zoom;
 
-        // 리치 카드 해금 아이콘 스트립 기하. 렌더(DrawRichCardContent)와 우클릭 히트테스트가 동일 좌표 공유.
-        // hasRep이면 대표 아이콘 폭만큼 시작 x를 오른쪽으로 민다.
         private static void GetRichCardIconMetrics(Rect nodeRectScreen, float zoom, bool hasRep,
             out float iconSize, out float iconGap, out float iconX, out float iconY)
         {
@@ -44,7 +34,6 @@ namespace YART
             iconX = nodeRectScreen.x + 6f * zoom + (hasRep ? RepInset(zoom) : 0f);
         }
 
-        /// <summary>해금 아이콘 호버 툴팁: 라벨 + (있으면) 설명.</summary>
         private static string UnlockTipFor(Def d)
         {
             string tip = d.LabelCap;
@@ -52,7 +41,6 @@ namespace YART
             return tip;
         }
 
-        /// <summary>"+n" 오버플로 호버 툴팁: startIndex 이후의 해금 라벨 목록.</summary>
         private static string OverflowUnlockTip(List<Def> unlocked, int startIndex)
         {
             var sb = new System.Text.StringBuilder();
@@ -78,10 +66,8 @@ namespace YART
                 Vector2 startScreen = (startWorld * zoom) + offset;
                 Vector2 endScreen = (endWorld * zoom) + offset;
 
-                // Use edge color based on connected nodes
                 Color edgeColor = GetEdgeColor(node);
 
-                // 포커스/검색 모드: 강조 체인 위의 더미 통로는 엣지와 동일하게 흰색, 그 외 디밍
                 int highlight = GetEdgeHighlightState(node, node);
                 if (highlight > 0)
                 {
@@ -92,8 +78,6 @@ namespace YART
                     edgeColor = edgeColor.WithAlpha(edgeColor.a * Constraints.UnfocusedEdgeOpacity);
                 }
 
-                // 더미 노드 연결선도 엣지와 동일한 폭의 리본으로 (1px GL 라인과 섞이면 이질적)
-                // 펄스는 DrawActivePulses가 체인 전체를 한 폴리라인으로 그리므로 여기서는 본선만
                 float dummyWidth = Mathf.Max(Constraints.EdgeLineMinWidth, Constraints.EdgeLineWidth * zoom);
                 EdgeRenderer.DrawStraightRibbon(startScreen, endScreen, edgeColor, edgeColor, dummyWidth);
                 return;
@@ -138,7 +122,6 @@ namespace YART
                     break;
             }
 
-            // Apply focus/search mode opacity — 매치는 기본(불투명) 표시, 비매치만 디밍 (Def 기준 = 통합 뷰도 동작)
             bool dim = false;
             if (hoveredNode != null)
             {
@@ -155,17 +138,13 @@ namespace YART
                 borderAlpha *= Constraints.UnfocusedNodeOpacity;
             }
 
-            // --- 라운드 글래스 패널 (9-slice) — 저줌에서도 동일 렌더링 (테두리 일관성) ---
             float corner = Constraints.NodeCornerRadius * Mathf.Max(0.7f, zoom);
 
-            // 1. 글로우 (패널 뒤, 글로우 텍스처 9-slice로 사각형을 따라가는 소프트 헤일로)
             bool isHovered = !IsMouseOverBlockingElement() && nodeRectScreen.Contains(Event.current.mousePosition);
 
-            // 호버 툴팁: 이름/설명/진행도/잠금 사유 (텍스트는 표시 시점에 lazy 생성)
             if (isHovered)
             {
                 var tipNode = node;
-                // 통합 뷰에서 탭 출처 라인을 추가하기 위해 isUnified를 캡처
                 bool tipShowTab = CurrentKey.IsUnified;
                 TooltipHandler.TipRegion(nodeRectScreen,
                     new TipSignal(() => BuildNodeTooltip(tipNode, tipShowTab), tipNode.Def.GetHashCode()));
@@ -221,11 +200,7 @@ namespace YART
             }
         }
 
-        /// <summary>
-        /// 프록시 노드용 점선 테두리. 9-slice 테두리 텍스처는 늘어나며 대시가 변형되므로
-        /// 라운드 사각형 둘레(직선 + 코너 사분원 호)를 따라 대시 쿼드를 직접 배치한다
-        /// (프록시는 소수라 비용 무시 가능). 코너 반지름은 9-slice 패널과 동일하게 맞춘다.
-        /// </summary>
+        // 프록시 노드 용
         private static void DrawDashedBorder(Rect rect, Color color, float zoom, float cornerRadius)
         {
             float scale = Mathf.Max(0.7f, zoom);
@@ -253,11 +228,9 @@ namespace YART
             }
         }
 
-        // DrawDashedBorder 작업 버퍼 (IMGUI 단일 스레드라 정적 재사용 안전)
         private static readonly List<Vector2> dashPath = new List<Vector2>(32);
         private static readonly List<float> dashCumLen = new List<float>(32);
 
-        /// <summary>시계 방향 닫힌 라운드 사각형 폴리라인을 dashPath/dashCumLen에 채운다.</summary>
         private static void BuildRoundedRectPath(Rect r, float rc)
         {
             dashPath.Clear();
@@ -273,8 +246,6 @@ namespace YART
             }
             else
             {
-                // GUI 좌표(Y 아래)에서 각도 증가 = 화면상 시계 방향. 호 사이 직선 변은
-                // 폴리라인 연결로 자동 생성된다. 마지막에 시작점으로 닫는다.
                 const int arcSegs = 4;
                 AddCornerArc(new Vector2(r.xMax - rc, r.y + rc), rc, -90f, 0f, arcSegs);   // 우상
                 AddCornerArc(new Vector2(r.xMax - rc, r.yMax - rc), rc, 0f, 90f, arcSegs); // 우하
@@ -299,7 +270,6 @@ namespace YART
             }
         }
 
-        /// <summary>폴리라인의 호 길이 [s0, s1) 구간을 두께 2*half의 띠로 방출한다.</summary>
         private static void EmitDashStrip(float s0, float s1, float half, Color color)
         {
             int last = dashPath.Count - 1;
@@ -347,7 +317,6 @@ namespace YART
             Color textColor = Color.white;
             float nodeAlpha = 1f;
 
-            // Determine text color and alpha (logic duplicated from DrawNodeBackground somewhat, but simplified)
             if (state == ResearchNodeState.Completed) textColor = node.EraAccentColor;
             else if (state == ResearchNodeState.Locked)
             {
@@ -495,8 +464,7 @@ namespace YART
         /// <summary>
         /// NodeTextMinZoom 미만 저줌용 라벨. GUI 매트릭스를 줌 비율로 스케일해 Tiny 폰트를
         /// 더 작게 그린다 — 스케일된 비트맵이라 다소 흐릿하지만 최소 줌에서도 라벨이 보인다.
-        /// 피벗은 물리 픽셀 좌표를 요구하므로 바닐라 UI.RotateAroundPivot과 동일하게
-        /// Prefs.UIScale을 곱한다 (창이 (0,0) 풀스크린이라 그룹 오프셋은 0).
+        /// 피벗은 GUI 논리 좌표(그릴 때 쓰는 좌표계 그대로)여야 한다.
         /// </summary>
         private static void DrawScaledNodeLabel(ResearchNode node, Rect nodeRectScreen, float zoom)
         {
@@ -510,7 +478,7 @@ namespace YART
                 nodeRectScreen.height / scale);
 
             Matrix4x4 prevMatrix = GUI.matrix;
-            GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), pivot * Prefs.UIScale);
+            GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), pivot);
             Widgets.Label(inflated, node.Label);
             GUI.matrix = prevMatrix;
         }

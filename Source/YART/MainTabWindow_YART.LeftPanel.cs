@@ -281,7 +281,7 @@ namespace YART
                 var unlockedDefs = currentNode.UnlockedDefs;
                 Rect unlockedHeaderRect = new Rect(padding, y, contentWidth, 25);
                 // 연구 보상
-                y += DrawSectionHeader(unlockedHeaderRect, "Unlock".Translate(), unlockedDefs.Count, new Color(0.6f, 1f, 0.6f));
+                y += DrawSectionHeader(unlockedHeaderRect, "Unlocks".Translate(), unlockedDefs.Count, new Color(0.6f, 1f, 0.6f));
 
                 // 2-column(아이콘+라벨) 토글 버튼 — 카운트 배지(우측 24px) 왼쪽에. 항목이 있을 때만.
                 if (unlockedDefs.Count > 0)

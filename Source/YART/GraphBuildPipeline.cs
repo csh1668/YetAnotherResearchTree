@@ -25,22 +25,42 @@ namespace YART
         {
             LongEventHandler.ExecuteWhenFinished(() =>
             {
-                graphBuildTask = Task.Run(() =>
+                WarmUnlockedDefsCache();
+                // 큐에 넣은 지연 작업(VFE 등의 ExecuteWhenFinished)이 모두 끝난 뒤 백그라운드 빌드가 시작되도록, Task 시작을 한 단계 더 미룬다
+                LongEventHandler.ExecuteWhenFinished(() =>
                 {
-                    try
+                    graphBuildTask = Task.Run(() =>
                     {
-                        var stopwatch = Stopwatch.StartNew();
-                        BuildGraphAndLayout();
-                        stopwatch.Stop();
-                        if (Prefs.DevMode)
-                            Log.Message("[YART] Research graph built in background in " + stopwatch.ElapsedMilliseconds + " ms");
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error("[YART] Background graph build failed: " + ex);
-                    }
+                        try
+                        {
+                            var stopwatch = Stopwatch.StartNew();
+                            BuildGraphAndLayout();
+                            stopwatch.Stop();
+                            if (Prefs.DevMode)
+                                Log.Message("[YART] Research graph built in background in " + stopwatch.ElapsedMilliseconds + " ms");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error("[YART] Background graph build failed: " + ex);
+                        }
+                    });
                 });
             });
+        }
+
+        /// <summary>
+        /// VFE Tribals 등에서 ResearchProjectDef.UnlockedDefs의 getter에 패치를 생성했고, 그 작업 때문에 UnlockedDefs를 최초 접근하면
+        /// 텍스쳐 로그가 워크 스레드에서 일어나서 "Tried to get a resource from a different thread" 위반이 난다
+        /// 미리 메인 스레드에서 웜업해서 캐시를 생성해둬서 문제를 해결한다
+        /// </summary>
+        private static void WarmUnlockedDefsCache()
+        {
+            var defs = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
+            for (int i = 0; i < defs.Count; i++)
+            {
+                try { _ = defs[i].UnlockedDefs; }
+                catch (Exception ex) { Log.Error("[YART] WarmUnlockedDefsCache failed for " + defs[i].defName + ": " + ex); }
+            }
         }
 
         /// <summary>
@@ -172,23 +192,27 @@ namespace YART
 
             LongEventHandler.ExecuteWhenFinished(() =>
             {
-                graphBuildTask = Task.Run(() =>
+                WarmUnlockedDefsCache();
+                LongEventHandler.ExecuteWhenFinished(() =>
                 {
-                    try
+                    graphBuildTask = Task.Run(() =>
                     {
-                        ResearchGraph.Instance.Build();
-                        RunLayoutAndSearch();
-                        Rendering.EdgeRenderer.ClearCache();
-                        Generation++;
-                        graphReady = ResearchGraph.Instance.Initialized && layoutCalculated && SearchEngine.IsBuilt;
-                        if (Prefs.DevMode)
-                            Log.Message("[YART] Rebuilt after play-data/language reload (generation " + Generation + ")");
-                    }
-                    catch (Exception ex)
-                    {
-                        graphReady = false;
-                        Log.Error("[YART] Reload rebuild failed: " + ex);
-                    }
+                        try
+                        {
+                            ResearchGraph.Instance.Build();
+                            RunLayoutAndSearch();
+                            Rendering.EdgeRenderer.ClearCache();
+                            Generation++;
+                            graphReady = ResearchGraph.Instance.Initialized && layoutCalculated && SearchEngine.IsBuilt;
+                            if (Prefs.DevMode)
+                                Log.Message("[YART] Rebuilt after play-data/language reload (generation " + Generation + ")");
+                        }
+                        catch (Exception ex)
+                        {
+                            graphReady = false;
+                            Log.Error("[YART] Reload rebuild failed: " + ex);
+                        }
+                    });
                 });
             });
         }
@@ -196,6 +220,7 @@ namespace YART
         public static void RebuildNonBlocking()
         {
             graphReady = false;
+            WarmUnlockedDefsCache();
             var prev = graphBuildTask;
             graphBuildTask = Task.Run(() =>
             {

@@ -61,11 +61,6 @@ namespace YART
             Widgets.EndScrollView();
         }
 
-        /// <summary>
-        /// 드롭다운 위 휠 이벤트 pre-pass. 좌측 패널이 드롭다운보다 먼저 그려져(이벤트 우선)
-        /// 겹치는 영역의 휠을 패널 스크롤뷰가 먹어버리므로, 패널보다 먼저 호출해서
-        /// 드롭다운 영역의 휠을 직접 searchScrollPos에 적용하고 소비한다.
-        /// </summary>
         private void HandleSearchDropdownScroll()
         {
             if (Event.current.type != EventType.ScrollWheel) return;
@@ -209,8 +204,6 @@ namespace YART
             }
         }
 
-        /// <summary>매치 품질 → 라벨 알파. 라벨 직접 매치는 선명하게, 설명 매치는 어둡게.
-        /// (이유 텍스트 대신 — 텍스트는 라벨을 잘라먹어서 제거함)</summary>
         private static float SearchMatchAlpha(byte reasonField)
         {
             switch (reasonField)
@@ -349,8 +342,6 @@ namespace YART
             }
         }
 
-        /// <summary>검색창 포커스 중 ↑/↓/Enter 처리 (결과/모드 자동완성 공용). TextField가 먹기 전에
-        /// 호출하고 Use()로 소비. Esc는 여기 도달하기 전에 처리됨 — OnCancelKeyPressed 오버라이드 참고.</summary>
         private void HandleSearchKeys(SearchDropdownMode mode)
         {
             if (Event.current.type != EventType.KeyDown) return;
@@ -381,7 +372,6 @@ namespace YART
             }
         }
 
-        /// <summary>선택 행이 가상화 스크롤 뷰포트 안에 보이도록 searchScrollPos 보정.</summary>
         private void EnsureSearchRowVisible(int row, int count)
         {
             if (count <= SearchMaxVisibleRows) { searchScrollPos.y = 0f; return; }
@@ -391,8 +381,6 @@ namespace YART
             else if (top + SearchRowHeight > searchScrollPos.y + viewH) searchScrollPos.y = top + SearchRowHeight - viewH;
         }
 
-        /// <summary>코드에서 searchQuery를 바꿨을 때 IMGUI 내부 TextEditor 상태 동기화.
-        /// (바닐라 동일 패턴: Dialog_Rename, SteamDeck — 디컴파일 확인)</summary>
         private void SyncSearchFieldEditor()
         {
             if (GUI.GetNameOfFocusedControl() != "YARTSearchField") return;
@@ -401,11 +389,6 @@ namespace YART
             editor.MoveTextEnd();
         }
 
-        /// <summary>
-        /// Esc 처리. 바닐라는 DoWindowContents 이전(WindowStack.HandleEventsHighPriority,
-        /// Window.InnerWindowOnGUI)에 Cancel을 처리하므로, 검색창 사용 중 Esc로 창이 닫히지 않게
-        /// 하려면 이 오버라이드가 유일한 지점이다. 1차: 쿼리 클리어, 2차: 포커스 해제, 그 외: 기본(창 닫기).
-        /// </summary>
         public override void OnCancelKeyPressed()
         {
             if (GUI.GetNameOfFocusedControl() == "YARTSearchField")
@@ -427,10 +410,6 @@ namespace YART
             base.OnCancelKeyPressed();
         }
 
-        /// <summary>
-        /// Enter(Accept) 처리. 바닐라는 DoWindowContents 이전(고우선순위)에 OnAcceptKeyPressed로
-        /// 창을 닫으므로(closeOnAccept), 검색창 사용 중 자동완성/결과를 Enter로 "선택"하려면 여기서 가로채야 한다.
-        /// </summary>
         public override void OnAcceptKeyPressed()
         {
             if (GUI.GetNameOfFocusedControl() == "YARTSearchField")

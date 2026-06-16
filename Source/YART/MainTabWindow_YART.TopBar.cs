@@ -35,19 +35,19 @@ namespace YART
                 if (!Find.ResearchManager.TabInfoVisible(kvp.Key.Tab)) continue;
                 result.Add(kvp.Key.Tab);
             }
-            result.SortBy(t => (int)t.index); // Def 로드 순서 (Main이 항상 첫 번째)
+            result.SortBy(t => (int)t.index);
             return result;
         }
 
         private Rect ComputeTopLeftControlsRect()
         {
-            float row1 = 0f; // All tabs 토글 + 탭 드롭다운 (벤치 + 탭 ≥2)
+            float row1 = 0f;
             if (SelectedChannel.IsBench && GetVisibleStandardTabs().Count >= 2)
             {
                 row1 += Constraints.UnifiedBenchToggleWidth + 8f;
                 if (!CurrentKey.IsUnified) row1 += Constraints.TabDropdownWidth + 8f;
             }
-            float content = Mathf.Max(row1, 220f); // 아래 행 검색창 폭 220
+            float content = Mathf.Max(row1, 220f);
             return new Rect(0f, 0f, 16f + content + 16f, Constraints.QueueBarHeight);
         }
 
@@ -59,7 +59,6 @@ namespace YART
 
             bool hasTabRow = false;
 
-            // 1행: 벤치 채널의 All tabs 토글 + 탭 드롭다운
             if (SelectedChannel.IsBench)
             {
                 var visibleTabs = GetVisibleStandardTabs();
@@ -369,7 +368,6 @@ namespace YART
 
             if (Widgets.ButtonInvisible(rect))
             {
-                // 검색 가능한 드롭다운 (모드 다수 환경에서 탭이 많아질 수 있음 — 키는 라벨만)
                 var options = new List<SearchableFloatMenu.Option>();
                 foreach (var tab in tabs)
                 {

@@ -166,7 +166,11 @@ namespace YART.Data
 
                 var mods = new HashSet<ModContentPack>();
                 AddDef(node.Def, isMain: true, mods);
-                foreach (var unlocked in node.Def.UnlockedDefs)
+                // YART 소유 스냅샷(node.UnlockedDefs)을 읽는다. node.Def.UnlockedDefs(패치 가능한 vanilla
+                // getter)를 백그라운드에서 직접 읽으면 VFE Tribals 등이 그 안에서 designator 텍스처를 워커
+                // 스레드에서 로드해 위반이 난다. 캐시는 GraphBuildPipeline.WarmUnlockedDefsCache()가 메인
+                // 스레드에서 미리 채워두므로, 여기서의 접근은 안전한 cache-hit이다.
+                foreach (var unlocked in node.UnlockedDefs)
                 {
                     if (unlocked == null) continue;
                     AddDef(unlocked, isMain: false, mods);
