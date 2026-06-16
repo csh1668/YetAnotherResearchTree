@@ -12,6 +12,8 @@
         <AssemblyName>YART</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <!-- CI에서 NuGet(PackageReference) 복원을 강제 (게임 미설치 시 폴백 참조). 로컬은 패키지 0개라 무영향. -->
+        <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
         <!-- 시스템에 4.7.2 타기팅 팩이 없을 때 NuGet 참조 어셈블리로 대체 -->
         <FrameworkPathOverride Condition="!Exists('$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2') And Exists('$(UserProfile)\.netfx-ref-assemblies\net472\build\.NETFramework\v4.7.2')">$(UserProfile)\.netfx-ref-assemblies\net472\build\.NETFramework\v4.7.2</FrameworkPathOverride>
     </PropertyGroup>
@@ -20,14 +22,11 @@
       <Optimize>true</Optimize>
       <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     </PropertyGroup>
-    <ItemGroup>
+    <!-- 로컬: 게임/워크샵 설치본에서 직접 참조 (Assembly-CSharp이 있으면 = 게임 설치됨) -->
+    <ItemGroup Condition="Exists('..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll')">
         <Reference Include="0Harmony">
           <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
           <Private>False</Private>
-        </Reference>
-        <Reference Include="0MultiplayerAPI">
-          <HintPath>..\..\..\..\..\..\workshop\content\294100\2606448745\1.6\Assemblies\0MultiplayerAPI.dll</HintPath>
-          <Private>True</Private>
         </Reference>
         <Reference Include="Assembly-CSharp">
           <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -37,10 +36,6 @@
           <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\netstandard.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.Xml"/>
         <Reference Include="UnityEngine">
           <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
           <Private>False</Private>
@@ -60,6 +55,25 @@
         <Reference Include="UnityEngine.TextRenderingModule">
           <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
           <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!-- CI(게임 미설치) 폴백: NuGet 참조로 빌드. 게임이 있으면 위 ItemGroup이 쓰이고 이건 비활성. -->
+    <ItemGroup Condition="!Exists('..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll')">
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.*" />
+        <PackageReference Include="Lib.Harmony" Version="2.3.*" ExcludeAssets="runtime" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.3" />
+    </ItemGroup>
+
+    <!-- 공통: 프레임워크 refs + repo에 벤더링된 Multiplayer API (로컬·CI 동일 경로) -->
+    <ItemGroup>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="0MultiplayerAPI">
+          <HintPath>..\..\Refs\0MultiplayerAPI.dll</HintPath>
+          <Private>True</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>

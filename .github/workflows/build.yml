@@ -13,24 +13,27 @@ jobs:
   build:
     name: Build on Windows
     runs-on: windows-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-      
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'
-        
-    - name: Restore dependencies
-      run: dotnet restore Source/YART/YART.csproj
-      
-    - name: Build project
-      run: dotnet build Source/YART/YART.csproj -c Release-1.6 --no-incremental
-      
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    # 게임이 설치돼 있지 않은 러너에서는 csproj가 NuGet 폴백 참조(Krafs.Rimworld.Ref / Lib.Harmony /
+    # Microsoft.NETFramework.ReferenceAssemblies)로 빌드한다. MP API(0MultiplayerAPI.dll)는 repo의 Refs/에 벤더링됨.
+    - name: Restore NuGet packages
+      run: msbuild Source/YART/YART.csproj -t:Restore -p:Configuration=Release-1.6
+
+    - name: Build
+      run: msbuild Source/YART/YART.csproj -t:Build -p:Configuration=Release-1.6 -nologo
+
     - name: Check build output
       run: |
         if (Test-Path "Assemblies/YART.dll") {
@@ -40,17 +43,17 @@ jobs:
           Write-Host "Build failed! YART.dll not found."
           exit 1
         }
-        
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: YART-Assembly
         path: Assemblies/YART.dll
         retention-days: 7
-        
+
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: Assemblies/YART.dll
         generate_release_notes: true
