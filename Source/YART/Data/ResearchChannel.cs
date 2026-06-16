@@ -124,5 +124,17 @@ namespace YART.Data
             }
             return bench;
         }
+
+        /// <summary>채널 Id로 조회 미상이면 Bench 폴백.</summary>
+        public static ResearchChannel ById(string id)
+        {
+            EnsureInit();
+            if (string.IsNullOrEmpty(id)) return bench;
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i].Id == id) return all[i];
+            }
+            return bench;
+        }
     }
 }

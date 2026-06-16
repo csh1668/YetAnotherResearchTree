@@ -6,6 +6,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using YART.Compat;
 
 namespace YART.Data
 {
@@ -123,57 +124,59 @@ namespace YART.Data
             return result;
         }
 
-        // ---- 편집 ----
-
         /// <summary>
-        /// def와 미완료 선행 체인을 각자의 채널 큐 끝에 추가합니다.
+        /// def와 미완료 선행 체인을 각자의 채널 큐 끝에 추가합니다. (UI 진입점)
         /// </summary>
         public void EnqueueWithChain(ResearchProjectDef def)
         {
             if (def == null || def.IsFinished) return;
-
-            foreach (var d in CollectMissingChain(def))
-            {
-                var q = GetOrAddQueue(ChannelOf(d));
-                if (!q.Contains(d)) q.Add(d);
-            }
-
-            foreach (var channel in queues.Keys.ToList())
-            {
-                EnsureTopologicalOrder(channel);
-            }
-
-            // 큐에 추가하면 항상 연구 시작 사운드(바닐라 ResearchStart) 재생.
-            // 실제로 머리가 시작될 때 BeginProject는 무음(playSound:false)으로 두어 이중 재생 방지.
-            TryStartAllHeads(playSound: false);
-            SoundDefOf.ResearchStart.PlayOneShotOnCamera();
+            if (MultiplayerCompat.TryEnqueue(def, toFront: false)) return;
+            DoEnqueue(def, toFront: false);
         }
 
         /// <summary>
-        /// def와 미완료 선행 체인을 각자의 채널 큐 "앞쪽"에 선행-우선 순서로 삽입합니다.
+        /// def와 미완료 선행 체인을 각자의 채널 큐 "앞쪽"에 선행-우선 순서로 삽입합니다. (UI 진입점)
         /// </summary>
         public void EnqueueWithChainToFront(ResearchProjectDef def)
         {
             if (def == null || def.IsFinished) return;
+            if (MultiplayerCompat.TryEnqueue(def, toFront: true)) return;
+            DoEnqueue(def, toFront: true);
+        }
 
-            // CollectMissingChain은 선행-우선(위상) 순서. 채널별로 묶어 앞에서부터 그 순서대로 삽입.
-            var byChannel = new Dictionary<ResearchChannel, List<ResearchProjectDef>>();
-            foreach (var d in CollectMissingChain(def))
+        internal void DoEnqueue(ResearchProjectDef def, bool toFront)
+        {
+            if (def == null || def.IsFinished) return;
+
+            if (!toFront)
             {
-                var ch = ChannelOf(d);
-                if (!byChannel.TryGetValue(ch, out var list))
+                foreach (var d in CollectMissingChain(def))
                 {
-                    list = new List<ResearchProjectDef>();
-                    byChannel[ch] = list;
+                    var q = GetOrAddQueue(ChannelOf(d));
+                    if (!q.Contains(d)) q.Add(d);
                 }
-                list.Add(d);
             }
-
-            foreach (var kvp in byChannel)
+            else
             {
-                var q = GetOrAddQueue(kvp.Key);
-                foreach (var d in kvp.Value) q.Remove(d);
-                for (int i = 0; i < kvp.Value.Count; i++) q.Insert(i, kvp.Value[i]);
+                // CollectMissingChain은 선행-우선(위상) 순서. 채널별로 묶어 앞에서부터 그 순서대로 삽입.
+                var byChannel = new Dictionary<ResearchChannel, List<ResearchProjectDef>>();
+                foreach (var d in CollectMissingChain(def))
+                {
+                    var ch = ChannelOf(d);
+                    if (!byChannel.TryGetValue(ch, out var list))
+                    {
+                        list = new List<ResearchProjectDef>();
+                        byChannel[ch] = list;
+                    }
+                    list.Add(d);
+                }
+
+                foreach (var kvp in byChannel)
+                {
+                    var q = GetOrAddQueue(kvp.Key);
+                    foreach (var d in kvp.Value) q.Remove(d);
+                    for (int i = 0; i < kvp.Value.Count; i++) q.Insert(i, kvp.Value[i]);
+                }
             }
 
             foreach (var channel in queues.Keys.ToList())
@@ -181,16 +184,23 @@ namespace YART.Data
                 EnsureTopologicalOrder(channel);
             }
 
-            // 큐에 추가하면 항상 연구 시작 사운드(바닐라 ResearchStart) 재생.
+            // 큐에 추가하면 연구 시작 사운드(바닐라 ResearchStart) 재생
             // 실제로 머리가 시작될 때 BeginProject는 무음(playSound:false)으로 두어 이중 재생 방지.
             TryStartAllHeads(playSound: false);
-            SoundDefOf.ResearchStart.PlayOneShotOnCamera();
+            MultiplayerCompat.PlayActionSound(SoundDefOf.ResearchStart);
         }
 
         /// <summary>
-        /// 채널 큐를 비웁니다. 이 채널에서 진행 중이던 연구도 중단합니다
+        /// 채널 큐를 비웁니다. 이 채널에서 진행 중이던 연구도 중단합니다 (UI 진입점)
         /// </summary>
         public void ClearQueue(ResearchChannel channel)
+        {
+            if (channel == null) return;
+            if (MultiplayerCompat.TryClear(channel)) return;
+            DoClear(channel);
+        }
+
+        internal void DoClear(ResearchChannel channel)
         {
             var q = GetOrAddQueue(channel);
             if (q.Count == 0) return;
@@ -209,9 +219,16 @@ namespace YART.Data
         }
 
         /// <summary>
-        /// 큐 머리로 옮기고 즉시 시작합니다.
+        /// 큐 머리로 옮기고 즉시 시작합니다. (UI 진입점)
         /// </summary>
         public void StartNow(ResearchProjectDef def)
+        {
+            if (def == null || !def.CanStartNow) return;
+            if (MultiplayerCompat.TryStartNow(def)) return;
+            DoStartNow(def);
+        }
+
+        internal void DoStartNow(ResearchProjectDef def)
         {
             if (def == null || !def.CanStartNow) return;
 
@@ -222,9 +239,16 @@ namespace YART.Data
         }
 
         /// <summary>
-        /// 큐에서 제거합니다.
+        /// 큐에서 제거합니다. (UI 진입점)
         /// </summary>
         public void Remove(ResearchProjectDef def)
+        {
+            if (def == null) return;
+            if (MultiplayerCompat.TryRemove(def)) return;
+            DoRemove(def);
+        }
+
+        internal void DoRemove(ResearchProjectDef def)
         {
             if (def == null) return;
 
@@ -254,9 +278,16 @@ namespace YART.Data
         }
 
         /// <summary>
-        /// 큐 바 드래그 재정렬
+        /// 큐 바 드래그 재정렬 (UI 진입점)
         /// </summary>
         public void Reorder(ResearchChannel channel, ResearchProjectDef def, int targetIndex)
+        {
+            if (channel == null || def == null) return;
+            if (MultiplayerCompat.TryReorder(channel, def, targetIndex)) return;
+            DoReorder(channel, def, targetIndex);
+        }
+
+        internal void DoReorder(ResearchChannel channel, ResearchProjectDef def, int targetIndex)
         {
             var q = GetOrAddQueue(channel);
             var oldHead = q.Count > 0 ? q[0] : null;
@@ -307,6 +338,13 @@ namespace YART.Data
         /// </summary>
         private void TryBeginProject(ResearchProjectDef proj, bool playSound, bool announce = false)
         {
+            // 멀티플레이 중일 경우 우선 시작 후 이후에 밈 충돌 검사
+            if (MultiplayerCompat.InMultiplayer)
+            {
+                BeginProject(proj, playSound, announce);
+                return;
+            }
+
             if (pendingConfirmation == proj) return; // 이미 확인 대기 중
 
             var missing = ComputeUnlockedDefsThatHaveMissingMemes(proj);
@@ -338,7 +376,7 @@ namespace YART.Data
                 cancelAct: delegate
                 {
                     pendingConfirmation = null;
-                    Remove(proj);
+                    DoRemove(proj);
                 }));
             SoundDefOf.Tick_Low.PlayOneShotOnCamera();
         }
@@ -346,7 +384,7 @@ namespace YART.Data
         /// <summary>
         /// 바닐라 MainTabWindow_Research.ComputeUnlockedDefsThatHaveMissingMemes와 동일
         /// </summary>
-        private static List<(BuildableDef, List<string>)> ComputeUnlockedDefsThatHaveMissingMemes(ResearchProjectDef project)
+        internal static List<(BuildableDef, List<string>)> ComputeUnlockedDefsThatHaveMissingMemes(ResearchProjectDef project)
         {
             var result = new List<(BuildableDef, List<string>)>();
             if (!ModsConfig.IdeologyActive) return result;
@@ -382,7 +420,7 @@ namespace YART.Data
             suppressSync = true;
             try
             {
-                if (playSound) SoundDefOf.ResearchStart.PlayOneShotOnCamera();
+                if (playSound) MultiplayerCompat.PlayActionSound(SoundDefOf.ResearchStart);
                 Find.ResearchManager.SetCurrentProject(proj);
                 TutorSystem.Notify_Event("StartResearchProject");
             }
@@ -408,7 +446,8 @@ namespace YART.Data
         public void Notify_ProjectStopped(ResearchProjectDef proj)
         {
             if (suppressSync) return;
-            Remove(proj);
+            // 외부(바닐라/타 모드) StopProject 반응 — 이미 결정론적 컨텍스트이므로 코어를 직접 호출(재-sync 금지).
+            DoRemove(proj);
         }
 
         /// <summary>
