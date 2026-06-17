@@ -438,7 +438,8 @@ namespace YART
         private float ComputeColumnBudget(IReadOnlyList<ResearchNode> topo)
         {
             float def = Constraints.LayoutMaxColumnHeight;
-            if (!graph.Key.IsUnified) return def; // per-tab: 12행이 최적 (검증됨)
+            // 병합 그래프(프리셋 = 통합 벤치 + 사용자 탭 그룹)는 적응형 예산. per-tab은 12행 고정(검증됨).
+            if (!graph.Key.IsPreset) return def;
 
             // per-rank 실노드 수 (AssignRanks+TightenRanks 직후 = limiter 펼침 이전의 자연 분포)
             var counts = new Dictionary<int, int>();

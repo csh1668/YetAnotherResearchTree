@@ -11,17 +11,56 @@ namespace YART
 {
     public class SearchableFloatMenu : Window
     {
+        public class TrailingButton
+        {
+            public readonly Texture2D Icon;
+            public readonly Action Action;
+            public readonly string Tooltip;
+            public readonly Color Color;
+
+            public TrailingButton(Texture2D icon, Action action, string tooltip = null, Color? color = null)
+            {
+                Icon = icon;
+                Action = action;
+                Tooltip = tooltip;
+                Color = color ?? Color.white;
+            }
+        }
+
+        public class LeadingToggle
+        {
+            public readonly Func<bool> IsOn;
+            public readonly Action OnToggle;
+            public readonly Texture2D OnTex, OffTex;
+            public readonly Color OnColor, OffColor;
+
+            public LeadingToggle(Func<bool> isOn, Action onToggle, Texture2D onTex, Texture2D offTex, Color onColor, Color offColor)
+            {
+                IsOn = isOn;
+                OnToggle = onToggle;
+                OnTex = onTex;
+                OffTex = offTex;
+                OnColor = onColor;
+                OffColor = offColor;
+            }
+        }
+
         public class Option
         {
             public readonly string Label;
             public readonly Action Action;
             public readonly bool Selected;
+            public readonly List<TrailingButton> Trailing; // 행 우측 액션 아이콘 (편집/삭제 등), null이면 없음
+            public readonly LeadingToggle Leading;          // 행 좌측 토글 (즐겨찾기 별), null이면 없음
 
-            public Option(string label, Action action, bool selected = false)
+            public Option(string label, Action action, bool selected = false,
+                List<TrailingButton> trailing = null, LeadingToggle leading = null)
             {
                 Label = label;
                 Action = action;
                 Selected = selected;
+                Trailing = trailing;
+                Leading = leading;
             }
         }
 
@@ -118,6 +157,8 @@ namespace YART
             Widgets.BeginScrollView(outRect, ref scroll, viewRect);
 
             Option clicked = null;
+            Action trailingAction = null;
+            Action leadingAction = null;
             float rowY = 0f;
             foreach (var option in filtered)
             {
@@ -125,15 +166,51 @@ namespace YART
                 if (Mouse.IsOver(rowRect)) Widgets.DrawHighlight(rowRect);
                 if (option.Selected) Widgets.DrawBoxSolid(rowRect, new Color(1f, 1f, 1f, 0.06f));
 
+                // 좌측 토글
+                float leadingW = 0f;
+                if (option.Leading != null)
+                {
+                    float btn = RowHeight - 10f;
+                    Rect lRect = new Rect(rowRect.x + 5f, rowRect.y + (RowHeight - btn) / 2f, btn, btn);
+                    bool on = option.Leading.IsOn();
+                    var prevL = GUI.color;
+                    GUI.color = on ? option.Leading.OnColor : option.Leading.OffColor;
+                    if (Widgets.ButtonImage(lRect, on ? option.Leading.OnTex : option.Leading.OffTex))
+                        leadingAction = option.Leading.OnToggle;
+                    GUI.color = prevL;
+                    leadingW = btn + 8f;
+                }
+
+                // 우측 액션 아이콘
+                float trailingW = 0f;
+                if (option.Trailing != null && option.Trailing.Count > 0)
+                {
+                    float tx = rowRect.xMax - 2f;
+                    foreach (var tb in option.Trailing)
+                    {
+                        float btn = RowHeight - 8f;
+                        tx -= btn + 4f;
+                        Rect tRect = new Rect(tx, rowRect.y + 4f, btn, btn);
+                        if (tb.Tooltip != null) TooltipHandler.TipRegion(tRect, tb.Tooltip);
+                        var prevC = GUI.color;
+                        GUI.color = Mouse.IsOver(tRect) ? tb.Color : GenColor.WithAlpha(tb.Color, 0.75f);
+                        if (Widgets.ButtonImage(tRect, tb.Icon)) trailingAction = tb.Action;
+                        GUI.color = prevC;
+                    }
+                    trailingW = (rowRect.xMax - 2f) - tx + 4f;
+                }
+
+                Rect selectRect = new Rect(rowRect.x + leadingW, rowRect.y, rowRect.width - leadingW - trailingW, rowRect.height);
+
                 using (Temporary.Font(GameFont.Small))
                 using (Temporary.Anchor(TextAnchor.MiddleLeft))
                 using (Temporary.Color(option.Selected ? new Color(0.6f, 0.8f, 1f) : Color.white))
                 {
-                    Widgets.Label(new Rect(rowRect.x + 8f, rowRect.y, rowRect.width - 12f, rowRect.height),
-                        option.Label.Truncate(rowRect.width - 12f));
+                    Widgets.Label(new Rect(selectRect.x + 8f, selectRect.y, selectRect.width - 12f, selectRect.height),
+                        option.Label.Truncate(selectRect.width - 12f));
                 }
 
-                if (Widgets.ButtonInvisible(rowRect))
+                if (Widgets.ButtonInvisible(selectRect))
                 {
                     clicked = option;
                 }
@@ -151,6 +228,21 @@ namespace YART
             }
 
             Widgets.EndScrollView();
+
+            if (leadingAction != null)
+            {
+                leadingAction();
+                SoundDefOf.Tick_Tiny.PlayOneShotOnCamera();
+                Event.current.Use();
+                return;
+            }
+
+            if (trailingAction != null)
+            {
+                Close(doCloseSound: false);
+                trailingAction();
+                return;
+            }
 
             if (clicked != null)
             {

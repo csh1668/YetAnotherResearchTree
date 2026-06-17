@@ -38,6 +38,19 @@
   <YART_GoToOriginal>원본 그래프로 이동</YART_GoToOriginal>
   <YART_ShowInfoCard>정보 카드 열기</YART_ShowInfoCard>
 
+  <!-- 탭 그룹(프리셋) -->
+  <YART_Preset_New>새 탭 그룹</YART_Preset_New>
+  <YART_Preset_Edit>편집</YART_Preset_Edit>
+  <YART_Preset_Delete>삭제</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>탭 그룹 "{0}"을(를) 삭제할까요?</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>새 탭 그룹</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>탭 그룹 편집</YART_Preset_EditTitle>
+  <YART_Preset_Name>이름</YART_Preset_Name>
+  <YART_Preset_PickTabs>포함할 탭:</YART_Preset_PickTabs>
+  <YART_Preset_Preview>이 탭을 캔버스에서 미리보기</YART_Preset_Preview>
+  <YART_Preset_Done>완료</YART_Preset_Done>
+  <YART_Preset_Cancel>취소</YART_Preset_Cancel>
+
   <!-- 상세 패널 -->
   <YART_UnlockedContent>연구 보상</YART_UnlockedContent>
   <YART_ToggleUnlockedView>아이콘 / 목록 보기 전환</YART_ToggleUnlockedView>

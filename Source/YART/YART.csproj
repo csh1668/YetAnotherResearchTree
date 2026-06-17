@@ -85,11 +85,15 @@
         <Compile Include="Data\ResearchChannel.cs" />
         <Compile Include="Data\ResearchGraph.cs" />
         <Compile Include="Data\ResearchNode.cs" />
+        <Compile Include="Data\ResearchPreset.cs" />
         <Compile Include="Data\ResearchQueueManager.cs" />
         <Compile Include="Compat\WorldTechLevelCompat.cs" />
         <Compile Include="Compat\GravshipCompat.cs" />
         <Compile Include="Compat\MultiplayerCompat.cs" />
         <Compile Include="Compat\SemiRandomResearchCompat.cs" />
+        <Compile Include="TabPresetManager.cs" />
+        <Compile Include="Favorites.cs" />
+        <Compile Include="Dialog_PresetEditor.cs" />
         <Compile Include="Utils\GUIDrawingUtilities.cs" />
         <Compile Include="Utils\HistoryNavigator.cs" />
         <Compile Include="Utils\SuffixStructure.cs" />

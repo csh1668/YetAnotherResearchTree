@@ -48,7 +48,7 @@ namespace YART.Data
         /// <summary>이 노드가 속한 바닐라 연구 탭 (벤치 채널 전용, 비-벤치는 null)</summary>
         public ResearchTabDef Tab { get; }
 
-        // 통합 벤치 키처럼 Channel/Tab으로 재구성하면 IsUnified가 소실되는 특수 키를 보존하기 위한 오버라이드. null이면 Channel/Tab으로 계산
+        // 프리셋/통합 병합 그래프 키처럼 Channel/Tab으로 재구성할 수 없는 특수 키를 보존하기 위한 오버라이드. null이면 Channel/Tab으로 계산
         private readonly GraphKey? _keyOverride;
 
         /// <summary>이 노드가 속한 서브그래프 키</summary>
@@ -387,12 +387,9 @@ namespace YART.Data
             _keyOverride = key;
         }
 
-        /// <summary>
-        /// 통합 벤치 뷰용 real 노드 복사본
-        /// </summary>
-        public static ResearchNode CreateUnifiedCopy(ResearchNode original)
+        public static ResearchNode CreateMergedCopy(ResearchNode original, GraphKey targetKey)
         {
-            return new ResearchNode(original.Def, original.Channel, original.Tab, GraphKey.UnifiedBench);
+            return new ResearchNode(original.Def, original.Channel, original.Tab, targetKey);
         }
 
         private ResearchNode(ResearchProjectDef def, ResearchChannel channel, ResearchTabDef tab, GraphKey keyOverride)

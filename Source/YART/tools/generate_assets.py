@@ -140,6 +140,28 @@ def draw_queue(d, s):
         d.rounded_rectangle([7 * u, y * u, 25 * u, (y + 4) * u], radius=u, fill=255)
 
 
+def _star_pts(s, outer=0.47, inner=0.20):
+    """5각 별 꼭짓점 10개 (외곽/내부 반지름 교대). 위쪽 꼭짓점부터 시계방향."""
+    cx = cy = s / 2
+    pts = []
+    for i in range(10):
+        ang = -math.pi / 2 + i * math.pi / 5
+        r = (outer if i % 2 == 0 else inner) * s
+        pts.append((cx + r * math.cos(ang), cy + r * math.sin(ang)))
+    return pts
+
+
+def draw_star(d, s):
+    """채운 별 (즐겨찾기 ON — 코드에서 노란색 틴트)."""
+    d.polygon(_star_pts(s), fill=255)
+
+
+def draw_star_hollow(d, s):
+    """외곽선 별 (즐겨찾기 OFF — 비어있는 별)."""
+    pts = _star_pts(s)
+    d.line(pts + [pts[0]], fill=255, width=max(1, int(2.4 * s / 32)), joint="curve")
+
+
 def draw_swap(d, s):
     """전환 아이콘: 상단=오른쪽 화살표, 하단=왼쪽 화살표 (두 화살표로 swap 표현)."""
     u = s / 32
@@ -165,4 +187,6 @@ if __name__ == "__main__":
     icon("IconPlay", draw_play)
     icon("IconQueue", draw_queue)
     icon("IconSwap", draw_swap)
+    icon("IconStar", draw_star)
+    icon("IconStarHollow", draw_star_hollow)
     print("done")

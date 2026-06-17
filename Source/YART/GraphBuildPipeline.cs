@@ -121,22 +121,74 @@ namespace YART
 
         private static void RunLayoutAndSearch()
         {
-            var subGraphs = ResearchGraph.Instance.SubGraphs.Values.ToList();
+            var graph = ResearchGraph.Instance;
             LayoutExport.Begin();
-            Parallel.ForEach(subGraphs, subGraph => new SugiyamaLayout().Calculate(subGraph));
 
-            int benchTabCount = ResearchGraph.Instance.SubGraphs.Count(kvp =>
-                !kvp.Key.IsUnified && kvp.Key.Channel != null && kvp.Key.Channel.IsBench
+            // 1. 일반 탭 서브그래프 레이아웃 (병렬)
+            Parallel.ForEach(graph.SubGraphs.Values.ToList(),
+                subGraph => new SugiyamaLayout().Calculate(subGraph));
+
+            // 2. 병합 서브그래프(통합 벤치 + 사용자 프리셋) "구성"만
+            ConstructMergedSubGraphs(graph);
+
+            // 3. 병합 서브그래프 레이아웃 (병렬)
+            var merged = graph.SubGraphs.Values.Where(sg => sg.Key.IsPreset).ToList();
+            Parallel.ForEach(merged, subGraph => new SugiyamaLayout().Calculate(subGraph));
+
+            // 4. 마무리
+            ResearchNode.InvalidateAllPorts();
+            layoutCalculated = true;
+            SearchEngine.Build(graph.AllNodes.Values);
+        }
+
+        private static void ConstructMergedSubGraphs(ResearchGraph graph)
+        {
+            int benchTabCount = graph.SubGraphs.Count(kvp =>
+                !kvp.Key.IsPreset && kvp.Key.Channel != null && kvp.Key.Channel.IsBench
                 && kvp.Value.Nodes.Any(n => !n.IsDummy && !n.IsProxy));
             if (benchTabCount >= 2)
             {
-                ResearchGraph.Instance.GetOrBuildUnifiedBench();
+                graph.GetOrBuildUnifiedBench(runLayout: false);
             }
 
-            ResearchNode.InvalidateAllPorts();
-            layoutCalculated = true;
+            var presets = YARTMod.Settings?.tabPresets;
+            if (presets != null)
+            {
+                foreach (var preset in presets)
+                {
+                    try { graph.BuildPreset(preset, runLayout: false); }
+                    catch (Exception ex) { Log.Error($"[YART] Constructing preset '{preset?.Name}' failed: {ex}"); }
+                }
+            }
+        }
 
-            SearchEngine.Build(ResearchGraph.Instance.AllNodes.Values);
+        public static void RebuildPresetNonBlocking(ResearchPreset preset)
+        {
+            if (preset == null) return;
+
+            graphReady = false;
+
+            var prev = graphBuildTask;
+            graphBuildTask = Task.Run(() =>
+            {
+                try
+                {
+                    if (prev != null && !prev.IsCompleted) prev.Wait();
+                    if (!ResearchGraph.Instance.Initialized) BuildGraphAndLayout();
+
+                    ResearchGraph.Instance.BuildPreset(preset);
+                    Rendering.EdgeRenderer.ClearCache();
+                    Generation++;
+                    graphReady = ResearchGraph.Instance.Initialized && layoutCalculated && SearchEngine.IsBuilt;
+                    if (Prefs.DevMode)
+                        Log.Message($"[YART] Preset rebuilt in background (generation {Generation}): {preset.Name}");
+                }
+                catch (Exception ex)
+                {
+                    graphReady = ResearchGraph.Instance.Initialized && layoutCalculated && SearchEngine.IsBuilt;
+                    Log.Error("[YART] RebuildPresetNonBlocking failed: " + ex);
+                }
+            });
         }
 
         public static int Generation { get; private set; }

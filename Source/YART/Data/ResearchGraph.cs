@@ -170,9 +170,9 @@ namespace YART.Data
         private readonly Dictionary<GraphKey, Dictionary<ResearchProjectDef, ResearchNode>> _proxyCache = new Dictionary<GraphKey, Dictionary<ResearchProjectDef, ResearchNode>>();
         private volatile bool _initialized = false;
 
-        // 통합 벤치 뷰
-        private ResearchSubGraph _unifiedSubGraph;
-        private Dictionary<ResearchProjectDef, ResearchNode> _unifiedNodeByDef;
+        // 프리셋(통합 벤치 + 사용자 탭 그룹) 병합 그래프 — 프리셋 Id별 def→복사본 맵
+        private readonly Dictionary<string, Dictionary<ResearchProjectDef, ResearchNode>> _presetNodeByDef
+            = new Dictionary<string, Dictionary<ResearchProjectDef, ResearchNode>>();
 
         public bool Initialized => _initialized;
 
@@ -277,8 +277,7 @@ namespace YART.Data
             SubGraphs.Clear();
             _proxyCache.Clear();
             _initialized = false;
-            _unifiedSubGraph = null;
-            _unifiedNodeByDef = null;
+            _presetNodeByDef.Clear();
         }
 
         private void CreateNodes()
@@ -437,13 +436,13 @@ namespace YART.Data
 
         public ResearchNode GetNodeForGraph(ResearchProjectDef def, GraphKey key)
         {
-            // 통합 벤치 뷰: 통합 복사본 → 통합 프록시 캐시 순으로 조회
-            if (key.IsUnified)
+            // 프리셋 병합 그래프(통합 벤치 포함): 프리셋 복사본 → 프리셋 프록시 캐시 순으로 조회
+            if (key.IsPreset)
             {
-                if (_unifiedNodeByDef != null && _unifiedNodeByDef.TryGetValue(def, out var unifiedCopy))
-                    return unifiedCopy;
-                if (_proxyCache.TryGetValue(key, out var unifiedCache) && unifiedCache.TryGetValue(def, out var unifiedProxy))
-                    return unifiedProxy;
+                if (_presetNodeByDef.TryGetValue(key.PresetId, out var presetMap) && presetMap.TryGetValue(def, out var presetCopy))
+                    return presetCopy;
+                if (_proxyCache.TryGetValue(key, out var presetCache) && presetCache.TryGetValue(def, out var presetProxy))
+                    return presetProxy;
                 return null;
             }
 
@@ -459,82 +458,120 @@ namespace YART.Data
             return null;
         }
 
-        public ResearchSubGraph GetOrBuildUnifiedBench()
+        public ResearchSubGraph GetOrBuildUnifiedBench(bool runLayout = true)
         {
-            if (!_initialized) return null;
-            if (_unifiedSubGraph != null) return _unifiedSubGraph;
+            return GetSubGraph(GraphKey.UnifiedBench) ?? BuildPreset(ResearchPreset.AllTabs, runLayout);
+        }
 
-            var unifiedKey = GraphKey.UnifiedBench;
+        public ResearchSubGraph BuildPreset(ResearchPreset preset, bool runLayout = true)
+        {
+            if (!_initialized || preset == null) return null;
+
+            // 소스 서브그래프 필터: 내장 통합=모든 벤치 탭, 사용자=선택 탭만. (다른 병합 그래프 소스는 제외)
+            Func<GraphKey, bool> includeSource;
+            if (preset.IncludeAllBenchTabs)
+            {
+                includeSource = src => src.Channel != null && src.Channel.IsBench && !src.IsPreset;
+            }
+            else
+            {
+                var tabs = preset.ResolveTabs();
+                if (tabs.Count == 0) { RemovePresetSubGraph(preset.Id); return null; }
+                var tabSet = new HashSet<ResearchTabDef>(tabs);
+                includeSource = src => src.Channel != null && src.Channel.IsBench && !src.IsPreset
+                    && tabSet.Contains(src.Tab);
+            }
+
+            var key = GraphKey.ForPreset(preset.Id);
+            RemovePresetSubGraph(preset.Id); // 재빌드 시 이전 상태 제거
 
             try
             {
-                var subGraph = GetOrAddSubGraph(unifiedKey);
-                var unifiedNodeByDef = new Dictionary<ResearchProjectDef, ResearchNode>();
+                var subGraph = BuildMergedSubGraphCore(key, includeSource, runLayout, out var presetNodeByDef);
+                _presetNodeByDef[preset.Id] = presetNodeByDef;
 
-                foreach (var kvp in SubGraphs)
-                {
-                    if (kvp.Key.IsUnified) continue;
-                    if (kvp.Key.Channel == null || !kvp.Key.Channel.IsBench) continue;
-
-                    foreach (var node in kvp.Value.Nodes)
-                    {
-                        if (node.IsDummy || node.IsProxy) continue;
-
-                        var copy = ResearchNode.CreateUnifiedCopy(node);
-                        subGraph.AddNode(copy);
-                        unifiedNodeByDef[node.Def] = copy;
-                    }
-                }
-
-                foreach (var copy in unifiedNodeByDef.Values)
-                {
-                    if (copy.Def.prerequisites == null) continue;
-
-                    foreach (var prereqDef in copy.Def.prerequisites)
-                    {
-                        if (unifiedNodeByDef.TryGetValue(prereqDef, out var prereqCopy))
-                        {
-                            ConnectUnifiedNodes(prereqCopy, copy, subGraph);
-                        }
-                        else if (AllNodes.TryGetValue(prereqDef, out var canonicalNode))
-                        {
-                            var proxy = GetOrCreateProxy(canonicalNode, unifiedKey);
-                            ConnectUnifiedNodes(proxy, copy, subGraph);
-                        }
-                    }
-                }
-
-                {
-                    var visited = new HashSet<ResearchNode>();
-                    var recursionStack = new HashSet<ResearchNode>();
-                    foreach (var node in subGraph.Nodes.ToList())
-                    {
-                        if (!visited.Contains(node))
-                            DetectAndRemoveCycle(node, visited, recursionStack, subGraph);
-                    }
-                }
-
-                RemoveRedundantPrerequisitesForSubGraph(subGraph);
-
-                BuildPanelListsForUnified(unifiedNodeByDef, subGraph);
-
-                new SugiyamaLayout().Calculate(subGraph);
-                ResearchNode.InvalidateAllPorts();
-                _unifiedNodeByDef = unifiedNodeByDef;
-                _unifiedSubGraph = subGraph;
-
-                if (Prefs.DevMode) Log.Message($"[YART] Unified bench subgraph built: {subGraph.Nodes.Count} nodes, {subGraph.Edges.Count} edges");
-                return _unifiedSubGraph;
+                if (Prefs.DevMode) Log.Message($"[YART] Preset '{preset.Name}' subgraph built: {subGraph.Nodes.Count} nodes, {subGraph.Edges.Count} edges");
+                return subGraph;
             }
             catch (Exception ex)
             {
-                Log.Error($"[YART] GetOrBuildUnifiedBench failed, rolling back: {ex}");
-                SubGraphs.Remove(unifiedKey);
-                _proxyCache.Remove(unifiedKey);
-                _unifiedNodeByDef = null;
-                _unifiedSubGraph = null;
+                Log.Error($"[YART] BuildPreset '{preset.Name}' failed, rolling back: {ex}");
+                RemovePresetSubGraph(preset.Id);
                 return null;
             }
+        }
+
+        public void RemovePresetSubGraph(string presetId)
+        {
+            if (presetId == null) return;
+            var key = GraphKey.ForPreset(presetId);
+            SubGraphs.Remove(key);
+            _proxyCache.Remove(key);
+            _presetNodeByDef.Remove(presetId);
+        }
+
+        private ResearchSubGraph BuildMergedSubGraphCore(
+            GraphKey key,
+            Func<GraphKey, bool> includeSource,
+            bool runLayout,
+            out Dictionary<ResearchProjectDef, ResearchNode> nodeByDef)
+        {
+            var subGraph = GetOrAddSubGraph(key);
+            nodeByDef = new Dictionary<ResearchProjectDef, ResearchNode>();
+
+            foreach (var kvp in SubGraphs)
+            {
+                if (kvp.Key.Equals(key)) continue;
+                if (!includeSource(kvp.Key)) continue;
+
+                foreach (var node in kvp.Value.Nodes)
+                {
+                    if (node.IsDummy || node.IsProxy) continue;
+
+                    var copy = ResearchNode.CreateMergedCopy(node, key);
+                    subGraph.AddNode(copy);
+                    nodeByDef[node.Def] = copy;
+                }
+            }
+
+            foreach (var copy in nodeByDef.Values)
+            {
+                if (copy.Def.prerequisites == null) continue;
+
+                foreach (var prereqDef in copy.Def.prerequisites)
+                {
+                    if (nodeByDef.TryGetValue(prereqDef, out var prereqCopy))
+                    {
+                        ConnectUnifiedNodes(prereqCopy, copy, subGraph);
+                    }
+                    else if (AllNodes.TryGetValue(prereqDef, out var canonicalNode))
+                    {
+                        var proxy = GetOrCreateProxy(canonicalNode, key);
+                        ConnectUnifiedNodes(proxy, copy, subGraph);
+                    }
+                }
+            }
+
+            {
+                var visited = new HashSet<ResearchNode>();
+                var recursionStack = new HashSet<ResearchNode>();
+                foreach (var node in subGraph.Nodes.ToList())
+                {
+                    if (!visited.Contains(node))
+                        DetectAndRemoveCycle(node, visited, recursionStack, subGraph);
+                }
+            }
+
+            RemoveRedundantPrerequisitesForSubGraph(subGraph);
+            BuildPanelListsForUnified(nodeByDef, subGraph);
+
+            if (runLayout)
+            {
+                new SugiyamaLayout().Calculate(subGraph);
+                ResearchNode.InvalidateAllPorts();
+            }
+
+            return subGraph;
         }
 
         private static void ConnectUnifiedNodes(ResearchNode from, ResearchNode to, ResearchSubGraph subGraph)

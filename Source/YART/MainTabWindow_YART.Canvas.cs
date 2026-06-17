@@ -353,7 +353,8 @@ namespace YART
             lastKeyPanTime = now;
 
             // 검색창 입력 중에는 WASD를 타이핑으로 취급 (패닝 안 함)
-            if (GUI.GetNameOfFocusedControl() == "YARTSearchField") return;
+            string focused = GUI.GetNameOfFocusedControl();
+            if (focused == "YARTSearchField" || focused == "YARTPresetName") return; // 텍스트 입력 중엔 WASD 팬 금지
             // 첫 프레임/탭 비활성 후 복귀 등 큰 갭은 무시 (순간이동 방지)
             if (dt <= 0f || dt > 0.2f) return;
 

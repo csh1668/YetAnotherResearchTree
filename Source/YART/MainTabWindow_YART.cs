@@ -23,6 +23,7 @@ namespace YART
         private float eraLabelTopOffset;
         private float lastKeyPanTime;
         private ResearchProjectDef pendingOpenDef; // 외부(InfoCard 등)에서 특정 연구로 열어달라는 요청
+        private string pendingSwitchPresetId;      // 프리셋 생성/편집 후 비동기 빌드 완료 시 자동 전환 대상
 
         // Drag / Click State.
         private Vector2 leftMouseDownPos;
@@ -45,13 +46,19 @@ namespace YART
         private readonly Dictionary<GraphKey, Vector2> graphScrollPositions = new Dictionary<GraphKey, Vector2>();
         private readonly Dictionary<GraphKey, float> graphZoomLevels = new Dictionary<GraphKey, float>();
 
-        // 통합 벤치 뷰 상태
-        private bool isUnifiedView;
         // DoWindowContents 진입 후 설정에 따른 통합 뷰 자동 전환을 한 번만 실행하는 단발 가드
         private bool unifiedViewApplied;
 
+        // 현재 보고 있는 프리셋(탭 그룹 또는 내장 통합). null이면 일반 탭 뷰.
+        private string currentPresetId;
+
         /// <summary>현재 캔버스에 표시 중인 서브그래프 키</summary>
-        private GraphKey CurrentKey => isUnifiedView ? GraphKey.UnifiedBench : new GraphKey(SelectedChannel, selectedTab);
+        private GraphKey CurrentKey => currentPresetId != null
+            ? GraphKey.ForPreset(currentPresetId)
+            : new GraphKey(SelectedChannel, selectedTab);
+
+        /// <summary>현재 통합 벤치 뷰(모든 탭 = 내장 프리셋)를 보고 있는가.</summary>
+        private bool ViewingAllTabs => currentPresetId == GraphKey.AllTabsId;
 
         // Queue Bar State
         private Vector2 queueBarScrollPosition = Vector2.zero;
@@ -97,7 +104,7 @@ namespace YART
             lastSeenGeneration = GraphBuildPipeline.Generation;
 
             // 통합 뷰 상태 초기화 — DoWindowContents 첫 진입 시 설정 기반 자동 전환을 수행한다.
-            isUnifiedView = false;
+            currentPresetId = null;
             unifiedViewApplied = false;
 
             // World Tech Level 등으로 가시성 필터 레벨이 바뀌었으면(주로 게임 진입 1회) 그래프를
@@ -178,6 +185,21 @@ namespace YART
                     }
                 }
 
+                // 프리셋 생성/편집 후 비동기 빌드가 끝나면 그 프리셋 뷰로 자동 전환
+                if (pendingSwitchPresetId != null)
+                {
+                    var presetKey = GraphKey.ForPreset(pendingSwitchPresetId);
+                    if (ResearchGraph.Instance.GetSubGraph(presetKey) != null)
+                    {
+                        SwitchGraph(presetKey, playSound: false);
+                        pendingSwitchPresetId = null;
+                    }
+                    else if (TabPresetManager.ById(pendingSwitchPresetId) == null)
+                    {
+                        pendingSwitchPresetId = null; // 삭제됐거나 사라진 프리셋 — 포기
+                    }
+                }
+
                 // 외부에서 특정 연구로 열어달라는 요청
                 if (pendingOpenDef != null)
                 {
@@ -254,6 +276,9 @@ namespace YART
 
                 // 우하단 트랙 칩 영역
                 Rect chipsRect = ComputeTrackChipsRect(inRect);
+
+                // 우상단 즐겨찾기 퀵리스트 (상단탭 바로 아래)
+                Rect favoritesRect = ComputeFavoritesRect(inRect);
                 Rect zoomRect = new Rect((leftRect?.xMax ?? 0f) + 16f, inRect.yMax - 40f, 80f, 24f);
                 // 바닐라 연구창 전환 아이콘 버튼 (줌 라벨 오른쪽)
                 Rect vanillaSwitchRect = new Rect(zoomRect.xMax + 6f, zoomRect.y, 24f, 24f);
@@ -268,6 +293,7 @@ namespace YART
                 if (externalListRect.height > 0f) interactionExcludeRects.Add(externalListRect);
                 if (shouldDrawLeftPanel) interactionExcludeRects.Add(leftRect.Value);
                 if (chipsRect.height > 0f) interactionExcludeRects.Add(chipsRect);
+                if (favoritesRect.height > 0f) interactionExcludeRects.Add(favoritesRect);
                 interactionExcludeRects.Add(zoomRect);
                 interactionExcludeRects.Add(vanillaSwitchRect);
 
@@ -294,6 +320,7 @@ namespace YART
                 // 4. 플로팅 HUD
                 DoTopLeftControls();
                 DoTrackChipsColumn(chipsRect);
+                DoFavoritesList(favoritesRect);
                 DoZoomIndicator(zoomRect);
                 DoVanillaSwitchButton(vanillaSwitchRect);
 
@@ -313,9 +340,9 @@ namespace YART
             graphZoomLevels[CurrentKey] = zoomLevel;
             scrollAnimating = false;
 
-            isUnifiedView = key.IsUnified;
+            currentPresetId = key.IsPreset ? key.PresetId : null;
             SelectedChannel = key.Channel;
-            if (!key.IsUnified && key.Channel.IsBench) selectedTab = key.Tab;
+            if (!key.IsPreset && key.Channel.IsBench) selectedTab = key.Tab;
 
             scrollPosition = graphScrollPositions.TryGetValue(key, out var s) ? s : new Vector2(500f, 500f);
             zoomLevel = graphZoomLevels.TryGetValue(key, out var z) ? z : Constraints.DefaultZoom;
@@ -334,6 +361,32 @@ namespace YART
         public void RequestOpenAt(ResearchProjectDef def)
         {
             pendingOpenDef = def;
+        }
+
+        // ── 프리셋 에디터(Dialog_PresetEditor)용 공개 API ───────────────────────────
+        /// <summary>현재 표시 중인 그래프 키 (에디터가 프리뷰 전 복원 지점을 기억하는 용도).</summary>
+        public GraphKey CurrentGraphKey => CurrentKey;
+
+        /// <summary>에디터의 눈(프리뷰) 또는 복원에서 캔버스를 특정 키로 즉시 전환 (그래프 준비 시에만).</summary>
+        public void PreviewGraphKey(GraphKey key)
+        {
+            if (GraphBuildPipeline.GraphReady) SwitchGraph(key, playSound: false);
+        }
+
+        /// <summary>프리셋 생성/편집 후 비동기 빌드가 끝나면 그 프리셋 뷰로 자동 전환하도록 예약.</summary>
+        public void RequestPresetSwitch(string presetId)
+        {
+            pendingSwitchPresetId = presetId;
+        }
+
+        /// <summary>삭제 등으로 현재 프리셋 뷰가 무효가 되면 첫 일반 탭으로 폴백.</summary>
+        public void FallbackFromPresetIfViewing(string presetId)
+        {
+            if (currentPresetId != presetId) return;
+            var tabs = GetVisibleStandardTabs();
+            SwitchGraph(tabs.Count > 0
+                ? new GraphKey(ChannelRegistry.Bench, tabs[0])
+                : new GraphKey(ChannelRegistry.Bench), playSound: false);
         }
 
         /// <summary>

@@ -39,6 +39,7 @@ namespace YART.Data
         // Tab Dropdown
         public const float TabDropdownWidth = 150f;
         public const float TabDropdownHeight = 30f;
+        public const float TabPlusButtonSize = 30f;
 
         // Unified Bench Toggle
         public const float UnifiedBenchToggleWidth = 90f;

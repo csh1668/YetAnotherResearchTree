@@ -170,11 +170,10 @@ namespace YART
             string side = null;
             if (!resNode.Key.Equals(CurrentKey))
             {
-                // IsUnified 키는 Tab=null이므로 반드시 먼저 확인
-                side = resNode.Key.IsUnified ? (string)"YART_AllTabs".Translate()
-                    : resNode.Key.Channel.IsBench
-                        ? (string)resNode.Key.Tab.LabelCap
-                        : resNode.Key.Channel.Label;
+                // resNode는 실노드 — 벤치면 Tab 라벨(널 가드), 그 외 채널 라벨
+                side = resNode.Key.Channel.IsBench && resNode.Key.Tab != null
+                    ? (string)resNode.Key.Tab.LabelCap
+                    : resNode.Key.Channel.Label;
             }
 
             float sideWidth = side == null ? 0f : 96f;

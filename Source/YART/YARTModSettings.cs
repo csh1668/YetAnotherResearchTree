@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 using YART.Data;
@@ -7,6 +8,12 @@ namespace YART
 {
     public class YARTModSettings : ModSettings
     {
+        // 사용자 정의 탭 그룹(프리셋) — 전역 영속. 드롭다운에 별도 병합 그래프 항목으로 노출.
+        public List<ResearchPreset> tabPresets = new List<ResearchPreset>();
+
+        // 즐겨찾기한 드롭다운 항목 키 (탭 = "t:"+defName, 프리셋 = "p:"+id). 전역 영속.
+        public List<string> favorites = new List<string>();
+
         // 바닐라 연구 버튼의 탭 윈도우를 YART로 교체할지 (off = 바닐라 연구창 복원)
         public bool replaceVanillaResearchTab = true;
 
@@ -30,6 +37,12 @@ namespace YART
             Scribe_Values.Look(ref unifyEraColorToEffective,  "unifyEraColorToEffective",  false);
             Scribe_Values.Look(ref unlockedContentExpanded,   "unlockedContentExpanded",   false);
             Scribe_Values.Look(ref focusHighlightDimming,     "focusHighlightDimming",     false);
+            Scribe_Collections.Look(ref tabPresets, "tabPresets", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && tabPresets == null)
+                tabPresets = new List<ResearchPreset>();
+            Scribe_Collections.Look(ref favorites, "favorites", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && favorites == null)
+                favorites = new List<string>();
             // Constraints 반영은 YARTMod ctor(GetSettings 직후) + UI 변경 핸들러에서 한다.
         }
 

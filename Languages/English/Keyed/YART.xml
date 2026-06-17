@@ -41,6 +41,19 @@
   <YART_GoToOriginal>Go to original graph</YART_GoToOriginal>
   <YART_ShowInfoCard>Open info card</YART_ShowInfoCard>
 
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>New tab group</YART_Preset_New>
+  <YART_Preset_Edit>Edit</YART_Preset_Edit>
+  <YART_Preset_Delete>Delete</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>Delete tab group "{0}"?</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>New tab group</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>Edit tab group</YART_Preset_EditTitle>
+  <YART_Preset_Name>Name</YART_Preset_Name>
+  <YART_Preset_PickTabs>Tabs to include:</YART_Preset_PickTabs>
+  <YART_Preset_Preview>Preview this tab on the canvas</YART_Preset_Preview>
+  <YART_Preset_Done>Done</YART_Preset_Done>
+  <YART_Preset_Cancel>Cancel</YART_Preset_Cancel>
+
   <!-- Detail panel -->
   <YART_UnlockedContent>Unlocked Content</YART_UnlockedContent>
   <YART_ToggleUnlockedView>Toggle icon / list view</YART_ToggleUnlockedView>

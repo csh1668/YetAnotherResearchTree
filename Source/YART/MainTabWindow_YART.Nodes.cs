@@ -155,7 +155,7 @@ namespace YART
             if (isHovered)
             {
                 var tipNode = node;
-                bool tipShowTab = CurrentKey.IsUnified;
+                bool tipShowTab = CurrentKey.IsPreset;
                 TooltipHandler.TipRegion(nodeRectScreen,
                     new TipSignal(() => BuildNodeTooltip(tipNode, tipShowTab), tipNode.Def.GetHashCode()));
             }
@@ -601,11 +601,10 @@ namespace YART
                 Rect dotRect = new Rect(rowRect.x + 6f, rowRect.y + rowH / 2f - 3f, 6f, 6f);
                 Widgets.DrawBoxSolid(dotRect, hidden ? new Color(0.4f, 0.4f, 0.45f) : child.EraAccentColor);
 
-                // IsUnified 키는 Tab=null — 반드시 먼저 확인
-                string tabLabel = child.Key.IsUnified ? (string)"YART_AllTabs".Translate()
-                    : child.Key.Channel.IsBench
-                        ? (string)child.Key.Tab.LabelCap
-                        : child.Key.Channel.Label;
+                // child는 실노드 — 벤치면 Tab 라벨(널 가드), 그 외 채널 라벨
+                string tabLabel = child.Key.Channel.IsBench && child.Key.Tab != null
+                    ? (string)child.Key.Tab.LabelCap
+                    : child.Key.Channel.Label;
                 using (Temporary.Font(GameFont.Tiny))
                 using (Temporary.Anchor(TextAnchor.MiddleLeft))
                 using (Temporary.Color(hidden ? new Color(0.5f, 0.5f, 0.55f) : Color.white))

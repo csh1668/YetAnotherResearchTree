@@ -26,6 +26,8 @@ namespace YART
         public static readonly Texture2D IconPlay = ContentFinder<Texture2D>.Get("YART/IconPlay");
         public static readonly Texture2D IconQueue = ContentFinder<Texture2D>.Get("YART/IconQueue");
         public static readonly Texture2D IconSwap = ContentFinder<Texture2D>.Get("YART/IconSwap");
+        public static readonly Texture2D IconStar = ContentFinder<Texture2D>.Get("YART/IconStar");
+        public static readonly Texture2D IconStarHollow = ContentFinder<Texture2D>.Get("YART/IconStarHollow");
 
         public const float PanelCornerUV = 12f / 64f;
 

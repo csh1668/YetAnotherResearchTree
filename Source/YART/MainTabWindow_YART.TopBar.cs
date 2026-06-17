@@ -28,8 +28,8 @@ namespace YART
             var result = new List<ResearchTabDef>();
             foreach (var kvp in ResearchGraph.Instance.SubGraphs)
             {
-                // 통합 키(IsUnified)는 Tab=null이므로 반드시 먼저 건너뜀
-                if (kvp.Key.IsUnified) continue;
+                // 프리셋 키(통합 포함)는 Tab=null이므로 반드시 먼저 건너뜀 (TabInfoVisible(null) NRE 방지)
+                if (kvp.Key.IsPreset) continue;
                 if (!kvp.Key.Channel.IsBench) continue;
                 if (!kvp.Value.Nodes.Any(n => !n.IsDummy && !n.IsProxy)) continue;
                 if (!Find.ResearchManager.TabInfoVisible(kvp.Key.Tab)) continue;
@@ -39,13 +39,17 @@ namespace YART
             return result;
         }
 
+        /// <summary>프리셋 에디터가 선택지로 보여줄 탭 목록 (드롭다운과 동일).</summary>
+        public List<ResearchTabDef> SelectableTabsForPreset() => GetVisibleStandardTabs();
+
         private Rect ComputeTopLeftControlsRect()
         {
             float row1 = 0f;
             if (SelectedChannel.IsBench && GetVisibleStandardTabs().Count >= 2)
             {
                 row1 += Constraints.UnifiedBenchToggleWidth + 8f;
-                if (!CurrentKey.IsUnified) row1 += Constraints.TabDropdownWidth + 8f;
+                if (!ViewingAllTabs)
+                    row1 += Constraints.TabDropdownWidth + 6f + Constraints.TabPlusButtonSize + 8f;
             }
             float content = Mathf.Max(row1, 220f);
             return new Rect(0f, 0f, 16f + content + 16f, Constraints.QueueBarHeight);
@@ -63,8 +67,8 @@ namespace YART
             {
                 var visibleTabs = GetVisibleStandardTabs();
 
-                // 통합 뷰가 아닐 때만 selectedTab 유효성 보정 (통합 중엔 매 프레임 키 교체로 뷰가 튕김)
-                if (!CurrentKey.IsUnified)
+                // 일반 탭 뷰일 때만 selectedTab 유효성 보정. 프리셋(통합 포함) 뷰는 자체 서브그래프이므로 제외.
+                if (!CurrentKey.IsPreset)
                 {
                     var currentSub = ResearchGraph.Instance.GetSubGraph(CurrentKey);
                     bool currentTabValid = currentSub != null && currentSub.Nodes.Any(n => !n.IsDummy && !n.IsProxy);
@@ -82,10 +86,14 @@ namespace YART
                     DrawUnifiedBenchToggle(toggleRect);
                     x += Constraints.UnifiedBenchToggleWidth + 8f;
 
-                    if (!CurrentKey.IsUnified)
+                    if (!ViewingAllTabs)
                     {
                         Rect ddRect = new Rect(x, y1, Constraints.TabDropdownWidth, Constraints.TabDropdownHeight);
                         DrawTabDropdown(ddRect, visibleTabs);
+                        x += Constraints.TabDropdownWidth + 6f;
+
+                        Rect plusRect = new Rect(x, y1, Constraints.TabPlusButtonSize, Constraints.TabDropdownHeight);
+                        DrawAddPresetButton(plusRect);
                     }
                 }
             }
@@ -259,7 +267,8 @@ namespace YART
                 TooltipHandler.TipRegion(rect, tooltip);
             }
 
-            if (Widgets.ButtonInvisible(rect))
+            // 프리셋 에디터가 열려 있는 동안에는 트랙(채널) 전환 금지 — 프리뷰 맥락 유지
+            if (Widgets.ButtonInvisible(rect) && !Find.WindowStack.IsOpen<Dialog_PresetEditor>())
             {
                 // 통합 뷰 ON + 벤치 칩 클릭 → 통합 키로 전환 (일반 탭 키로 돌아가지 않게).
                 if (YARTMod.Settings.unifiedBenchView && channel.IsBench)
@@ -280,7 +289,7 @@ namespace YART
 
         private void DrawUnifiedBenchToggle(Rect rect)
         {
-            bool isOn = CurrentKey.IsUnified;
+            bool isOn = ViewingAllTabs;
 
             Widgets.DrawBoxSolid(rect, isOn ? GenColor.WithAlpha(SelectedChannel.Color, 0.15f) : new Color(0f, 0f, 0f, 0.4f));
             GUIDrawingUtilities.DrawBorderLines(rect, isOn ? SelectedChannel.Color : Constraints.PanelBorder, isOn ? 1.5f : 1f);
@@ -339,7 +348,8 @@ namespace YART
 
         private void DrawTabDropdown(Rect rect, List<ResearchTabDef> tabs)
         {
-            var currentTab = CurrentKey.Tab; // 통합 뷰가 아닐 때만 호출되므로 Tab != null 보장
+            var currentTab = CurrentKey.IsPreset ? null : CurrentKey.Tab;
+            ResearchPreset currentPreset = CurrentKey.IsPreset ? TabPresetManager.ById(CurrentKey.PresetId) : null;
 
             Widgets.DrawBoxSolid(rect, new Color(0f, 0f, 0f, 0.4f));
             GUIDrawingUtilities.DrawBorderLines(rect, Constraints.PanelBorder, 1f);
@@ -351,8 +361,10 @@ namespace YART
             Rect labelRect = new Rect(rect.x + 8f, rect.y, rect.width - 28f, rect.height);
             using (Temporary.Font(GameFont.Small))
             using (Temporary.Anchor(TextAnchor.MiddleLeft))
+            using (Temporary.Color(currentPreset != null ? new Color(0.7f, 0.85f, 1f) : Color.white))
             {
-                string label = currentTab != null ? (string)currentTab.LabelCap : "—";
+                string label = currentPreset != null ? currentPreset.Name
+                    : (currentTab != null ? (string)currentTab.LabelCap : "—");
                 Widgets.Label(labelRect, label.Truncate(labelRect.width));
             }
 
@@ -369,17 +381,153 @@ namespace YART
             if (Widgets.ButtonInvisible(rect))
             {
                 var options = new List<SearchableFloatMenu.Option>();
+
+                foreach (var preset in TabPresetManager.Presets)
+                {
+                    var local = preset;
+                    if (local.ResolveTabs().Count == 0) continue;
+                    bool sel = CurrentKey.IsPreset && CurrentKey.PresetId == local.Id;
+                    var trailing = new List<SearchableFloatMenu.TrailingButton>
+                    {
+                        new SearchableFloatMenu.TrailingButton(TexButton.Rename,
+                            () => OpenPresetEditor(local), "YART_Preset_Edit".Translate()),
+                        new SearchableFloatMenu.TrailingButton(TexButton.CloseXSmall,
+                            () => ConfirmDeletePreset(local), "YART_Preset_Delete".Translate(),
+                            new Color(0.95f, 0.55f, 0.5f)),
+                    };
+                    options.Add(new SearchableFloatMenu.Option(local.Name, () => SelectPreset(local),
+                        selected: sel, trailing: trailing, leading: FavStar(Favorites.PresetKey(local.Id))));
+                }
+
+                // 하단: 일반 연구 탭
                 foreach (var tab in tabs)
                 {
                     var localTab = tab;
                     options.Add(new SearchableFloatMenu.Option(localTab.LabelCap, () =>
                     {
                         SwitchGraph(new GraphKey(ChannelRegistry.Bench, localTab));
-                    }, selected: localTab == currentTab));
+                    }, selected: !CurrentKey.IsPreset && localTab == currentTab,
+                        leading: FavStar(Favorites.TabKey(localTab))));
                 }
+
                 Vector2 anchorScreen = GUIUtility.GUIToScreenPoint(new Vector2(rect.x, rect.yMax + 2f));
                 Find.WindowStack.Add(new SearchableFloatMenu(anchorScreen, rect.width + 80f, options));
             }
+        }
+
+        // ── 즐겨찾기 퀵리스트─────────────────────────────
+
+        private Rect ComputeFavoritesRect(Rect inRect)
+        {
+            if (ViewingAllTabs) return Rect.zero;
+            int n = Favorites.Resolve().Count;
+            if (n == 0) return Rect.zero;
+
+            const float rowH = 30f;
+            float h = n * (rowH + 4f) - 4f;
+            float w = Constraints.TrackChipWidth;
+            return new Rect(inRect.xMax - 16f - w, Constraints.QueueBarHeight + 8f, w, h);
+        }
+
+        private void DoFavoritesList(Rect rect)
+        {
+            if (rect.height <= 0f) return;
+            const float rowH = 30f;
+            float y = rect.y;
+            foreach (var fav in Favorites.Resolve())
+            {
+                DrawFavoriteButton(new Rect(rect.x, y, rect.width, rowH), fav);
+                y += rowH + 4f;
+            }
+        }
+
+        private void DrawFavoriteButton(Rect rect, Favorites.Entry fav)
+        {
+            bool selected = fav.Key.Equals(CurrentKey);
+            Color accent = fav.Key.IsPreset ? new Color(0.7f, 0.85f, 1f) : ChannelRegistry.Bench.Color;
+
+            Widgets.DrawBoxSolid(rect, selected ? GenColor.WithAlpha(accent, 0.15f) : new Color(0f, 0f, 0f, 0.4f));
+            GUIDrawingUtilities.DrawBorderLines(rect, selected ? accent : Constraints.PanelBorder, selected ? 1.5f : 1f);
+            if (!selected && Mouse.IsOver(rect)) Widgets.DrawHighlight(rect);
+
+            const float ic = 16f;
+            Rect starRect = new Rect(rect.x + 7f, rect.y + (rect.height - ic) / 2f, ic, ic);
+            GUIDrawingUtilities.DrawIcon(starRect, Assets.IconStar, Favorites.OnColor);
+
+            Rect labelRect = new Rect(starRect.xMax + 7f, rect.y, rect.xMax - starRect.xMax - 13f, rect.height);
+            using (Temporary.Font(GameFont.Small))
+            using (Temporary.Anchor(TextAnchor.MiddleLeft))
+            using (Temporary.Color(selected ? accent : new Color(0.82f, 0.87f, 0.97f)))
+            {
+                Widgets.Label(labelRect, fav.Label.Truncate(labelRect.width));
+            }
+
+            if (Widgets.ButtonInvisible(rect)) SwitchToFavorite(fav.Key);
+        }
+
+        private void SwitchToFavorite(GraphKey key)
+        {
+            if (key.IsPreset)
+            {
+                var preset = TabPresetManager.ById(key.PresetId);
+                if (preset != null) SelectPreset(preset);
+            }
+            else
+            {
+                SwitchGraph(key);
+            }
+        }
+
+        private static SearchableFloatMenu.LeadingToggle FavStar(string favKey)
+        {
+            return new SearchableFloatMenu.LeadingToggle(
+                () => Favorites.Has(favKey), () => Favorites.Toggle(favKey),
+                Assets.IconStar, Assets.IconStarHollow, Favorites.OnColor, Favorites.OffColor);
+        }
+
+        private void DrawAddPresetButton(Rect rect)
+        {
+            Widgets.DrawBoxSolid(rect, new Color(0f, 0f, 0f, 0.4f));
+            GUIDrawingUtilities.DrawBorderLines(rect, Constraints.PanelBorder, 1f);
+            if (Mouse.IsOver(rect)) Widgets.DrawHighlight(rect);
+            GUIDrawingUtilities.DrawIcon(rect.ContractedBy(8f), TexButton.Plus, new Color(0.75f, 0.85f, 0.95f));
+            TooltipHandler.TipRegion(rect, "YART_Preset_New".Translate());
+            if (Widgets.ButtonInvisible(rect))
+            {
+                Find.WindowStack.Add(new Dialog_PresetEditor(this));
+            }
+        }
+
+        private void SelectPreset(ResearchPreset preset)
+        {
+            var key = GraphKey.ForPreset(preset.Id);
+            if (ResearchGraph.Instance.GetSubGraph(key) != null)
+            {
+                SwitchGraph(key);
+            }
+            else
+            {
+                GraphBuildPipeline.RebuildPresetNonBlocking(preset);
+                RequestPresetSwitch(preset.Id);
+            }
+        }
+
+        private void OpenPresetEditor(ResearchPreset preset)
+        {
+            Find.WindowStack.Add(new Dialog_PresetEditor(this, preset));
+        }
+
+        private void ConfirmDeletePreset(ResearchPreset preset)
+        {
+            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                "YART_Preset_DeleteConfirm".Translate(preset.Name),
+                () =>
+                {
+                    TabPresetManager.Delete(preset.Id);
+                    FallbackFromPresetIfViewing(preset.Id);
+                    SoundDefOf.Tick_Low.PlayOneShotOnCamera();
+                },
+                destructive: true));
         }
     }
 }
