@@ -94,6 +94,9 @@ namespace YART
         public override void PreOpen()
         {
             base.PreOpen();
+
+            preventCameraMotion = true;
+
             // PreOpen에서도 설정하지만 SetInitialSizeAndPosition에서도 설정하여 확실하게 함
             this.windowRect.x = 0;
             this.windowRect.y = 0;
@@ -329,6 +332,12 @@ namespace YART
 
                 // 6. 성능 측정 오버레이
                 DrawPerfOverlay(inRect);
+
+                if ((Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseUp)
+                    && Event.current.button >= 2)
+                {
+                    Event.current.Use();
+                }
             }
         }
 
