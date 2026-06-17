@@ -8,6 +8,8 @@
   <YART_Settings_EraColorDesc>当某项研究需要更高科技的前置研究项目时，它会被放置在那个更高时代的区域中。开启：同时按该有效时代为其着色（与区域一致）。关闭：保留研究自身的时代颜色。即时生效，无需重建。</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>悬停时淡化无关研究（默认：关闭）</YART_Settings_FocusDimming>
   <YART_Settings_FocusDimmingDesc>开启：悬停某项研究时，会淡化所有不在其前置/解锁路径上的内容，如同聚光灯效果。关闭：仅高亮相关路径，而不淡化其余部分。</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>研究完成时发送信件（默认：开启）</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>开启：用通知信件替换研究完成时显示的原版弹窗。关闭：保留原版完成窗口。</YART_Settings_CompletionLetterDesc>
   <YART_Settings_Rebuild>重建研究图谱</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>在后台重新生成研究树。</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>将研究树结构导出到桌面（开发者）</YART_Settings_ExportGraph>
@@ -77,6 +79,8 @@
   <YART_ClearTooltip>清空此通道上的整个研究队列。</YART_ClearTooltip>
   <YART_ClearConfirm>要清空研究队列吗？（已排队 {0} 项）</YART_ClearConfirm>
   <YART_CannotStartYet>暂时无法开始：{0}\n前置研究项目或条件尚未满足。</YART_CannotStartYet>
+  <YART_NextInQueue>队列中的下一项：{0}</YART_NextInQueue>
+  <YART_NextResearchHeader>下一项研究</YART_NextResearchHeader>
 
   <!-- Tabs / unified / switch -->
   <YART_AllTabs>全部标签页</YART_AllTabs>

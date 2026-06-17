@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 다음 연구가 있을 때 (PositiveEvent) -->
+  <LetterDef>
+    <defName>YART_ResearchCompleted</defName>
+    <letterClass>YART.ResearchCompletedLetter</letterClass>
+    <color>(120, 176, 216)</color>
+    <flashColor>(106, 179, 231)</flashColor>
+    <flashInterval>90</flashInterval>
+    <arriveSound>LetterArrive_Good</arriveSound>
+  </LetterDef>
+
+  <!-- 다음 연구가 없을 때 (NeutralEvent) -->
+  <LetterDef>
+    <defName>YART_ResearchCompletedNeutral</defName>
+    <letterClass>YART.ResearchCompletedLetter</letterClass>
+    <color>(175, 176, 185)</color>
+    <flashColor>(160, 170, 180)</flashColor>
+    <flashInterval>90</flashInterval>
+    <arriveSound>LetterArrive</arriveSound>
+  </LetterDef>
+
+</Defs>

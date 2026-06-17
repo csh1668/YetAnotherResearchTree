@@ -8,6 +8,8 @@
   <YART_Settings_EraColorDesc>Wenn eine Forschung eine Voraussetzung höherer Techstufe benötigt, wird sie in der Zone dieser höheren Epoche platziert. An: sie auch nach dieser effektiven Epoche einfärben (passend zur Zone). Aus: die eigene Epochenfarbe der Forschung beibehalten. Wird sofort übernommen, kein Neuaufbau nötig.</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>Nicht zusammenhängende Forschung beim Überfahren abdunkeln (Standard: aus)</YART_Settings_FocusDimming>
   <YART_Settings_FocusDimmingDesc>An: Wenn du eine Forschung mit der Maus überfährst, wird alles abgedunkelt, was nicht auf ihrem Voraussetzungs-/Freischaltungspfad liegt, wie ein Scheinwerfer. Aus: Nur den zugehörigen Pfad hervorheben, ohne den Rest abzudunkeln.</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>Schreiben beim Forschungsabschluss senden (Standard: an)</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>An: ersetzt das Vanilla-Popup-Fenster, das bei Forschungsabschluss angezeigt wird, durch einen Benachrichtigungsbrief. Aus: behalte das Vanilla-Abschlussfenster bei.</YART_Settings_CompletionLetterDesc>
   <YART_Settings_Rebuild>Forschungsgraph neu aufbauen</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Erzeugt den Baum im Hintergrund neu.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Forschungsbaumstruktur auf den Desktop exportieren (Entw.)</YART_Settings_ExportGraph>
@@ -77,6 +79,8 @@
   <YART_ClearTooltip>Die gesamte Forschungs-Warteschlange dieses Kanals leeren.</YART_ClearTooltip>
   <YART_ClearConfirm>Forschungs-Warteschlange leeren? ({0} eingereiht)</YART_ClearConfirm>
   <YART_CannotStartYet>Kann noch nicht gestartet werden: {0}\nVoraussetzungen oder Anforderungen nicht erfüllt.</YART_CannotStartYet>
+  <YART_NextInQueue>Nächstes in Warteschlange: {0}</YART_NextInQueue>
+  <YART_NextResearchHeader>Nächste Forschung</YART_NextResearchHeader>
 
   <!-- Tabs / unified / switch -->
   <YART_AllTabs>Alle Tabs</YART_AllTabs>

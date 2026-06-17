@@ -8,6 +8,8 @@
   <YART_Settings_EraColorDesc>When a research requires a higher-tech prerequisite, it is placed in that higher era's zone. On: also color it by that effective era (matches the zone). Off: keep the research's own era color. Applies instantly, no rebuild needed.</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>Dim unrelated research on hover (default: off)</YART_Settings_FocusDimming>
   <YART_Settings_FocusDimmingDesc>On: hovering a research dims everything not on its prerequisite/unlock path, like a spotlight. Off: only highlight the related path without dimming the rest.</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>Send a letter on research completion (default: on)</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>On: replaces the vanilla pop-up window shown when research finishes with a notification letter. Off: keep the vanilla completion window.</YART_Settings_CompletionLetterDesc>
   <YART_Settings_Rebuild>Rebuild research graph</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Regenerates the tree in the background.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Export research tree structure to Desktop (dev)</YART_Settings_ExportGraph>
@@ -77,6 +79,8 @@
   <YART_ClearTooltip>Clear the entire research queue on this channel.</YART_ClearTooltip>
   <YART_ClearConfirm>Clear the research queue? ({0} queued)</YART_ClearConfirm>
   <YART_CannotStartYet>Cannot start yet: {0}\nPrerequisites or requirements not met.</YART_CannotStartYet>
+  <YART_NextInQueue>Next in queue: {0}</YART_NextInQueue>
+  <YART_NextResearchHeader>Next research</YART_NextResearchHeader>
 
   <!-- Tabs / unified / switch -->
   <YART_AllTabs>All tabs</YART_AllTabs>

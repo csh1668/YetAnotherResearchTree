@@ -317,7 +317,7 @@ namespace YART.Data
         /// <summary>
         /// 모든 채널에 대해: 채널이 비어 있고 큐 머리가 시작 가능하면 시작
         /// </summary>
-        public void TryStartAllHeads(bool playSound, bool announce = false)
+        public void TryStartAllHeads(bool playSound)
         {
             if (Current.ProgramState != ProgramState.Playing) return;
 
@@ -331,7 +331,7 @@ namespace YART.Data
                 var head = q[0];
                 if (!head.CanStartNow) continue; // 막힌 머리는 스킵하지 않고 대기 (UI에 표시)
 
-                TryBeginProject(head, playSound, announce);
+                TryBeginProject(head, playSound);
             }
         }
 
@@ -340,12 +340,12 @@ namespace YART.Data
         /// Ideology 밈 충돌 검사를 수행합니다. 충돌이 있으면 확인 다이얼로그를 띄우고,
         /// 확인 시 시작 / 취소 시 큐에서 제거합니다.
         /// </summary>
-        private void TryBeginProject(ResearchProjectDef proj, bool playSound, bool announce = false)
+        private void TryBeginProject(ResearchProjectDef proj, bool playSound)
         {
             // 멀티플레이 중일 경우 우선 시작 후 이후에 밈 충돌 검사
             if (MultiplayerCompat.InMultiplayer)
             {
-                BeginProject(proj, playSound, announce);
+                BeginProject(proj, playSound);
                 return;
             }
 
@@ -354,7 +354,7 @@ namespace YART.Data
             var missing = ComputeUnlockedDefsThatHaveMissingMemes(proj);
             if (missing.Count == 0)
             {
-                BeginProject(proj, playSound, announce);
+                BeginProject(proj, playSound);
                 return;
             }
 
@@ -375,7 +375,7 @@ namespace YART.Data
                 confirmedAct: delegate
                 {
                     pendingConfirmation = null;
-                    BeginProject(proj, playSound, announce);
+                    BeginProject(proj, playSound);
                 },
                 cancelAct: delegate
                 {
@@ -419,7 +419,7 @@ namespace YART.Data
             return result;
         }
 
-        private void BeginProject(ResearchProjectDef proj, bool playSound, bool announce = false)
+        private void BeginProject(ResearchProjectDef proj, bool playSound)
         {
             suppressSync = true;
             try
@@ -433,18 +433,13 @@ namespace YART.Data
                 suppressSync = false;
             }
             ResearchNode.InvalidateAllStates();
-
-            if (announce)
-            {
-                Messages.Message($"Next research started: {proj.LabelCap}", MessageTypeDefOf.PositiveEvent);
-            }
         }
 
         public void Notify_ProjectFinished(ResearchProjectDef proj)
         {
             foreach (var q in queues.Values) q.Remove(proj);
             ResearchNode.InvalidateAllStates();
-            TryStartAllHeads(playSound: false, announce: true);
+            TryStartAllHeads(playSound: false);
         }
 
         public void Notify_ProjectStopped(ResearchProjectDef proj)

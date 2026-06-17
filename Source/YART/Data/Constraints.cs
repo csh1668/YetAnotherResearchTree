@@ -139,6 +139,14 @@ namespace YART.Data
         public static readonly Color PanelBg = new Color(0.035f, 0.085f, 0.155f, 0.96f);
         public static readonly Color PanelBorder = new Color(0.20f, 0.30f, 0.42f);
 
+        // Detail Panel / 완료 편지 — 섹션 헤더 액센트 & 텍스트 (좌측 패널과 다이얼로그가 공유)
+        public static readonly Color SectionUnlocks       = new Color(0.6f, 1f, 0.6f);    // 해금 (녹색)
+        public static readonly Color SectionPrerequisites = new Color(1f, 0.7f, 0.4f);    // 선행 (주황)
+        public static readonly Color SectionFollowups     = new Color(0.4f, 0.8f, 1f);    // 후행 연구 (파랑)
+        public static readonly Color MutedText            = new Color(0.5f, 0.5f, 0.55f); // "없음" 등 흐린 텍스트
+        public static readonly Color ToggleInactive       = new Color(0.7f, 0.75f, 0.82f);// 비활성 토글 아이콘
+        public static readonly Color BodyText             = new Color(0.82f, 0.85f, 0.9f);// 본문 텍스트
+
         // Tech Level Lines
         public static readonly Color TechLevelLineColor = new Color(0.22f, 0.32f, 0.46f);
         public static readonly Color TechLevelTextColor = new Color(0.55f, 0.63f, 0.75f);

@@ -8,6 +8,8 @@
   <YART_Settings_EraColorDesc>研究がより高度な前提技術を必要とする場合、その上位の時代区分に配置されます。オン：その実際の時代に合わせて色分けします（区分と一致）。オフ：研究本来の時代の色を保ちます。再構築は不要で、即座に反映されます。</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>ホバー時に無関係な研究を暗くする（既定：オフ）</YART_Settings_FocusDimming>
   <YART_Settings_FocusDimmingDesc>オン：研究にカーソルを合わせると、その前提条件や解放経路にないものをすべて暗くし、スポットライトのように強調します。オフ：関連する経路を強調するだけで、他は暗くしません。</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>研究完了時に手紙を送信する（既定：オン）</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>オン：研究完了時に表示されるバニラのポップアップウィンドウを通知手紙に置き換えます。オフ：バニラの完了ウィンドウを表示します。</YART_Settings_CompletionLetterDesc>
   <YART_Settings_Rebuild>研究グラフを再構築</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>バックグラウンドでツリーを再生成します。</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>研究ツリー構造をデスクトップに書き出す（開発者向け）</YART_Settings_ExportGraph>
@@ -77,6 +79,8 @@
   <YART_ClearTooltip>このチャンネルの研究予約をすべてクリアします。</YART_ClearTooltip>
   <YART_ClearConfirm>研究予約をクリアしますか？（{0}件を予約中）</YART_ClearConfirm>
   <YART_CannotStartYet>まだ開始できません：{0}\n前提条件または要件を満たしていません。</YART_CannotStartYet>
+  <YART_NextInQueue>予約の次：{0}</YART_NextInQueue>
+  <YART_NextResearchHeader>次の研究</YART_NextResearchHeader>
 
   <!-- Tabs / unified / switch -->
   <YART_AllTabs>全タブ</YART_AllTabs>

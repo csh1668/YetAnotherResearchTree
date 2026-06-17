@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -84,13 +85,55 @@ namespace YART
 
     /// <summary>
     /// 연구 큐 자동 진행을 위한 바닐라 ResearchManager 훅.
+    /// 설정이 켜져 있으면 완료 시 바닐라 모달 창(Dialog_NodeTree) 대신 전용 알림 편지를 보낸다.
     /// </summary>
     [HarmonyPatch(typeof(ResearchManager), nameof(ResearchManager.FinishProject))]
     public static class ResearchManager_FinishProject_Patch
     {
-        public static void Postfix(ResearchProjectDef proj)
+        // 바닐라에서 창을 띄우려는 경우 doCompletionDialog만 가로채서 끄고, 억제 여부를 __state로 Postfix에 전달한다
+        public static void Prefix(ResearchProjectDef proj, ref bool doCompletionDialog, out bool __state)
+        {
+            __state = doCompletionDialog && proj != null && YARTMod.Settings.completionLetterInsteadOfDialog;
+            if (__state) doCompletionDialog = false;
+        }
+
+        public static void Postfix(ResearchProjectDef proj, bool __state)
         {
             ResearchQueueManager.Instance?.Notify_ProjectFinished(proj);
+
+            if (__state && proj != null)
+            {
+                SendCompletionLetter(proj);
+            }
+        }
+
+        private static void SendCompletionLetter(ResearchProjectDef proj)
+        {
+            var next = ResearchQueueManager.ChannelOf(proj)?.CurrentProject;
+            if (next == proj) next = null;
+
+            var body = new StringBuilder();
+            body.Append(proj.LabelCap).Append("\n\n").Append(proj.description);
+
+            int unlockCount = ResearchCompletedLetter.GetUnlockedDefs(proj).Count;
+            if (unlockCount > 0)
+            {
+                body.Append("\n\n").Append("Unlocks".Translate()).Append(": ").Append(unlockCount);
+            }
+            if (next != null)
+            {
+                body.Append("\n\n").Append("YART_NextInQueue".Translate(next.LabelCap));
+            }
+
+            var letterDef = next != null
+                ? YARTLetterDefOf.YART_ResearchCompleted          // 다음 연구 있음 → PositiveEvent
+                : YARTLetterDefOf.YART_ResearchCompletedNeutral;  // 없음 → NeutralEvent
+            var letter = (ResearchCompletedLetter)LetterMaker.MakeLetter(letterDef);
+            letter.Label = "ResearchFinished".Translate(proj.LabelCap);
+            letter.Text = body.ToString();
+            letter.project = proj;
+            letter.nextProject = next;
+            Find.LetterStack.ReceiveLetter(letter);
         }
     }
 

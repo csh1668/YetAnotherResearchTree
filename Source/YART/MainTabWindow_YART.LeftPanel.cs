@@ -282,7 +282,7 @@ namespace YART
                 var unlockedDefs = currentNode.UnlockedDefs;
                 Rect unlockedHeaderRect = new Rect(padding, y, contentWidth, 25);
                 // 연구 보상
-                y += DrawSectionHeader(unlockedHeaderRect, "Unlocks".Translate(), unlockedDefs.Count, new Color(0.6f, 1f, 0.6f));
+                y += DrawSectionHeader(unlockedHeaderRect, "Unlocks".Translate(), unlockedDefs.Count, Constraints.SectionUnlocks);
 
                 // 2-column(아이콘+라벨) 토글 버튼 — 카운트 배지(우측 24px) 왼쪽에. 항목이 있을 때만.
                 if (unlockedDefs.Count > 0)
@@ -291,7 +291,7 @@ namespace YART
                     Rect toggleRect = new Rect(unlockedHeaderRect.xMax - 24f - 4f - 18f, unlockedHeaderRect.y + 2f, 18f, 18f);
                     if (Mouse.IsOver(toggleRect)) Widgets.DrawHighlight(toggleRect);
                     GUIDrawingUtilities.DrawIcon(toggleRect, Assets.IconSwap,
-                        expanded ? new Color(0.6f, 1f, 0.6f) : new Color(0.7f, 0.75f, 0.82f));
+                        expanded ? Constraints.SectionUnlocks : Constraints.ToggleInactive);
                     TooltipHandler.TipRegion(toggleRect, "YART_ToggleUnlockedView".Translate());
                     if (Widgets.ButtonInvisible(toggleRect))
                     {
@@ -303,7 +303,7 @@ namespace YART
 
                 if (unlockedDefs.Count == 0)
                 {
-                    using (Temporary.Color(new Color(0.5f, 0.5f, 0.55f)))
+                    using (Temporary.Color(Constraints.MutedText))
                     using (Temporary.Font(GameFont.Small))
                     {
                         Widgets.Label(new Rect(padding + 8, y, contentWidth, 22), "YART_None".Translate());
@@ -394,11 +394,11 @@ namespace YART
 
                 // 선행 연구 (Prerequisites)
                 var prereqs = currentNode.PanelPrerequisites ?? emptyNodeList;
-                y += DrawSectionHeader(new Rect(padding, y, contentWidth, 25), "YART_Prerequisites".Translate(), prereqs.Count, new Color(1f, 0.7f, 0.4f));
+                y += DrawSectionHeader(new Rect(padding, y, contentWidth, 25), "YART_Prerequisites".Translate(), prereqs.Count, Constraints.SectionPrerequisites);
 
                 if (prereqs.Count == 0)
                 {
-                    using (Temporary.Color(new Color(0.5f, 0.5f, 0.55f)))
+                    using (Temporary.Color(Constraints.MutedText))
                     using (Temporary.Font(GameFont.Small))
                     {
                         Widgets.Label(new Rect(padding + 8, y, contentWidth, 22), "YART_None".Translate());
@@ -420,11 +420,11 @@ namespace YART
 
                 // 후행 연구 (Unlocks)
                 var children = currentNode.PanelChildren ?? emptyNodeList;
-                y += DrawSectionHeader(new Rect(padding, y, contentWidth, 25), "YART_Unlocks".Translate(), children.Count, new Color(0.4f, 0.8f, 1f));
+                y += DrawSectionHeader(new Rect(padding, y, contentWidth, 25), "YART_Unlocks".Translate(), children.Count, Constraints.SectionFollowups);
 
                 if (children.Count == 0)
                 {
-                    using (Temporary.Color(new Color(0.5f, 0.5f, 0.55f)))
+                    using (Temporary.Color(Constraints.MutedText))
                     using (Temporary.Font(GameFont.Small))
                     {
                         Widgets.Label(new Rect(padding + 8, y, contentWidth, 22), "YART_None".Translate());

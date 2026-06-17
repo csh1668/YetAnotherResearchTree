@@ -29,6 +29,9 @@ namespace YART
         // 호버 시 비관련 노드를 어둡게(디밍)할지. off(기본) = 디밍 없이 관련 경로만 하이라이트.
         public bool focusHighlightDimming = false;
 
+        // 연구 완료 시 바닐라 모달 창 대신 알림 편지(Letter)를 보낼지. on(기본) = 편지 / off = 바닐라 창.
+        public bool completionLetterInsteadOfDialog = true;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -37,6 +40,7 @@ namespace YART
             Scribe_Values.Look(ref unifyEraColorToEffective,  "unifyEraColorToEffective",  false);
             Scribe_Values.Look(ref unlockedContentExpanded,   "unlockedContentExpanded",   false);
             Scribe_Values.Look(ref focusHighlightDimming,     "focusHighlightDimming",     false);
+            Scribe_Values.Look(ref completionLetterInsteadOfDialog, "completionLetterInsteadOfDialog", true);
             Scribe_Collections.Look(ref tabPresets, "tabPresets", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.LoadingVars && tabPresets == null)
                 tabPresets = new List<ResearchPreset>();
@@ -68,6 +72,10 @@ namespace YART
             // ── 호버 디밍 옵션 ────────────────────────────────────────────────────
             listing.CheckboxLabeled("YART_Settings_FocusDimming".Translate(), ref focusHighlightDimming,
                 "YART_Settings_FocusDimmingDesc".Translate());
+
+            // ── 연구 완료 편지 옵션 ───────────────────────────────────────────────
+            listing.CheckboxLabeled("YART_Settings_CompletionLetter".Translate(), ref completionLetterInsteadOfDialog,
+                "YART_Settings_CompletionLetterDesc".Translate());
 
             // ── Rebuild ──────────────────────────────────────────────────────────
             listing.Gap();

@@ -8,6 +8,8 @@
   <YART_Settings_EraColorDesc>Lorsqu'une recherche nécessite un prérequis de technologie supérieure, elle est placée dans la zone de cette époque supérieure. Activé : la colorer aussi selon cette époque effective (en accord avec la zone). Désactivé : conserver la couleur de l'époque propre à la recherche. S'applique instantanément, aucune reconstruction nécessaire.</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>Estomper les recherches non liées au survol (par défaut : désactivé)</YART_Settings_FocusDimming>
   <YART_Settings_FocusDimmingDesc>Activé : survoler une recherche estompe tout ce qui ne se trouve pas sur son chemin de prérequis/déblocages, comme un projecteur. Désactivé : met uniquement en évidence le chemin associé sans estomper le reste.</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>Envoyer une lettre à la fin de la recherche (par défaut : activé)</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>Activé : remplace la fenêtre contextuelle d'origine affichée lorsque la recherche se termine par une lettre de notification. Désactivé : conserver la fenêtre de fin d'origine.</YART_Settings_CompletionLetterDesc>
   <YART_Settings_Rebuild>Reconstruire le graphe de recherche</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Régénère l'arbre en arrière-plan.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Exporter la structure de l'arbre de recherche vers le Bureau (dév)</YART_Settings_ExportGraph>
@@ -77,6 +79,8 @@
   <YART_ClearTooltip>Vider toute la file d'attente de recherche sur ce canal.</YART_ClearTooltip>
   <YART_ClearConfirm>Vider la file d'attente de recherche ? ({0} en file)</YART_ClearConfirm>
   <YART_CannotStartYet>Impossible de démarrer pour l'instant : {0}\nLes prérequis ou les conditions ne sont pas remplis.</YART_CannotStartYet>
+  <YART_NextInQueue>Suivant en file d'attente : {0}</YART_NextInQueue>
+  <YART_NextResearchHeader>Prochaine recherche</YART_NextResearchHeader>
 
   <!-- Tabs / unified / switch -->
   <YART_AllTabs>Tous les onglets</YART_AllTabs>

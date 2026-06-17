@@ -8,6 +8,8 @@
   <YART_Settings_EraColorDesc>연구가 더 높은 기술 시대의 선행 연구를 요구하면 그 높은 시대 구역에 배치됩니다. 켜면 그 유효 시대 색으로도 표시합니다(구역 색과 일치). 끄면 연구 본래의 시대 색을 유지합니다. 즉시 적용되며 재생성이 필요 없습니다.</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>마우스 호버 시 관련 없는 연구 어둡게 (기본값: X)</YART_Settings_FocusDimming>
   <YART_Settings_FocusDimmingDesc>켜면 연구에 마우스를 올렸을 때 그 선행/해금 경로가 아닌 모든 것을 어둡게 합니다. 끄면 어둡게 하지 않고 관련 경로만 강조합니다.</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>연구 완료 시 편지 보내기 (기본값: O)</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>켜면 연구 완료 시 뜨는 바닐라 팝업 창을, 알림 편지로 대체합니다. 끄면 바닐라 완료 창을 유지합니다.</YART_Settings_CompletionLetterDesc>
   <YART_Settings_Rebuild>연구 그래프 재생성</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>백그라운드에서 트리를 다시 생성합니다.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>연구 트리 구조 내보내기 (개발용)</YART_Settings_ExportGraph>
@@ -77,6 +79,8 @@
   <YART_ClearTooltip>현재 채널의 연구 큐를 모두 비웁니다.</YART_ClearTooltip>
   <YART_ClearConfirm>연구 큐를 비울까요? ({0}개)</YART_ClearConfirm>
   <YART_CannotStartYet>아직 시작할 수 없음: {0}\n선행 연구 또는 요구 사항이 충족되지 않았습니다.</YART_CannotStartYet>
+  <YART_NextInQueue>다음 연구: {0}</YART_NextInQueue>
+  <YART_NextResearchHeader>다음 연구</YART_NextResearchHeader>
 
   <!-- 탭 / 통합 / 전환 -->
   <YART_AllTabs>전체 탭</YART_AllTabs>

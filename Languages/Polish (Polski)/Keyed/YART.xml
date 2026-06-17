@@ -8,6 +8,8 @@
   <YART_Settings_EraColorDesc>Gdy badanie wymaga wymogu o wyższym poziomie technologicznym, zostaje umieszczone w strefie tej wyższej epoki. Wł.: dodatkowo koloruj je wg tej rzeczywistej epoki (pasuje do strefy). Wył.: zachowaj kolor własnej epoki badania. Działa natychmiast, bez potrzeby przebudowy.</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>Przyciemniaj niepowiązane badania po najechaniu (domyślnie: wył.)</YART_Settings_FocusDimming>
   <YART_Settings_FocusDimmingDesc>Wł.: najechanie na badanie przyciemnia wszystko, co nie leży na jego ścieżce wymagań/odblokowań, niczym reflektor. Wył.: tylko podświetla powiązaną ścieżkę bez przyciemniania reszty.</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>Wyślij list przy ukończeniu badania (domyślnie: wł.)</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>Wł.: zamienia domyślne okno wyskakujące wyświetlane po ukończeniu badania na powiadomienie w postaci listu. Wył.: zachowaj domyślne okno ukończenia.</YART_Settings_CompletionLetterDesc>
   <YART_Settings_Rebuild>Przebuduj graf badań</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Generuje drzewo ponownie w tle.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Eksportuj strukturę drzewa badań na Pulpit (dev)</YART_Settings_ExportGraph>
@@ -77,6 +79,8 @@
   <YART_ClearTooltip>Wyczyść całą kolejkę badań na tym kanale.</YART_ClearTooltip>
   <YART_ClearConfirm>Wyczyścić kolejkę badań? ({0} w kolejce)</YART_ClearConfirm>
   <YART_CannotStartYet>Nie można jeszcze rozpocząć: {0}\nWymagania wstępne lub warunki nie są spełnione.</YART_CannotStartYet>
+  <YART_NextInQueue>Następne w kolejce: {0}</YART_NextInQueue>
+  <YART_NextResearchHeader>Następne badanie</YART_NextResearchHeader>
 
   <!-- Tabs / unified / switch -->
   <YART_AllTabs>Wszystkie zakładki</YART_AllTabs>
