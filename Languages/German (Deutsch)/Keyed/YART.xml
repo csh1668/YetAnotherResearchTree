@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- Settings -->
   <YART_Settings_ReplaceTab>Vanilla-Forschungs-Tab durch YART ersetzen (Standard: an)</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>Wenn deaktiviert, öffnet die Forschungs-Schaltfläche das Vanilla-Forschungsfenster.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>Epochenübergreifende Forschung nach ihrer effektiven Epoche einfärben (Standard: an)</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>Wenn eine Forschung eine Voraussetzung höherer Techstufe benötigt, wird sie in der Zone dieser höheren Epoche platziert. An: sie auch nach dieser effektiven Epoche einfärben (passend zur Zone). Aus: die eigene Epochenfarbe der Forschung beibehalten. Wird sofort übernommen, kein Neuaufbau nötig.</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>Nicht zusammenhängende Forschung beim Überfahren abdunkeln (Standard: aus)</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>An: Wenn du eine Forschung mit der Maus überfährst, wird alles abgedunkelt, was nicht auf ihrem Voraussetzungs-/Freischaltungspfad liegt, wie ein Scheinwerfer. Aus: Nur den zugehörigen Pfad hervorheben, ohne den Rest abzudunkeln.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>Forschungsgraph neu aufbauen</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Erzeugt den Baum im Hintergrund neu.</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>Forschungsbaumstruktur auf den Desktop exportieren (Entw.)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>Schreibt die Forschungsbaumstruktur nach Desktop\YART_layout_graph.json.</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART: Layout-Graph nach {0} exportiert</YART_Export_Done>
+  <YART_Export_Empty>YART: kein Graph zum Exportieren (Neuaufbau fehlgeschlagen oder leer).</YART_Export_Empty>
+  <YART_Export_Failed>YART: Layout-Export fehlgeschlagen — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>Forschungsbaum wird aufgebaut...</YART_Building>
   <YART_BuildingHint>Der Baum wird im Hintergrund erzeugt.</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>Suchen...</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>Funkkonsole</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>Forschungsname, Freischaltungen, Beschreibung usw.</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>Mod-Name, Paket-ID</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>Forschen</YART_StartNow>
   <YART_Stop>Stoppen</YART_Stop>
   <YART_Queue>Einreihen</YART_Queue>
@@ -22,9 +36,27 @@
   <YART_InProgress>Forschung läuft</YART_InProgress>
   <YART_Completed>Abgeschlossen</YART_Completed>
   <YART_Locked>Gesperrt</YART_Locked>
+  <YART_SemiRandomActive>Semi Random Research</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>Semi Random Research ist aktiv, daher kann von hier aus keine Forschung gestartet oder eingereiht werden. Wähle dein nächstes Projekt im zugehörigen Reiter „Nächste Forschung“.</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>Zum ursprünglichen Graphen</YART_GoToOriginal>
   <YART_ShowInfoCard>Infokarte öffnen</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>Neue Tab-Gruppe</YART_Preset_New>
+  <YART_Preset_Edit>Bearbeiten</YART_Preset_Edit>
+  <YART_Preset_Delete>Löschen</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>Tab-Gruppe „{0}“ löschen?</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>Neue Tab-Gruppe</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>Tab-Gruppe bearbeiten</YART_Preset_EditTitle>
+  <YART_Preset_Name>Name</YART_Preset_Name>
+  <YART_Preset_PickTabs>Einzuschließende Tabs:</YART_Preset_PickTabs>
+  <YART_Preset_Preview>Diesen Tab auf der Arbeitsfläche vorschauen</YART_Preset_Preview>
+  <YART_Preset_Done>Fertig</YART_Preset_Done>
+  <YART_Preset_Cancel>Abbrechen</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>Freigeschaltete Inhalte</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>Zwischen Symbol- und Listenansicht wechseln</YART_ToggleUnlockedView>
   <YART_Prerequisites>Voraussetzungen</YART_Prerequisites>
   <YART_Unlocks>Schaltet frei</YART_Unlocks>
   <YART_None>Keine</YART_None>
@@ -38,16 +70,22 @@
   <YART_Tab>Tab: {0}</YART_Tab>
   <YART_TechLevelUndefined>nicht definiert</YART_TechLevelUndefined>
   <YART_RequiredByExternal>Benötigt von {0} Forschungen in anderen Tabs:</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>Die Forschungs-Warteschlange ist leer.</YART_QueueEmpty>
   <YART_Clear>Leeren</YART_Clear>
   <YART_ClearTooltip>Die gesamte Forschungs-Warteschlange dieses Kanals leeren.</YART_ClearTooltip>
   <YART_ClearConfirm>Forschungs-Warteschlange leeren? ({0} eingereiht)</YART_ClearConfirm>
   <YART_CannotStartYet>Kann noch nicht gestartet werden: {0}\nVoraussetzungen oder Anforderungen nicht erfüllt.</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>Alle Tabs</YART_AllTabs>
   <YART_AllTabsTooltip>Alle Forschungskategorien in einem vereinten Baum anzeigen</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>Forschungskategorie (von Mods hinzugefügt)</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>Zum Vanilla-Forschungsfenster wechseln</YART_SwitchToVanilla>
   <YART_SwitchToYART>Zum YART-Forschungsbaum wechseln</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>(untätig)</YART_Idle>
   <YART_ZoomTooltip>Klick: Zoom auf 100 % zurücksetzen\nPos1: gesamten Baum auf dem Bildschirm einpassen</YART_ZoomTooltip>
 

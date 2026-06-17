@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- Settings -->
   <YART_Settings_ReplaceTab>バニラの研究タブをYARTに置き換える（既定：オン）</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>オフにすると、研究ボタンでバニラの研究画面が開きます。</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>時代をまたぐ研究を実際の時代で色分けする（既定：オン）</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>研究がより高度な前提技術を必要とする場合、その上位の時代区分に配置されます。オン：その実際の時代に合わせて色分けします（区分と一致）。オフ：研究本来の時代の色を保ちます。再構築は不要で、即座に反映されます。</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>ホバー時に無関係な研究を暗くする（既定：オフ）</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>オン：研究にカーソルを合わせると、その前提条件や解放経路にないものをすべて暗くし、スポットライトのように強調します。オフ：関連する経路を強調するだけで、他は暗くしません。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>研究グラフを再構築</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>バックグラウンドでツリーを再生成します。</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>研究ツリー構造をデスクトップに書き出す（開発者向け）</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>研究ツリー構造をDesktop\YART_layout_graph.jsonに書き出します。</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART：レイアウトグラフを{0}に書き出しました</YART_Export_Done>
+  <YART_Export_Empty>YART：書き出すグラフがありません（再構築に失敗、または空です）。</YART_Export_Empty>
+  <YART_Export_Failed>YART：レイアウトの書き出しに失敗しました — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>研究ツリーを構築中...</YART_Building>
   <YART_BuildingHint>ツリーはバックグラウンドで生成されます。</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>検索...</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>通信コンソール</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>研究名、解放される内容、説明など</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>MOD名、パッケージID</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>研究する</YART_StartNow>
   <YART_Stop>中止</YART_Stop>
   <YART_Queue>予約</YART_Queue>
@@ -22,9 +36,27 @@
   <YART_InProgress>研究中</YART_InProgress>
   <YART_Completed>完了</YART_Completed>
   <YART_Locked>未解放</YART_Locked>
+  <YART_SemiRandomActive>セミランダム研究</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>セミランダム研究が有効なため、ここから研究の開始や予約はできません。次の研究は「次の研究」タブから選んでください。</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>元のグラフへ移動</YART_GoToOriginal>
   <YART_ShowInfoCard>情報カードを開く</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>新しいタブグループ</YART_Preset_New>
+  <YART_Preset_Edit>編集</YART_Preset_Edit>
+  <YART_Preset_Delete>削除</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>タブグループ「{0}」を削除しますか？</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>新しいタブグループ</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>タブグループを編集</YART_Preset_EditTitle>
+  <YART_Preset_Name>名前</YART_Preset_Name>
+  <YART_Preset_PickTabs>含めるタブ：</YART_Preset_PickTabs>
+  <YART_Preset_Preview>このタブをキャンバスでプレビュー</YART_Preset_Preview>
+  <YART_Preset_Done>完了</YART_Preset_Done>
+  <YART_Preset_Cancel>キャンセル</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>解放される内容</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>アイコン／リスト表示を切り替え</YART_ToggleUnlockedView>
   <YART_Prerequisites>前提条件</YART_Prerequisites>
   <YART_Unlocks>解放</YART_Unlocks>
   <YART_None>なし</YART_None>
@@ -38,16 +70,22 @@
   <YART_Tab>タブ：{0}</YART_Tab>
   <YART_TechLevelUndefined>未定義</YART_TechLevelUndefined>
   <YART_RequiredByExternal>他のタブにある{0}件の研究で必要：</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>研究予約は空です。</YART_QueueEmpty>
   <YART_Clear>クリア</YART_Clear>
   <YART_ClearTooltip>このチャンネルの研究予約をすべてクリアします。</YART_ClearTooltip>
   <YART_ClearConfirm>研究予約をクリアしますか？（{0}件を予約中）</YART_ClearConfirm>
   <YART_CannotStartYet>まだ開始できません：{0}\n前提条件または要件を満たしていません。</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>全タブ</YART_AllTabs>
   <YART_AllTabsTooltip>すべての研究カテゴリを1つのツリーにまとめて表示します</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>研究カテゴリ（MODによって追加）</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>バニラの研究画面に切り替える</YART_SwitchToVanilla>
   <YART_SwitchToYART>YARTの研究ツリーに切り替える</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>（待機中）</YART_Idle>
   <YART_ZoomTooltip>クリック：ズームを100%にリセット\nHome：ツリー全体を画面に合わせる</YART_ZoomTooltip>
 

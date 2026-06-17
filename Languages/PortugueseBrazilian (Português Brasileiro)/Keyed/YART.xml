@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- Settings -->
   <YART_Settings_ReplaceTab>Substituir a aba de pesquisa padrão pelo YART (padrão: ligado)</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>Quando desativado, o botão de Pesquisa abre a janela de pesquisa padrão do jogo.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>Colorir pesquisas entre eras pela era efetiva (padrão: ligado)</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>Quando uma pesquisa exige um pré-requisito de tecnologia mais avançada, ela é colocada na zona dessa era superior. Ligado: também a colore pela era efetiva (combinando com a zona). Desligado: mantém a cor da própria era da pesquisa. Aplica-se na hora, sem precisar reconstruir.</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>Escurecer pesquisas não relacionadas ao passar o cursor (padrão: desligado)</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>Ligado: ao passar o cursor sobre uma pesquisa, escurece tudo que não está no seu caminho de pré-requisitos/desbloqueios, como um holofote. Desligado: apenas destaca o caminho relacionado sem escurecer o resto.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>Reconstruir grafo de pesquisa</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Gera a árvore novamente em segundo plano.</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>Exportar a estrutura da árvore de pesquisa para a Área de Trabalho (dev)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>Grava a estrutura da árvore de pesquisa em Desktop\YART_layout_graph.json.</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART: grafo de layout exportado para {0}</YART_Export_Done>
+  <YART_Export_Empty>YART: nenhum grafo para exportar (a reconstrução falhou ou está vazia).</YART_Export_Empty>
+  <YART_Export_Failed>YART: falha ao exportar o layout — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>Construindo árvore de pesquisa...</YART_Building>
   <YART_BuildingHint>A árvore é gerada em segundo plano.</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>Pesquisar...</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>console de comunicações</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>Nome da pesquisa, desbloqueios, descrição, etc.</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>Nome do mod, ID do pacote</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>Pesquisar</YART_StartNow>
   <YART_Stop>Parar</YART_Stop>
   <YART_Queue>Fila</YART_Queue>
@@ -22,9 +36,27 @@
   <YART_InProgress>Em andamento</YART_InProgress>
   <YART_Completed>Concluído</YART_Completed>
   <YART_Locked>Bloqueado</YART_Locked>
+  <YART_SemiRandomActive>Pesquisa Semialeatória</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>A Pesquisa Semialeatória está ativa, então não é possível iniciar ou enfileirar pesquisas daqui. Escolha seu próximo projeto na aba "Próxima Pesquisa" dela.</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>Ir para o grafo original</YART_GoToOriginal>
   <YART_ShowInfoCard>Abrir ficha de informações</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>Novo grupo de abas</YART_Preset_New>
+  <YART_Preset_Edit>Editar</YART_Preset_Edit>
+  <YART_Preset_Delete>Excluir</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>Excluir o grupo de abas "{0}"?</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>Novo grupo de abas</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>Editar grupo de abas</YART_Preset_EditTitle>
+  <YART_Preset_Name>Nome</YART_Preset_Name>
+  <YART_Preset_PickTabs>Abas a incluir:</YART_Preset_PickTabs>
+  <YART_Preset_Preview>Visualizar esta aba na tela</YART_Preset_Preview>
+  <YART_Preset_Done>Concluir</YART_Preset_Done>
+  <YART_Preset_Cancel>Cancelar</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>Conteúdo desbloqueado</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>Alternar entre visualização de ícones / lista</YART_ToggleUnlockedView>
   <YART_Prerequisites>Pré-requisitos</YART_Prerequisites>
   <YART_Unlocks>Desbloqueia</YART_Unlocks>
   <YART_None>Nenhum</YART_None>
@@ -38,16 +70,22 @@
   <YART_Tab>Aba: {0}</YART_Tab>
   <YART_TechLevelUndefined>indefinido</YART_TechLevelUndefined>
   <YART_RequiredByExternal>Exigido por {0} pesquisa(s) em outras abas:</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>A fila de pesquisa está vazia.</YART_QueueEmpty>
   <YART_Clear>Limpar</YART_Clear>
   <YART_ClearTooltip>Limpar toda a fila de pesquisa deste canal.</YART_ClearTooltip>
   <YART_ClearConfirm>Limpar a fila de pesquisa? ({0} na fila)</YART_ClearConfirm>
   <YART_CannotStartYet>Ainda não é possível iniciar: {0}\nPré-requisitos ou requisitos não atendidos.</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>Todas as abas</YART_AllTabs>
   <YART_AllTabsTooltip>Mostrar todas as categorias de pesquisa em uma única árvore unificada</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>Categoria de pesquisa (adicionada por mods)</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>Alternar para a janela de pesquisa padrão</YART_SwitchToVanilla>
   <YART_SwitchToYART>Alternar para a árvore de pesquisa do YART</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>(ocioso)</YART_Idle>
   <YART_ZoomTooltip>Clique: redefinir zoom para 100%\nHome: ajustar toda a árvore à tela</YART_ZoomTooltip>
 

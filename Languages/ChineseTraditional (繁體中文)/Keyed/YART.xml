@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- Settings -->
   <YART_Settings_ReplaceTab>以 YART 取代原版研究分頁（預設：開啟）</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>關閉後，研究按鈕將開啟原版研究視窗。</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>依有效時代為跨時代研究上色（預設：開啟）</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>當某項研究需要更高科技的前置條件時，會被放置於該較高時代的區域。開啟：同時依該有效時代為其上色（與區域一致）。關閉：保留研究本身的時代顏色。即時生效，無需重建。</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>滑鼠懸停時淡化無關研究（預設：關閉）</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>開啟：懸停於某項研究時，會淡化所有不在其前置／解鎖路徑上的項目，如同聚光燈。關閉：僅突顯相關路徑，不淡化其餘部分。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>重建研究圖譜</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>於背景重新產生研究樹。</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>將研究樹結構匯出至桌面（開發用）</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>將研究樹結構寫入 Desktop\YART_layout_graph.json。</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART：圖譜結構已匯出至 {0}</YART_Export_Done>
+  <YART_Export_Empty>YART：沒有可匯出的圖譜（重建失敗或為空）。</YART_Export_Empty>
+  <YART_Export_Failed>YART：圖譜匯出失敗 — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>正在建立研究樹…</YART_Building>
   <YART_BuildingHint>研究樹於背景產生中。</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>搜尋…</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>通訊台</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>研究名稱、解鎖內容、說明等。</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@模組</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>模組名稱、套件 ID</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>研究</YART_StartNow>
   <YART_Stop>停止</YART_Stop>
   <YART_Queue>排入佇列</YART_Queue>
@@ -22,9 +36,27 @@
   <YART_InProgress>進行中</YART_InProgress>
   <YART_Completed>已完成</YART_Completed>
   <YART_Locked>已鎖定</YART_Locked>
+  <YART_SemiRandomActive>半隨機研究</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>半隨機研究已啟用，因此無法從此處開始或排入研究。請從其「下一項研究」分頁中挑選你的下一個項目。</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>前往原始圖譜</YART_GoToOriginal>
   <YART_ShowInfoCard>開啟資訊卡</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>新增分頁群組</YART_Preset_New>
+  <YART_Preset_Edit>編輯</YART_Preset_Edit>
+  <YART_Preset_Delete>刪除</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>要刪除分頁群組「{0}」嗎？</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>新增分頁群組</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>編輯分頁群組</YART_Preset_EditTitle>
+  <YART_Preset_Name>名稱</YART_Preset_Name>
+  <YART_Preset_PickTabs>要納入的分頁：</YART_Preset_PickTabs>
+  <YART_Preset_Preview>在畫布上預覽此分頁</YART_Preset_Preview>
+  <YART_Preset_Done>完成</YART_Preset_Done>
+  <YART_Preset_Cancel>取消</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>解鎖內容</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>切換圖示／清單檢視</YART_ToggleUnlockedView>
   <YART_Prerequisites>前置條件</YART_Prerequisites>
   <YART_Unlocks>解鎖</YART_Unlocks>
   <YART_None>無</YART_None>
@@ -38,16 +70,22 @@
   <YART_Tab>分頁：{0}</YART_Tab>
   <YART_TechLevelUndefined>未指定</YART_TechLevelUndefined>
   <YART_RequiredByExternal>被其他分頁中的 {0} 項研究所需：</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>研究佇列為空。</YART_QueueEmpty>
   <YART_Clear>清空</YART_Clear>
   <YART_ClearTooltip>清空此通道上的整個研究佇列。</YART_ClearTooltip>
   <YART_ClearConfirm>要清空研究佇列嗎？（已排入 {0} 項）</YART_ClearConfirm>
   <YART_CannotStartYet>尚無法開始：{0}\n未滿足前置條件或要求。</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>所有分頁</YART_AllTabs>
   <YART_AllTabsTooltip>於單一統合研究樹中顯示所有研究類別</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>研究類別（由模組新增）</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>切換至原版研究視窗</YART_SwitchToVanilla>
   <YART_SwitchToYART>切換至 YART 研究樹</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>（閒置）</YART_Idle>
   <YART_ZoomTooltip>點擊：將縮放重設為 100%\nHome 鍵：將整棵研究樹縮放至適合畫面</YART_ZoomTooltip>
 

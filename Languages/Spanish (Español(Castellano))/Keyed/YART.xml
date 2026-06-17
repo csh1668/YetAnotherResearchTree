@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- Settings -->
   <YART_Settings_ReplaceTab>Reemplazar la pestaña de investigación original por YART (por defecto: activado)</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>Cuando está desactivado, el botón de Investigación abre la ventana de investigación original.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>Colorear la investigación entre eras según su era efectiva (por defecto: activado)</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>Cuando una investigación requiere un prerrequisito de mayor nivel tecnológico, se coloca en la zona de esa era superior. Activado: además la colorea según esa era efectiva (coincide con la zona). Desactivado: conserva el color de la era propia de la investigación. Se aplica al instante, sin necesidad de reconstruir.</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>Atenuar la investigación no relacionada al pasar el cursor (por defecto: desactivado)</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>Activado: al pasar el cursor sobre una investigación se atenúa todo lo que no esté en su ruta de prerrequisitos/desbloqueos, como un foco de luz. Desactivado: solo resalta la ruta relacionada sin atenuar el resto.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>Reconstruir el árbol de investigación</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Regenera el árbol en segundo plano.</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>Exportar la estructura del árbol de investigación al Escritorio (dev)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>Escribe la estructura del árbol de investigación en Escritorio\YART_layout_graph.json.</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART: árbol de distribución exportado a {0}</YART_Export_Done>
+  <YART_Export_Empty>YART: no hay árbol que exportar (la reconstrucción falló o está vacío).</YART_Export_Empty>
+  <YART_Export_Failed>YART: la exportación del árbol falló — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>Construyendo el árbol de investigación...</YART_Building>
   <YART_BuildingHint>El árbol se genera en segundo plano.</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>Buscar...</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>consola de comunicaciones</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>Nombre de la investigación, desbloqueos, descripción, etc.</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>Nombre del mod, ID del paquete</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>Investigar</YART_StartNow>
   <YART_Stop>Detener</YART_Stop>
   <YART_Queue>En cola</YART_Queue>
@@ -22,9 +36,27 @@
   <YART_InProgress>En curso</YART_InProgress>
   <YART_Completed>Completada</YART_Completed>
   <YART_Locked>Bloqueada</YART_Locked>
+  <YART_SemiRandomActive>Investigación semialeatoria</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>La investigación semialeatoria está activa, así que no se puede iniciar ni poner en cola desde aquí. Elige tu próximo proyecto en su pestaña "Próxima investigación".</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>Ir al árbol original</YART_GoToOriginal>
   <YART_ShowInfoCard>Abrir ficha de detalles</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>Nuevo grupo de pestañas</YART_Preset_New>
+  <YART_Preset_Edit>Editar</YART_Preset_Edit>
+  <YART_Preset_Delete>Eliminar</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>¿Eliminar el grupo de pestañas "{0}"?</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>Nuevo grupo de pestañas</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>Editar grupo de pestañas</YART_Preset_EditTitle>
+  <YART_Preset_Name>Nombre</YART_Preset_Name>
+  <YART_Preset_PickTabs>Pestañas a incluir:</YART_Preset_PickTabs>
+  <YART_Preset_Preview>Previsualizar esta pestaña en el lienzo</YART_Preset_Preview>
+  <YART_Preset_Done>Hecho</YART_Preset_Done>
+  <YART_Preset_Cancel>Cancelar</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>Contenido desbloqueado</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>Alternar vista de iconos / lista</YART_ToggleUnlockedView>
   <YART_Prerequisites>Prerrequisitos</YART_Prerequisites>
   <YART_Unlocks>Desbloquea</YART_Unlocks>
   <YART_None>Ninguno</YART_None>
@@ -38,16 +70,22 @@
   <YART_Tab>Pestaña: {0}</YART_Tab>
   <YART_TechLevelUndefined>sin definir</YART_TechLevelUndefined>
   <YART_RequiredByExternal>Requerida por {0} investigaciones en otras pestañas:</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>La cola de investigación está vacía.</YART_QueueEmpty>
   <YART_Clear>Vaciar</YART_Clear>
   <YART_ClearTooltip>Vacía toda la cola de investigación de este canal.</YART_ClearTooltip>
   <YART_ClearConfirm>¿Vaciar la cola de investigación? ({0} en cola)</YART_ClearConfirm>
   <YART_CannotStartYet>Aún no se puede iniciar: {0}\nNo se cumplen los prerrequisitos o requisitos.</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>Todas las pestañas</YART_AllTabs>
   <YART_AllTabsTooltip>Mostrar todas las categorías de investigación en un único árbol unificado</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>Categoría de investigación (añadida por mods)</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>Cambiar a la ventana de investigación original</YART_SwitchToVanilla>
   <YART_SwitchToYART>Cambiar al árbol de investigación de YART</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>(inactivo)</YART_Idle>
   <YART_ZoomTooltip>Clic: restablecer el zoom al 100%\nInicio: ajustar todo el árbol a la pantalla</YART_ZoomTooltip>
 

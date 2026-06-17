@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- Settings -->
   <YART_Settings_ReplaceTab>Zastąp domyślną zakładkę badań przez YART (domyślnie: wł.)</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>Po wyłączeniu przycisk Badania otwiera domyślne okno badań.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>Koloruj badania międzyepokowe wg ich rzeczywistej epoki (domyślnie: wł.)</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>Gdy badanie wymaga wymogu o wyższym poziomie technologicznym, zostaje umieszczone w strefie tej wyższej epoki. Wł.: dodatkowo koloruj je wg tej rzeczywistej epoki (pasuje do strefy). Wył.: zachowaj kolor własnej epoki badania. Działa natychmiast, bez potrzeby przebudowy.</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>Przyciemniaj niepowiązane badania po najechaniu (domyślnie: wył.)</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>Wł.: najechanie na badanie przyciemnia wszystko, co nie leży na jego ścieżce wymagań/odblokowań, niczym reflektor. Wył.: tylko podświetla powiązaną ścieżkę bez przyciemniania reszty.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>Przebuduj graf badań</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Generuje drzewo ponownie w tle.</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>Eksportuj strukturę drzewa badań na Pulpit (dev)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>Zapisuje strukturę drzewa badań do Pulpit\YART_layout_graph.json.</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART: graf układu wyeksportowany do {0}</YART_Export_Done>
+  <YART_Export_Empty>YART: brak grafu do eksportu (przebudowa nie powiodła się lub jest pusta).</YART_Export_Empty>
+  <YART_Export_Failed>YART: eksport układu nie powiódł się — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>Budowanie drzewa badań...</YART_Building>
   <YART_BuildingHint>Drzewo jest generowane w tle.</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>Szukaj...</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>konsola komunikacyjna</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>Nazwa badania, odblokowania, opis itp.</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>Nazwa moda, identyfikator pakietu</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>Badaj</YART_StartNow>
   <YART_Stop>Zatrzymaj</YART_Stop>
   <YART_Queue>Do kolejki</YART_Queue>
@@ -22,9 +36,27 @@
   <YART_InProgress>W toku</YART_InProgress>
   <YART_Completed>Ukończone</YART_Completed>
   <YART_Locked>Zablokowane</YART_Locked>
+  <YART_SemiRandomActive>Semi Random Research</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>Semi Random Research jest aktywne, więc nie można stąd rozpocząć ani dodać badań do kolejki. Wybierz kolejny projekt w jego zakładce „Następne badanie”.</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>Przejdź do oryginalnego grafu</YART_GoToOriginal>
   <YART_ShowInfoCard>Otwórz kartę informacyjną</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>Nowa grupa zakładek</YART_Preset_New>
+  <YART_Preset_Edit>Edytuj</YART_Preset_Edit>
+  <YART_Preset_Delete>Usuń</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>Usunąć grupę zakładek „{0}”?</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>Nowa grupa zakładek</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>Edytuj grupę zakładek</YART_Preset_EditTitle>
+  <YART_Preset_Name>Nazwa</YART_Preset_Name>
+  <YART_Preset_PickTabs>Zakładki do uwzględnienia:</YART_Preset_PickTabs>
+  <YART_Preset_Preview>Podejrzyj tę zakładkę na płótnie</YART_Preset_Preview>
+  <YART_Preset_Done>Gotowe</YART_Preset_Done>
+  <YART_Preset_Cancel>Anuluj</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>Odblokowana zawartość</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>Przełącz widok ikon / listy</YART_ToggleUnlockedView>
   <YART_Prerequisites>Wymagania wstępne</YART_Prerequisites>
   <YART_Unlocks>Odblokowuje</YART_Unlocks>
   <YART_None>Brak</YART_None>
@@ -38,16 +70,22 @@
   <YART_Tab>Zakładka: {0}</YART_Tab>
   <YART_TechLevelUndefined>nieokreślony</YART_TechLevelUndefined>
   <YART_RequiredByExternal>Wymagane przez {0} badań w innych zakładkach:</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>Kolejka badań jest pusta.</YART_QueueEmpty>
   <YART_Clear>Wyczyść</YART_Clear>
   <YART_ClearTooltip>Wyczyść całą kolejkę badań na tym kanale.</YART_ClearTooltip>
   <YART_ClearConfirm>Wyczyścić kolejkę badań? ({0} w kolejce)</YART_ClearConfirm>
   <YART_CannotStartYet>Nie można jeszcze rozpocząć: {0}\nWymagania wstępne lub warunki nie są spełnione.</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>Wszystkie zakładki</YART_AllTabs>
   <YART_AllTabsTooltip>Pokaż wszystkie kategorie badań w jednym połączonym drzewie</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>Kategoria badań (dodana przez mody)</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>Przełącz na domyślne okno badań</YART_SwitchToVanilla>
   <YART_SwitchToYART>Przełącz na drzewo badań YART</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>(bezczynny)</YART_Idle>
   <YART_ZoomTooltip>Kliknij: zresetuj powiększenie do 100%\nHome: dopasuj całe drzewo do ekranu</YART_ZoomTooltip>
 

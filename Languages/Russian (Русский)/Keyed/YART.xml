@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- Settings -->
   <YART_Settings_ReplaceTab>Заменить ванильную вкладку исследований на YART (по умолчанию: вкл.)</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>Когда отключено, кнопка «Исследовать» открывает стандартное окно исследований.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>Окрашивать межэпоховые исследования по их фактической эпохе (по умолчанию: вкл.)</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>Когда для исследования требуется более высокотехнологичное предварительное условие, оно размещается в зоне этой более высокой эпохи. Вкл.: также окрашивать его по этой фактической эпохе (в тон зоне). Выкл.: сохранять цвет собственной эпохи исследования. Применяется мгновенно, перестроение не требуется.</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>Затемнять несвязанные исследования при наведении (по умолчанию: выкл.)</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>Вкл.: при наведении на исследование затемняется всё, что не лежит на его пути требований/открытий, словно прожектором. Выкл.: только подсвечивать связанный путь, не затемняя остальное.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>Перестроить граф исследований</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Заново строит дерево в фоновом режиме.</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>Экспортировать структуру дерева исследований на Рабочий стол (разработка)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>Записывает структуру дерева исследований в Desktop\YART_layout_graph.json.</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART: граф разметки экспортирован в {0}</YART_Export_Done>
+  <YART_Export_Empty>YART: нет графа для экспорта (перестроение не удалось или граф пуст).</YART_Export_Empty>
+  <YART_Export_Failed>YART: не удалось экспортировать разметку — {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>Построение дерева исследований...</YART_Building>
   <YART_BuildingHint>Дерево строится в фоновом режиме.</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>Поиск...</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>консоль связи</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>Название исследования, что открывает, описание и т. д.</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@мод</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>Название мода, ID пакета</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>Исследовать</YART_StartNow>
   <YART_Stop>Остановить</YART_Stop>
   <YART_Queue>В очередь</YART_Queue>
@@ -22,9 +36,27 @@
   <YART_InProgress>В процессе</YART_InProgress>
   <YART_Completed>Завершено</YART_Completed>
   <YART_Locked>Заблокировано</YART_Locked>
+  <YART_SemiRandomActive>Semi Random Research</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>Активен мод Semi Random Research, поэтому отсюда нельзя начать исследование или добавить его в очередь. Выберите следующий проект на его вкладке «Next Research».</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>Перейти к исходному графу</YART_GoToOriginal>
   <YART_ShowInfoCard>Открыть карточку сведений</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>Новая группа вкладок</YART_Preset_New>
+  <YART_Preset_Edit>Изменить</YART_Preset_Edit>
+  <YART_Preset_Delete>Удалить</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>Удалить группу вкладок «{0}»?</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>Новая группа вкладок</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>Изменить группу вкладок</YART_Preset_EditTitle>
+  <YART_Preset_Name>Название</YART_Preset_Name>
+  <YART_Preset_PickTabs>Включаемые вкладки:</YART_Preset_PickTabs>
+  <YART_Preset_Preview>Предпросмотр этой вкладки на холсте</YART_Preset_Preview>
+  <YART_Preset_Done>Готово</YART_Preset_Done>
+  <YART_Preset_Cancel>Отмена</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>Открываемое содержимое</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>Переключить вид: значки / список</YART_ToggleUnlockedView>
   <YART_Prerequisites>Требования</YART_Prerequisites>
   <YART_Unlocks>Открывает</YART_Unlocks>
   <YART_None>Нет</YART_None>
@@ -38,16 +70,22 @@
   <YART_Tab>Вкладка: {0}</YART_Tab>
   <YART_TechLevelUndefined>не определён</YART_TechLevelUndefined>
   <YART_RequiredByExternal>Требуется для {0} исследований на других вкладках:</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>Очередь исследований пуста.</YART_QueueEmpty>
   <YART_Clear>Очистить</YART_Clear>
   <YART_ClearTooltip>Очистить всю очередь исследований на этом канале.</YART_ClearTooltip>
   <YART_ClearConfirm>Очистить очередь исследований? (в очереди: {0})</YART_ClearConfirm>
   <YART_CannotStartYet>Пока нельзя начать: {0}\nТребования или условия не выполнены.</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>Все вкладки</YART_AllTabs>
   <YART_AllTabsTooltip>Показать все категории исследований в одном общем дереве</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>Категория исследований (добавлена модами)</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>Переключиться на стандартное окно исследований</YART_SwitchToVanilla>
   <YART_SwitchToYART>Переключиться на дерево исследований YART</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>(простой)</YART_Idle>
   <YART_ZoomTooltip>Щелчок: сбросить масштаб до 100%\nHome: вписать всё дерево в экран</YART_ZoomTooltip>
 

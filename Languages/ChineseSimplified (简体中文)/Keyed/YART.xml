@@ -6,15 +6,28 @@
   <YART_Settings_ReplaceTabDesc>关闭后，点击「研究」按钮将打开原版研究界面。</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>按有效时代为跨时代研究着色（默认：开启）</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>当某项研究需要更高科技的前置研究项目时，它会被放置在那个更高时代的区域中。开启：同时按该有效时代为其着色（与区域一致）。关闭：保留研究自身的时代颜色。即时生效，无需重建。</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>悬停时淡化无关研究（默认：关闭）</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>开启：悬停某项研究时，会淡化所有不在其前置/解锁路径上的内容，如同聚光灯效果。关闭：仅高亮相关路径，而不淡化其余部分。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>重建研究图谱</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>在后台重新生成研究树。</YART_Settings_RebuildDesc>
+  <YART_Settings_ExportGraph>将研究树结构导出到桌面（开发者）</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraphDesc>将研究树结构写入到 桌面\YART_layout_graph.json。</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART：布局图谱已导出至 {0}</YART_Export_Done>
+  <YART_Export_Empty>YART：没有可导出的图谱（重建失败或为空）。</YART_Export_Empty>
+  <YART_Export_Failed>YART：布局导出失败 —— {0}</YART_Export_Failed>
+
+  <!-- Building notice -->
   <YART_Building>正在构建研究树……</YART_Building>
   <YART_BuildingHint>研究树正在后台生成。</YART_BuildingHint>
+
+  <!-- Search -->
   <YART_SearchPlaceholder>搜索……</YART_SearchPlaceholder>
   <YART_SearchHint_WordsSyntax>通讯台</YART_SearchHint_WordsSyntax>
   <YART_SearchHint_WordsDesc>研究名称、解锁内容、描述等。</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@模组</YART_SearchHint_ModSyntax>
   <YART_SearchHint_ModDesc>模组名称、包 ID</YART_SearchHint_ModDesc>
+
+  <!-- Actions -->
   <YART_StartNow>研究</YART_StartNow>
   <YART_Stop>停止</YART_Stop>
   <YART_Queue>排队</YART_Queue>
@@ -23,9 +36,27 @@
   <YART_InProgress>研究中</YART_InProgress>
   <YART_Completed>已完成</YART_Completed>
   <YART_Locked>已锁定</YART_Locked>
+  <YART_SemiRandomActive>半随机研究</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>半随机研究已启用，因此无法在此处开始或排队研究。请在其「下一项研究」标签页中选择你的下一个研究项目。</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>转到原始图谱</YART_GoToOriginal>
   <YART_ShowInfoCard>打开信息卡</YART_ShowInfoCard>
+
+  <!-- Tab presets (custom tab groups) -->
+  <YART_Preset_New>新建标签页分组</YART_Preset_New>
+  <YART_Preset_Edit>编辑</YART_Preset_Edit>
+  <YART_Preset_Delete>删除</YART_Preset_Delete>
+  <YART_Preset_DeleteConfirm>要删除标签页分组「{0}」吗？</YART_Preset_DeleteConfirm>
+  <YART_Preset_NewTitle>新建标签页分组</YART_Preset_NewTitle>
+  <YART_Preset_EditTitle>编辑标签页分组</YART_Preset_EditTitle>
+  <YART_Preset_Name>名称</YART_Preset_Name>
+  <YART_Preset_PickTabs>要包含的标签页：</YART_Preset_PickTabs>
+  <YART_Preset_Preview>在画布上预览此标签页</YART_Preset_Preview>
+  <YART_Preset_Done>完成</YART_Preset_Done>
+  <YART_Preset_Cancel>取消</YART_Preset_Cancel>
+
+  <!-- Detail panel -->
   <YART_UnlockedContent>解锁内容</YART_UnlockedContent>
+  <YART_ToggleUnlockedView>切换图标／列表视图</YART_ToggleUnlockedView>
   <YART_Prerequisites>前置研究项目</YART_Prerequisites>
   <YART_Unlocks>解锁</YART_Unlocks>
   <YART_None>无</YART_None>
@@ -39,16 +70,22 @@
   <YART_Tab>标签页：{0}</YART_Tab>
   <YART_TechLevelUndefined>未定义</YART_TechLevelUndefined>
   <YART_RequiredByExternal>被其他标签页中的 {0} 项研究所需要：</YART_RequiredByExternal>
+
+  <!-- Queue bar -->
   <YART_QueueEmpty>研究队列为空。</YART_QueueEmpty>
   <YART_Clear>清空</YART_Clear>
   <YART_ClearTooltip>清空此通道上的整个研究队列。</YART_ClearTooltip>
   <YART_ClearConfirm>要清空研究队列吗？（已排队 {0} 项）</YART_ClearConfirm>
   <YART_CannotStartYet>暂时无法开始：{0}\n前置研究项目或条件尚未满足。</YART_CannotStartYet>
+
+  <!-- Tabs / unified / switch -->
   <YART_AllTabs>全部标签页</YART_AllTabs>
   <YART_AllTabsTooltip>在一棵统一的研究树中显示所有研究分类</YART_AllTabsTooltip>
   <YART_TabDropdownTooltip>研究分类（由模组添加）</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>切换到原版研究界面</YART_SwitchToVanilla>
   <YART_SwitchToYART>切换到 YART 研究树</YART_SwitchToYART>
+
+  <!-- Channel chip / zoom -->
   <YART_Idle>（空闲）</YART_Idle>
   <YART_ZoomTooltip>单击：将缩放重置为 100%\nHome 键：在屏幕上完整显示整棵研究树</YART_ZoomTooltip>
 

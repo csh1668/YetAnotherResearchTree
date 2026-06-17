@@ -12,6 +12,9 @@
   <YART_Settings_RebuildDesc>백그라운드에서 트리를 다시 생성합니다.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>연구 트리 구조 내보내기 (개발용)</YART_Settings_ExportGraph>
   <YART_Settings_ExportGraphDesc>연구 트리 구조를 바탕화면\YART_layout_graph.json으로 내보냅니다.</YART_Settings_ExportGraphDesc>
+  <YART_Export_Done>YART: 레이아웃 그래프를 {0}에 내보냈습니다</YART_Export_Done>
+  <YART_Export_Empty>YART: 내보낼 그래프가 없습니다 (재생성 실패 또는 비어 있음).</YART_Export_Empty>
+  <YART_Export_Failed>YART: 레이아웃 내보내기 실패 — {0}</YART_Export_Failed>
 
   <!-- 생성 안내 -->
   <YART_Building>연구 트리 생성 중...</YART_Building>
