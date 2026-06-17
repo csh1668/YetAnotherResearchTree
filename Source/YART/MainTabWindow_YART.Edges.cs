@@ -34,17 +34,18 @@ namespace YART
             Color startColor = GetEdgeColor(from);
             Color endColor = GetEdgeColor(to);
 
-            // 포커스/검색 모드: 강조 경로는 상태색 대신 흰색, 나머지는 디밍
+            // 포커스/검색 모드
             float alpha = 1f;
             int highlight = GetEdgeHighlightState(from, to);
             if (highlight > 0)
             {
-                startColor = Constraints.EdgeHighlight;
-                endColor = Constraints.EdgeHighlight;
+                float blend = EdgeHighlightBlend();
+                startColor = Color.Lerp(startColor, Constraints.EdgeHighlight, blend);
+                endColor = Color.Lerp(endColor, Constraints.EdgeHighlight, blend);
             }
             else if (highlight < 0)
             {
-                alpha = Constraints.UnfocusedEdgeOpacity;
+                alpha = EdgeUnfocusAlpha();
             }
 
             // Line width scales with zoom
@@ -95,12 +96,13 @@ namespace YART
                 foreach (var target in activeTargetsBuffer)
                 {
                     // 포커스/검색 디밍 중에는 관련 (소스, 타깃) 쌍에만 펄스 — 같은 트렁크의
-                    // 다른 타깃 경로는 별개로 판정한다 (기존 세그먼트 펄스와 동일 정책)
-                    if (hoveredNode != null)
+                    // 다른 타깃 경로는 별개로 판정한다 (기존 세그먼트 펄스와 동일 정책).
+                    // 호버 디밍이 꺼져 있으면(기본) 펄스를 억제하지 않고 그대로 흐르게 둔다.
+                    if (hoveredNode != null && YARTMod.Settings.focusHighlightDimming)
                     {
                         if (!focusedNodes.Contains(edge.From) || !focusedNodes.Contains(target)) continue;
                     }
-                    else if (matchedDefs.Count > 0)
+                    else if (hoveredNode == null && matchedDefs.Count > 0)
                     {
                         if (!matchedDefs.Contains(edge.From.Def) || !matchedDefs.Contains(target.Def)) continue;
                     }
@@ -238,6 +240,20 @@ namespace YART
         /// 체인 중간 세그먼트도 양 끝과 동일하게 강조/디밍되도록 한다.
         /// 공유 트렁크는 도달 타깃 중 하나만 매치해도 켜진다 — 그 타깃의 경로이므로 의도된 동작.
         /// </summary>
+        /// <summary>강조 엣지의 흰색 블렌드 계수(0=원래색,1=완전 흰색). 호버는 focusAmount로 부드럽게, 검색은 즉시.</summary>
+        private float EdgeHighlightBlend() => hoveredNode != null ? focusAmount : 1f;
+
+        /// <summary>비강조 엣지의 알파 배수(1=디밍 없음). 호버 디밍은 설정 ON일 때만 focusAmount 페이드, 검색은 즉시.</summary>
+        private float EdgeUnfocusAlpha()
+        {
+            if (hoveredNode != null)
+            {
+                if (!YARTMod.Settings.focusHighlightDimming) return 1f; // 기본: 경로만 강조, 나머지 디밍 안 함
+                return Mathf.Lerp(1f, Constraints.UnfocusedEdgeOpacity, focusAmount);
+            }
+            return Constraints.UnfocusedEdgeOpacity; // 검색 디밍: 즉시
+        }
+
         private int GetEdgeHighlightState(ResearchNode from, ResearchNode to)
         {
             if (hoveredNode != null)

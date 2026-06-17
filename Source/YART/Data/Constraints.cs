@@ -148,6 +148,7 @@ namespace YART.Data
         public const float FocusedOpacity = 1.0f;
         public const float UnfocusedNodeOpacity = 0.3f;
         public const float UnfocusedEdgeOpacity = 0.15f;
+        public const float FocusFadeDuration = 0.23f;
 
         // Layout Algorithm Configuration
         public const float LayoutTechLevelBoundaryOffset = 0.5f;

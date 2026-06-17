@@ -202,6 +202,13 @@ namespace YART
             // 호버 포커스(디밍) 갱신 — 렌더 직전
             UpdateFocusMode(graph, offset, zoom);
 
+            // 포커스 페이드값
+            float nowFade = Time.realtimeSinceStartup;
+            float fadeDt = lastFocusFadeTime > 0f ? Mathf.Min(nowFade - lastFocusFadeTime, 0.1f) : 0f;
+            lastFocusFadeTime = nowFade;
+            float focusTarget = hoveredNode != null ? 1f : 0f;
+            focusAmount = Mathf.MoveTowards(focusAmount, focusTarget, fadeDt / Constraints.FocusFadeDuration);
+
             // TechLevel 구분선 그리기
             DrawTechLevelLines(graph, offset, zoom);
 

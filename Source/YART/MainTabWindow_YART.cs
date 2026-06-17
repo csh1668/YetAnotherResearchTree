@@ -63,6 +63,9 @@ namespace YART
         // Focus Mode State
         private ResearchNode hoveredNode = null;
         private readonly HashSet<ResearchNode> focusedNodes = new HashSet<ResearchNode>();
+        // 호버 포커스 페이드값 (0=비활성, 1=포커스).
+        private float focusAmount = 0f;
+        private float lastFocusFadeTime = 0f;
 
         // External Dependents Popup (외부 후행 배지 호버 목록)
         private ResearchNode externalListNode;        // 현재 팝업 대상 (null = 닫힘)
@@ -319,6 +322,7 @@ namespace YART
 
             hoveredNode = null;
             focusedNodes.Clear();
+            focusAmount = 0f;
             queueBarHoveredDef = null;
             draggedQueueDef = null;
             if (playSound) SoundDefOf.Click.PlayOneShotOnCamera();

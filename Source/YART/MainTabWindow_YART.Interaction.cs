@@ -3,6 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using YART.Compat;
 using YART.Data;
 
 namespace YART
@@ -48,7 +49,7 @@ namespace YART
                     if (Event.current.alt)
                     {
                         var mgr = ResearchQueueManager.Instance;
-                        if (mgr != null && target.State == ResearchNodeState.Available)
+                        if (mgr != null && target.State == ResearchNodeState.Available && !SemiRandomResearchCompat.Active)
                             mgr.EnqueueWithChainToFront(target.Def); // 사운드는 EnqueueWithChainToFront 내부(ResearchStart)
                         else
                             SoundDefOf.ClickReject.PlayOneShotOnCamera();
@@ -60,7 +61,7 @@ namespace YART
                     if (Event.current.shift)
                     {
                         var mgr = ResearchQueueManager.Instance;
-                        if (mgr != null && target.State == ResearchNodeState.Available)
+                        if (mgr != null && target.State == ResearchNodeState.Available && !SemiRandomResearchCompat.Active)
                             mgr.EnqueueWithChain(target.Def); // 사운드는 EnqueueWithChain 내부(ResearchStart)
                         else
                             SoundDefOf.ClickReject.PlayOneShotOnCamera();
@@ -134,13 +135,13 @@ namespace YART
                 var queueMgr = ResearchQueueManager.Instance;
                 var options = new List<FloatMenuOption>();
 
-                if (target.State == ResearchNodeState.Available && def.CanStartNow)
+                if (target.State == ResearchNodeState.Available && def.CanStartNow && !SemiRandomResearchCompat.Active)
                 {
                     options.Add(new FloatMenuOption("YART_StartNow".Translate(), () => StartResearch(def)));
                 }
 
                 int queuePos = queueMgr?.GetQueuePosition(def) ?? -1;
-                if (target.State == ResearchNodeState.InProgress)
+                if (target.State == ResearchNodeState.InProgress && !SemiRandomResearchCompat.Active)
                 {
                     options.Add(new FloatMenuOption("YART_Stop".Translate(), () =>
                     {
@@ -157,7 +158,7 @@ namespace YART
                         SoundDefOf.Tick_Low.PlayOneShotOnCamera();
                     }));
                 }
-                else if (queueMgr != null && target.State == ResearchNodeState.Available)
+                else if (queueMgr != null && target.State == ResearchNodeState.Available && !SemiRandomResearchCompat.Active)
                 {
                     // Available일 때만 큐잉 (Locked는 불가 — 좌측 패널·Shift+클릭과 동일)
                     int chainCount = ResearchQueueManager.CollectMissingChain(def).Count;

@@ -4,6 +4,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using YART.Compat;
 using YART.Data;
 using YART.Utils;
 
@@ -487,6 +488,13 @@ namespace YART
 
             if (isCurrent || node.State == ResearchNodeState.InProgress)
             {
+                if (SemiRandomResearchCompat.Active)
+                {
+                    DrawPanelButton(btnFull, "YART_InProgress".Translate(), Constraints.ButtonActive, enabled: false);
+                    TooltipHandler.TipRegion(btnFull, "YART_SemiRandomActiveDesc".Translate());
+                    return rowHeight;
+                }
+
                 DrawPanelButton(btnA, "YART_InProgress".Translate(), Constraints.ButtonActive, enabled: false);
                 if (DrawPanelButton(btnB, "YART_Stop".Translate(), new Color(0.7f, 0.3f, 0.3f), enabled: true))
                 {
@@ -499,6 +507,14 @@ namespace YART
 
             if (node.State == ResearchNodeState.Available)
             {
+                // Semi Random Research 활성: 수동 시작/큐잉 불가 — 그 모드의 'Next Research' 탭에서 선택.
+                if (SemiRandomResearchCompat.Active)
+                {
+                    DrawPanelButton(btnFull, "YART_SemiRandomActive".Translate(), Constraints.ButtonDisabled, enabled: false);
+                    TooltipHandler.TipRegion(btnFull, "YART_SemiRandomActiveDesc".Translate());
+                    return rowHeight;
+                }
+
                 bool canStartNow = def.CanStartNow;
 
                 if (canStartNow)

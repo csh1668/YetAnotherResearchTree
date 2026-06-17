@@ -89,6 +89,7 @@
         <Compile Include="Compat\WorldTechLevelCompat.cs" />
         <Compile Include="Compat\GravshipCompat.cs" />
         <Compile Include="Compat\MultiplayerCompat.cs" />
+        <Compile Include="Compat\SemiRandomResearchCompat.cs" />
         <Compile Include="Utils\GUIDrawingUtilities.cs" />
         <Compile Include="Utils\HistoryNavigator.cs" />
         <Compile Include="Utils\SuffixStructure.cs" />

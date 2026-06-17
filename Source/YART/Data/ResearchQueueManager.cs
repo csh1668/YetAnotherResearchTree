@@ -130,6 +130,7 @@ namespace YART.Data
         public void EnqueueWithChain(ResearchProjectDef def)
         {
             if (def == null || def.IsFinished) return;
+            if (SemiRandomResearchCompat.Active) return;
             if (MultiplayerCompat.TryEnqueue(def, toFront: false)) return;
             DoEnqueue(def, toFront: false);
         }
@@ -140,6 +141,7 @@ namespace YART.Data
         public void EnqueueWithChainToFront(ResearchProjectDef def)
         {
             if (def == null || def.IsFinished) return;
+            if (SemiRandomResearchCompat.Active) return;
             if (MultiplayerCompat.TryEnqueue(def, toFront: true)) return;
             DoEnqueue(def, toFront: true);
         }
@@ -224,6 +226,8 @@ namespace YART.Data
         public void StartNow(ResearchProjectDef def)
         {
             if (def == null || !def.CanStartNow) return;
+            // Semi Random Research가 활성이면 수동 시작 차단 — 선택은 그 모드의 'Next Research' 탭이 담당.
+            if (SemiRandomResearchCompat.Active) return;
             if (MultiplayerCompat.TryStartNow(def)) return;
             DoStartNow(def);
         }

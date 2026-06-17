@@ -19,6 +19,9 @@ namespace YART
         // 좌측 패널 해금 콘텐츠를 2-column(아이콘+라벨)로 펼칠지. off = 아이콘만 나열. 패널 토글 버튼으로 변경.
         public bool unlockedContentExpanded = false;
 
+        // 호버 시 비관련 노드를 어둡게(디밍)할지. off(기본) = 디밍 없이 관련 경로만 하이라이트.
+        public bool focusHighlightDimming = false;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -26,6 +29,7 @@ namespace YART
             Scribe_Values.Look(ref unifiedBenchView,          "unifiedBenchView",          true);
             Scribe_Values.Look(ref unifyEraColorToEffective,  "unifyEraColorToEffective",  false);
             Scribe_Values.Look(ref unlockedContentExpanded,   "unlockedContentExpanded",   false);
+            Scribe_Values.Look(ref focusHighlightDimming,     "focusHighlightDimming",     false);
             // Constraints 반영은 YARTMod ctor(GetSettings 직후) + UI 변경 핸들러에서 한다.
         }
 
@@ -47,6 +51,10 @@ namespace YART
             // ── 시대 색 통일 옵션 ─────────────────────────────────────────────────
             listing.CheckboxLabeled("YART_Settings_EraColor".Translate(), ref unifyEraColorToEffective,
                 "YART_Settings_EraColorDesc".Translate());
+
+            // ── 호버 디밍 옵션 ────────────────────────────────────────────────────
+            listing.CheckboxLabeled("YART_Settings_FocusDimming".Translate(), ref focusHighlightDimming,
+                "YART_Settings_FocusDimmingDesc".Translate());
 
             // ── Rebuild ──────────────────────────────────────────────────────────
             listing.Gap();

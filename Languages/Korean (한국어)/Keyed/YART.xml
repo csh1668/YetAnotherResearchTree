@@ -6,6 +6,8 @@
   <YART_Settings_ReplaceTabDesc>끄면 연구 버튼이 바닐라 연구 창을 엽니다.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>시대 연구를 유효 시대 색으로 표시 (기본값: O)</YART_Settings_EraColor>
   <YART_Settings_EraColorDesc>연구가 더 높은 기술 시대의 선행 연구를 요구하면 그 높은 시대 구역에 배치됩니다. 켜면 그 유효 시대 색으로도 표시합니다(구역 색과 일치). 끄면 연구 본래의 시대 색을 유지합니다. 즉시 적용되며 재생성이 필요 없습니다.</YART_Settings_EraColorDesc>
+  <YART_Settings_FocusDimming>마우스 호버 시 관련 없는 연구 어둡게 (기본값: X)</YART_Settings_FocusDimming>
+  <YART_Settings_FocusDimmingDesc>켜면 연구에 마우스를 올렸을 때 그 선행/해금 경로가 아닌 모든 것을 어둡게 합니다. 끄면 어둡게 하지 않고 관련 경로만 강조합니다.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_Rebuild>연구 그래프 재생성</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>백그라운드에서 트리를 다시 생성합니다.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>연구 트리 구조 내보내기 (개발용)</YART_Settings_ExportGraph>
@@ -31,6 +33,8 @@
   <YART_InProgress>연구 중</YART_InProgress>
   <YART_Completed>완료됨</YART_Completed>
   <YART_Locked>잠김</YART_Locked>
+  <YART_SemiRandomActive>Semi Random Research</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>Semi Random Research가 활성화되어 있어 여기서는 조작이 불가능합니다.</YART_SemiRandomActiveDesc>
   <YART_GoToOriginal>원본 그래프로 이동</YART_GoToOriginal>
   <YART_ShowInfoCard>정보 카드 열기</YART_ShowInfoCard>
 

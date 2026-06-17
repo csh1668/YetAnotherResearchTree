@@ -2,6 +2,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using YART.Compat;
 using YART.Data;
 using YART.Utils;
 
@@ -48,7 +49,8 @@ namespace YART
                 DrawQueueDevControls(devRect, queue[0]);
             }
 
-            // 큐 비우기 버튼
+            // 큐 비우기 버튼 (SSR 활성화시 숨김 처리)
+            if (!SemiRandomResearchCompat.Active)
             {
                 const float clearW = 60f;
                 float clearRight = hasDevPanel ? rect.xMax - 250f : rect.xMax;
@@ -316,20 +318,25 @@ namespace YART
 
             if (dragging) return;
 
-            // 제거 버튼
+            // 제거 버튼 - (SSR 활성화 시 숨김)
             const float cs = 22f;
-            Rect closeRect = new Rect(rect.xMax - cs - 3f, rect.y + 3f, cs, cs);
-            bool closeHover = Mouse.IsOver(closeRect);
-            Widgets.DrawBoxSolid(closeRect, closeHover
-                ? new Color(0.92f, 0.24f, 0.24f, 0.97f)
-                : new Color(0.62f, 0.16f, 0.16f, 0.9f));
-            GUIDrawingUtilities.DrawBorderLines(closeRect, new Color(0.97f, 0.5f, 0.5f, 0.95f), 1f);
-            GUIDrawingUtilities.DrawIcon(closeRect.ContractedBy(5f), TexButton.CloseXSmall, Color.white);
-            if (Widgets.ButtonInvisible(closeRect))
+            Rect closeRect = SemiRandomResearchCompat.Active
+                ? Rect.zero
+                : new Rect(rect.xMax - cs - 3f, rect.y + 3f, cs, cs);
+            if (!SemiRandomResearchCompat.Active)
             {
-                queueMgr?.Remove(def);
-                SoundDefOf.Tick_Low.PlayOneShotOnCamera();
-                return;
+                bool closeHover = Mouse.IsOver(closeRect);
+                Widgets.DrawBoxSolid(closeRect, closeHover
+                    ? new Color(0.92f, 0.24f, 0.24f, 0.97f)
+                    : new Color(0.62f, 0.16f, 0.16f, 0.9f));
+                GUIDrawingUtilities.DrawBorderLines(closeRect, new Color(0.97f, 0.5f, 0.5f, 0.95f), 1f);
+                GUIDrawingUtilities.DrawIcon(closeRect.ContractedBy(5f), TexButton.CloseXSmall, Color.white);
+                if (Widgets.ButtonInvisible(closeRect))
+                {
+                    queueMgr?.Remove(def);
+                    SoundDefOf.Tick_Low.PlayOneShotOnCamera();
+                    return;
+                }
             }
 
             // 클릭(포커스) vs 드래그(재정렬) 판별

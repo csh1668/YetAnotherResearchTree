@@ -10,6 +10,24 @@ namespace YART
 {
     public partial class MainTabWindow_YART
     {
+        /// <summary>
+        /// 이 노드에 적용할 비포커스 디밍 배수
+        /// </summary>
+        private float GetUnfocusMultiplier(ResearchNode node)
+        {
+            if (hoveredNode != null)
+            {
+                if (focusedNodes.Contains(node)) return 1f;
+                if (!YARTMod.Settings.focusHighlightDimming) return 1f; // 기본: 디밍 없이 경로만 강조
+                return Mathf.Lerp(1f, Constraints.UnfocusedNodeOpacity, focusAmount);
+            }
+            if (matchedDefs.Count > 0 && !matchedDefs.Contains(node.Def))
+            {
+                return Constraints.UnfocusedNodeOpacity;
+            }
+            return 1f;
+        }
+
         private static float GetRichCardLerp(float zoom)
         {
             return Mathf.InverseLerp(Constraints.RichCardZoomStart, Constraints.RichCardZoomFull, zoom);
@@ -71,11 +89,11 @@ namespace YART
                 int highlight = GetEdgeHighlightState(node, node);
                 if (highlight > 0)
                 {
-                    edgeColor = Constraints.EdgeHighlight;
+                    edgeColor = Color.Lerp(edgeColor, Constraints.EdgeHighlight, EdgeHighlightBlend());
                 }
                 else if (highlight < 0)
                 {
-                    edgeColor = edgeColor.WithAlpha(edgeColor.a * Constraints.UnfocusedEdgeOpacity);
+                    edgeColor = edgeColor.WithAlpha(edgeColor.a * EdgeUnfocusAlpha());
                 }
 
                 float dummyWidth = Mathf.Max(Constraints.EdgeLineMinWidth, Constraints.EdgeLineWidth * zoom);
@@ -122,20 +140,12 @@ namespace YART
                     break;
             }
 
-            bool dim = false;
-            if (hoveredNode != null)
+            // 호버 디밍은 설정에 따라(기본 off) + focusAmount로 부드럽게, 검색 디밍은 즉시·항상.
+            float unfocusMul = GetUnfocusMultiplier(node);
+            if (unfocusMul < 1f)
             {
-                if (!focusedNodes.Contains(node)) dim = true;
-            }
-            else if (matchedDefs.Count > 0)
-            {
-                if (!matchedDefs.Contains(node.Def)) dim = true;
-            }
-
-            if (dim)
-            {
-                nodeAlpha *= Constraints.UnfocusedNodeOpacity;
-                borderAlpha *= Constraints.UnfocusedNodeOpacity;
+                nodeAlpha *= unfocusMul;
+                borderAlpha *= unfocusMul;
             }
 
             float corner = Constraints.NodeCornerRadius * Mathf.Max(0.7f, zoom);
@@ -325,19 +335,10 @@ namespace YART
             }
 
             // Focus/Search dimming — 매치는 기본 표시, 비매치만 디밍 (Def 기준)
-            bool dim = false;
-            if (hoveredNode != null)
+            float unfocusMul = GetUnfocusMultiplier(node);
+            if (unfocusMul < 1f)
             {
-                if (!focusedNodes.Contains(node)) dim = true;
-            }
-            else if (matchedDefs.Count > 0)
-            {
-                if (!matchedDefs.Contains(node.Def)) dim = true;
-            }
-
-            if (dim)
-            {
-                nodeAlpha *= Constraints.UnfocusedNodeOpacity;
+                nodeAlpha *= unfocusMul;
                 textColor.a *= nodeAlpha; // Fade text
             }
 
