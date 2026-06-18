@@ -162,6 +162,20 @@ namespace YART
             }
         }
 
+        private void DoSettingsButton(Rect rect)
+        {
+            Widgets.DrawBoxSolid(rect, new Color(0f, 0f, 0f, 0.45f));
+            GUIDrawingUtilities.DrawBorderLines(rect, Constraints.PanelBorder, 1f);
+            if (Mouse.IsOver(rect)) Widgets.DrawHighlight(rect);
+            GUIDrawingUtilities.DrawIcon(rect.ContractedBy(4f), Assets.IconSettings, new Color(0.82f, 0.87f, 0.97f));
+            TooltipHandler.TipRegion(rect, "YART_OpenSettings".Translate());
+            if (Widgets.ButtonInvisible(rect))
+            {
+                Find.WindowStack.Add(new Dialog_YARTSettings());
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+        }
+
         private void DrawTrackChip(Rect rect, ResearchChannel channel)
         {
             bool selected = channel == SelectedChannel;

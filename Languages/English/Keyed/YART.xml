@@ -2,6 +2,14 @@
 <LanguageData>
 
   <!-- Settings -->
+  <YART_Settings_Section_Display>Display</YART_Settings_Section_Display>
+  <YART_Settings_Section_Behavior>Behavior</YART_Settings_Section_Behavior>
+  <YART_Settings_Section_Compat>Compatibility</YART_Settings_Section_Compat>
+  <YART_Settings_Section_Maintenance>Maintenance</YART_Settings_Section_Maintenance>
+  <YART_Settings_SemiRandomCompat>Semi Random Research compatibility (default: on)</YART_Settings_SemiRandomCompat>
+  <YART_Settings_SemiRandomCompatDesc>When Semi Random Research is installed and this is on, YART disables manual research queue/start/stop so SRR controls research selection.</YART_Settings_SemiRandomCompatDesc>
+  <YART_Settings_SemiRandomDetected>Status: Semi Random Research detected — compatibility active.</YART_Settings_SemiRandomDetected>
+  <YART_Settings_SemiRandomNotDetected>Status: Semi Random Research not detected — this setting has no effect.</YART_Settings_SemiRandomNotDetected>
   <YART_Settings_ReplaceTab>Replace vanilla research tab with YART (default: on)</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>When disabled, the Research button opens the vanilla research window.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>Color cross-era research by its effective era (default: on)</YART_Settings_EraColor>
@@ -88,6 +96,7 @@
   <YART_TabDropdownTooltip>Research category (added by mods)</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>Switch to the vanilla research window</YART_SwitchToVanilla>
   <YART_SwitchToYART>Switch to the YART research tree</YART_SwitchToYART>
+  <YART_OpenSettings>Open YART settings</YART_OpenSettings>
 
   <!-- Channel chip / zoom -->
   <YART_Idle>(idle)</YART_Idle>

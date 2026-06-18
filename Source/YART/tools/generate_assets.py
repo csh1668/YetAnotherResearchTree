@@ -162,6 +162,28 @@ def draw_star_hollow(d, s):
     d.line(pts + [pts[0]], fill=255, width=max(1, int(2.4 * s / 32)), joint="curve")
 
 
+def draw_gear(d, s):
+    """설정(기어) 아이콘: 8개 이빨 + 중앙 구멍 (흰색 알파, 코드에서 틴트)."""
+    cx = cy = s / 2
+    teeth = 8
+    r_out = 0.47 * s
+    r_body = 0.33 * s
+    r_hole = 0.14 * s
+    a_in = 0.24
+    a_out = 0.13
+    for i in range(teeth):
+        ang = i * 2 * math.pi / teeth
+        pts = [
+            (cx + r_body * math.cos(ang - a_in), cy + r_body * math.sin(ang - a_in)),
+            (cx + r_out * math.cos(ang - a_out), cy + r_out * math.sin(ang - a_out)),
+            (cx + r_out * math.cos(ang + a_out), cy + r_out * math.sin(ang + a_out)),
+            (cx + r_body * math.cos(ang + a_in), cy + r_body * math.sin(ang + a_in)),
+        ]
+        d.polygon(pts, fill=255)
+    d.ellipse([cx - r_body, cy - r_body, cx + r_body, cy + r_body], fill=255)
+    d.ellipse([cx - r_hole, cy - r_hole, cx + r_hole, cy + r_hole], fill=0)
+
+
 def draw_swap(d, s):
     """전환 아이콘: 상단=오른쪽 화살표, 하단=왼쪽 화살표 (두 화살표로 swap 표현)."""
     u = s / 32
@@ -187,6 +209,7 @@ if __name__ == "__main__":
     icon("IconPlay", draw_play)
     icon("IconQueue", draw_queue)
     icon("IconSwap", draw_swap)
+    icon("IconSettings", draw_gear)
     icon("IconStar", draw_star)
     icon("IconStarHollow", draw_star_hollow)
     print("done")

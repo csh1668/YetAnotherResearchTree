@@ -2,6 +2,14 @@
 <LanguageData>
 
   <!-- 설정 -->
+  <YART_Settings_Section_Display>표시</YART_Settings_Section_Display>
+  <YART_Settings_Section_Behavior>동작</YART_Settings_Section_Behavior>
+  <YART_Settings_Section_Compat>호환성</YART_Settings_Section_Compat>
+  <YART_Settings_Section_Maintenance>유지보수</YART_Settings_Section_Maintenance>
+  <YART_Settings_SemiRandomCompat>Semi Random Research 호환 기능 (기본값: O)</YART_Settings_SemiRandomCompat>
+  <YART_Settings_SemiRandomCompatDesc>Semi Random Research가 설치되어 있고 이 옵션이 켜져 있으면, 연구 선택을 SRR이 관리하도록 YART의 수동 연구 큐 조작을 막습니다.</YART_Settings_SemiRandomCompatDesc>
+  <YART_Settings_SemiRandomDetected>상태: Semi Random Research 감지됨 — 호환 기능 작동 중.</YART_Settings_SemiRandomDetected>
+  <YART_Settings_SemiRandomNotDetected>상태: Semi Random Research 감지 안 됨 — 이 설정은 효과가 없습니다.</YART_Settings_SemiRandomNotDetected>
   <YART_Settings_ReplaceTab>바닐라 연구 탭을 YART로 교체 (기본값: O)</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>끄면 연구 버튼이 바닐라 연구 창을 엽니다.</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>시대 연구를 유효 시대 색으로 표시 (기본값: O)</YART_Settings_EraColor>
@@ -88,6 +96,7 @@
   <YART_TabDropdownTooltip>연구 분류 (모드 추가)</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>바닐라 연구 창으로 전환</YART_SwitchToVanilla>
   <YART_SwitchToYART>YART 연구 트리로 전환</YART_SwitchToYART>
+  <YART_OpenSettings>YART 설정 열기</YART_OpenSettings>
 
   <!-- 채널 칩 / 줌 -->
   <YART_Idle>(대기 중)</YART_Idle>

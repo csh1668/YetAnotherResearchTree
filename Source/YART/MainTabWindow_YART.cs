@@ -285,6 +285,8 @@ namespace YART
                 Rect zoomRect = new Rect((leftRect?.xMax ?? 0f) + 16f, inRect.yMax - 40f, 80f, 24f);
                 // 바닐라 연구창 전환 아이콘 버튼 (줌 라벨 오른쪽)
                 Rect vanillaSwitchRect = new Rect(zoomRect.xMax + 6f, zoomRect.y, 24f, 24f);
+                // 설정 아이콘 버튼 (전환 버튼 오른쪽)
+                Rect settingsButtonRect = new Rect(vanillaSwitchRect.xMax + 6f, zoomRect.y, 24f, 24f);
 
                 // 1. 메인 캔버스 그리기 (배경)
                 interactionExcludeRects.Clear();
@@ -299,6 +301,7 @@ namespace YART
                 if (favoritesRect.height > 0f) interactionExcludeRects.Add(favoritesRect);
                 interactionExcludeRects.Add(zoomRect);
                 interactionExcludeRects.Add(vanillaSwitchRect);
+                interactionExcludeRects.Add(settingsButtonRect);
 
                 DoGraphCanvas(canvasRect);
 
@@ -326,6 +329,7 @@ namespace YART
                 DoFavoritesList(favoritesRect);
                 DoZoomIndicator(zoomRect);
                 DoVanillaSwitchButton(vanillaSwitchRect);
+                DoSettingsButton(settingsButtonRect);
 
                 // 5. 외부 후행 호버 팝업
                 DrawExternalDependentsPopup();

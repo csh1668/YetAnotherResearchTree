@@ -94,6 +94,7 @@
         <Compile Include="TabPresetManager.cs" />
         <Compile Include="Favorites.cs" />
         <Compile Include="Dialog_PresetEditor.cs" />
+        <Compile Include="Dialog_YARTSettings.cs" />
         <Compile Include="ResearchCompletedLetter.cs" />
         <Compile Include="Dialog_ResearchCompleted.cs" />
         <Compile Include="Utils\GUIDrawingUtilities.cs" />
