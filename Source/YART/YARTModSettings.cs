@@ -23,6 +23,9 @@ namespace YART
         // 통합 벤치 뷰 — 켜면 벤치 탭을 단일 통합 그래프로 표시 (연구 창에서 토글)
         public bool unifiedBenchView = true;
 
+        // 연구 캔버스 배경으로 격자를 사용할지
+        public bool gridBackground = true;
+
         // 선행이 더 높은 시대인 연구의 색을 유효(배치) 시대로 통일할지. off = 본래 시대 색 유지.
         public bool unifyEraColorToEffective = false;
 
@@ -43,6 +46,7 @@ namespace YART
             base.ExposeData();
             Scribe_Values.Look(ref replaceVanillaResearchTab, "replaceVanillaResearchTab", true);
             Scribe_Values.Look(ref unifiedBenchView,          "unifiedBenchView",          true);
+            Scribe_Values.Look(ref gridBackground,            "gridBackground",            true);
             Scribe_Values.Look(ref unifyEraColorToEffective,  "unifyEraColorToEffective",  false);
             Scribe_Values.Look(ref unlockedContentExpanded,   "unlockedContentExpanded",   false);
             Scribe_Values.Look(ref focusHighlightDimming,     "focusHighlightDimming",     false);
@@ -143,6 +147,9 @@ namespace YART
                 replaceVanillaResearchTab = replace;
                 VanillaTabReplacer.Apply(replace);
             }
+
+            listing.CheckboxLabeled("YART_Settings_GridBackground".Translate(), ref gridBackground,
+                "YART_Settings_GridBackgroundDesc".Translate());
 
             listing.CheckboxLabeled("YART_Settings_EraColor".Translate(), ref unifyEraColorToEffective,
                 "YART_Settings_EraColorDesc".Translate());

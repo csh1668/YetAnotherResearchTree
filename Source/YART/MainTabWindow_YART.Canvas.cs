@@ -109,36 +109,39 @@ namespace YART
                 GLSolidQuadBatcher.Flush();
             }
 
-            // 3. 그리드 (보조선은 저줌에서 페이드 아웃)
-            float minorAlpha = Mathf.InverseLerp(Constraints.GridMinorFadeOutZoom - 0.2f, Constraints.GridMinorFadeOutZoom, zoom);
-            if (minorAlpha > 0f)
+            if (YARTMod.Settings.gridBackground)
             {
-                DrawGridLines(rect, offset, zoom, Constraints.GridMinorSpacing,
-                    GenColor.WithAlpha(Constraints.GridMinorColor, Constraints.GridMinorColor.a * minorAlpha), skipMajorPositions: true);
-            }
-            DrawGridLines(rect, offset, zoom, Constraints.GridMajorSpacing, Constraints.GridMajorColor, skipMajorPositions: false);
-            GLLineBatcher.Flush();
-
-            // 주선 교차점 도트 (글로우 스프라이트, 고줌에서만)
-            if (zoom >= 0.8f)
-            {
-                float dotAlpha = Mathf.InverseLerp(0.8f, 1.1f, zoom);
-                Color dotColor = GenColor.WithAlpha(Constraints.GridDotColor, Constraints.GridDotColor.a * dotAlpha);
-                float size = Constraints.GridDotSize * zoom;
-                float spacing = Constraints.GridMajorSpacing;
-                float startX = Mathf.Floor(visibleRect.xMin / spacing) * spacing;
-                float startY = Mathf.Floor(visibleRect.yMin / spacing) * spacing;
-                for (float wx = startX; wx <= visibleRect.xMax; wx += spacing)
+                // 3. 그리드 (보조선은 저줌에서 페이드 아웃)
+                float minorAlpha = Mathf.InverseLerp(Constraints.GridMinorFadeOutZoom - 0.2f, Constraints.GridMinorFadeOutZoom, zoom);
+                if (minorAlpha > 0f)
                 {
-                    for (float wy = startY; wy <= visibleRect.yMax; wy += spacing)
-                    {
-                        float sx = (wx * zoom) + offset.x;
-                        float sy = (wy * zoom) + offset.y;
-                        GLTexturedQuadBatcher.QueueQuad(Assets.GlowRadial,
-                            new Rect(sx - size / 2f, sy - size / 2f, size, size), dotColor);
-                    }
+                    DrawGridLines(rect, offset, zoom, Constraints.GridMinorSpacing,
+                        GenColor.WithAlpha(Constraints.GridMinorColor, Constraints.GridMinorColor.a * minorAlpha), skipMajorPositions: true);
                 }
-                GLTexturedQuadBatcher.Flush();
+                DrawGridLines(rect, offset, zoom, Constraints.GridMajorSpacing, Constraints.GridMajorColor, skipMajorPositions: false);
+                GLLineBatcher.Flush();
+
+                // 주선 교차점 도트 (글로우 스프라이트, 고줌에서만)
+                if (zoom >= 0.8f)
+                {
+                    float dotAlpha = Mathf.InverseLerp(0.8f, 1.1f, zoom);
+                    Color dotColor = GenColor.WithAlpha(Constraints.GridDotColor, Constraints.GridDotColor.a * dotAlpha);
+                    float size = Constraints.GridDotSize * zoom;
+                    float spacing = Constraints.GridMajorSpacing;
+                    float startX = Mathf.Floor(visibleRect.xMin / spacing) * spacing;
+                    float startY = Mathf.Floor(visibleRect.yMin / spacing) * spacing;
+                    for (float wx = startX; wx <= visibleRect.xMax; wx += spacing)
+                    {
+                        for (float wy = startY; wy <= visibleRect.yMax; wy += spacing)
+                        {
+                            float sx = (wx * zoom) + offset.x;
+                            float sy = (wy * zoom) + offset.y;
+                            GLTexturedQuadBatcher.QueueQuad(Assets.GlowRadial,
+                                new Rect(sx - size / 2f, sy - size / 2f, size, size), dotColor);
+                        }
+                    }
+                    GLTexturedQuadBatcher.Flush();
+                }
             }
 
             // 4. 노이즈 그레인 (스크린 공간, 절반 속도 패럴랙스)
