@@ -219,43 +219,44 @@ namespace YART
                 if (currentNode.Def.TechprintCount > 0)
                 {
                     bool techprintMet = currentNode.Def.TechprintRequirementMet;
-                    var tpFactions = currentNode.Def.heldByFactionCategoryTags != null
-                        ? TechprintFactions(currentNode.Def).ToList()
-                        : new List<Faction>();
-                    bool canExpand = tpFactions.Count > 0;
-                    bool expanded = techprintExpandedNode == currentNode;
-
-                    // 헤더(applied/total) — 보유 팩션이 있으면 클릭으로 목록 펼침/접힘 (기본 접힘 = 스크롤 압박 방지)
-                    Rect tpHeader = new Rect(padding, y, contentWidth, 22);
-                    if (canExpand && Mouse.IsOver(tpHeader)) Widgets.DrawHighlight(tpHeader);
-                    using (Temporary.Font(GameFont.Small))
-                    using (Temporary.Color(techprintMet ? new Color(0.6f, 1f, 0.6f) : new Color(0.95f, 0.8f, 0.35f)))
-                    {
-                        string label = "YART_Techprints".Translate(currentNode.Def.TechprintsApplied, currentNode.Def.TechprintCount);
-                        if (canExpand) label = (expanded ? "▾ " : "▸ ") + label + $"  ({tpFactions.Count})";
-                        Widgets.Label(tpHeader, label);
-                    }
-                    if (canExpand && Widgets.ButtonInvisible(tpHeader))
-                    {
-                        techprintExpandedNode = expanded ? null : currentNode;
-                        panelHeightCacheTime = float.NegativeInfinity; // 높이 즉시 재계산 (스크롤 영역 갱신)
-                        SoundDefOf.Click.PlayOneShotOnCamera();
-                    }
-                    y += 24;
-
-                    // 테크프린트 보유 세력 (펼쳐졌을 때만; 바닐라 DrawTechprintInfo와 동일 소스)
-                    if (expanded)
-                    {
-                        foreach (var faction in tpFactions)
-                        {
-                            using (Temporary.Font(GameFont.Tiny))
-                            using (Temporary.Color(new Color(0.7f, 0.75f, 0.85f)))
-                            {
-                                Widgets.Label(new Rect(padding + 8, y, contentWidth - 8, 18), "• " + faction.Name);
-                            }
-                            y += 18;
-                        }
-                    }
+                    // TODO: 잠금 사유에서도 이미 보이므로 굳이 필요한가 싶긴 해
+                    // var tpFactions = currentNode.Def.heldByFactionCategoryTags != null
+                    //     ? TechprintFactions(currentNode.Def).ToList()
+                    //     : new List<Faction>();
+                    // bool canExpand = tpFactions.Count > 0;
+                    // bool expanded = techprintExpandedNode == currentNode;
+                    //
+                    // // 헤더(applied/total) — 보유 팩션이 있으면 클릭으로 목록 펼침/접힘 (기본 접힘 = 스크롤 압박 방지)
+                    // Rect tpHeader = new Rect(padding, y, contentWidth, 22);
+                    // if (canExpand && Mouse.IsOver(tpHeader)) Widgets.DrawHighlight(tpHeader);
+                    // using (Temporary.Font(GameFont.Small))
+                    // using (Temporary.Color(techprintMet ? new Color(0.6f, 1f, 0.6f) : new Color(0.95f, 0.8f, 0.35f)))
+                    // {
+                    //     string label = "YART_Techprints".Translate(currentNode.Def.TechprintsApplied, currentNode.Def.TechprintCount);
+                    //     if (canExpand) label = (expanded ? "▾ " : "▸ ") + label + $"  ({tpFactions.Count})";
+                    //     Widgets.Label(tpHeader, label);
+                    // }
+                    // if (canExpand && Widgets.ButtonInvisible(tpHeader))
+                    // {
+                    //     techprintExpandedNode = expanded ? null : currentNode;
+                    //     panelHeightCacheTime = float.NegativeInfinity; // 높이 즉시 재계산 (스크롤 영역 갱신)
+                    //     SoundDefOf.Click.PlayOneShotOnCamera();
+                    // }
+                    // y += 24;
+                    //
+                    // // 테크프린트 보유 세력 (펼쳐졌을 때만; 바닐라 DrawTechprintInfo와 동일 소스)
+                    // if (expanded)
+                    // {
+                    //     foreach (var faction in tpFactions)
+                    //     {
+                    //         using (Temporary.Font(GameFont.Tiny))
+                    //         using (Temporary.Color(new Color(0.7f, 0.75f, 0.85f)))
+                    //         {
+                    //             Widgets.Label(new Rect(padding + 8, y, contentWidth - 8, 18), "• " + faction.Name);
+                    //         }
+                    //         y += 18;
+                    //     }
+                    // }
 
                     if (Prefs.DevMode && !techprintMet)
                     {
