@@ -28,11 +28,10 @@ namespace YART
             var result = new List<ResearchTabDef>();
             foreach (var kvp in ResearchGraph.Instance.SubGraphs)
             {
-                // 프리셋 키(통합 포함)는 Tab=null이므로 반드시 먼저 건너뜀 (TabInfoVisible(null) NRE 방지)
+                // 프리셋 키(통합 포함)는 Tab=null이므로 반드시 먼저 건너뜀
                 if (kvp.Key.IsPreset) continue;
                 if (!kvp.Key.Channel.IsBench) continue;
                 if (!kvp.Value.Nodes.Any(n => !n.IsDummy && !n.IsProxy)) continue;
-                if (!Find.ResearchManager.TabInfoVisible(kvp.Key.Tab)) continue;
                 result.Add(kvp.Key.Tab);
             }
             result.SortBy(t => (int)t.index);

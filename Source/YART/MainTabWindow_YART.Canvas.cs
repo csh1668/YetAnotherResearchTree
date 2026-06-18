@@ -180,7 +180,7 @@ namespace YART
             var graph = ResearchGraph.Instance.GetSubGraph(CurrentKey);
             if (graph == null) return;
 
-            // 성능 측정 스트레스 배수 — 소규모 모드팩에서도 1000/1000 부하를 모사 (DevMode)
+            // 성능 측정 스트레스 배수
             int reps = perfStress > 1 ? perfStress : 1;
             for (int r = 0; r < reps; r++)
             {

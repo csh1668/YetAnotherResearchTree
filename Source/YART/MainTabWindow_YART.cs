@@ -16,8 +16,9 @@ namespace YART
 
         // Viewport State
         private Vector2 scrollPosition = new Vector2(500f, 500f);
-        private Vector2 leftPanelScrollPosition = Vector2.zero;
         private float zoomLevel = Constraints.DefaultZoom;
+
+        private Vector2 leftPanelScrollPosition = Vector2.zero;
         private Rect visibleRect;
         private Rect canvasRect;
         private float eraLabelTopOffset;
