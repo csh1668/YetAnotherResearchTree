@@ -38,12 +38,9 @@ namespace YART
                 (maxWorld.x - minWorld.x) + (Constraints.CullingMargin.x * 2),
                 (maxWorld.y - minWorld.y) + (Constraints.CullingMargin.y * 2));
 
-            Vector2 screenPos = GUIUtility.GUIToScreenPoint(rect.position);
-            Rect clipRect = new Rect(screenPos.x, screenPos.y, rect.width, rect.height);
-
-            GLLineBatcher.ClipRect = clipRect;
-            GLSolidQuadBatcher.ClipRect = clipRect;
-            GLTexturedQuadBatcher.ClipRect = clipRect;
+            GLLineBatcher.ClipRect = rect;
+            GLSolidQuadBatcher.ClipRect = rect;
+            GLTexturedQuadBatcher.ClipRect = rect;
 
             try
             {

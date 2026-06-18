@@ -103,6 +103,7 @@
         <Compile Include="Utils\Temporary.cs" />
         <Compile Include="Assets.cs" />
         <Compile Include="Rendering\EdgeRenderer.cs" />
+        <Compile Include="Rendering\GLClip.cs" />
         <Compile Include="Rendering\GLLineBatcher.cs" />
         <Compile Include="Rendering\GLSolidQuadBatcher.cs" />
         <Compile Include="Rendering\GLTexturedQuadBatcher.cs" />

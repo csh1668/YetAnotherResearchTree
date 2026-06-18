@@ -108,10 +108,16 @@ namespace YART.Rendering
 
         /// <summary>
         /// 임의 사각형을 큐에 넣는다. 정점 순서는 a->b->c->d
-        /// 클리핑은 바운딩 박스 컬링만 수행
         /// </summary>
         public static void QueueFreeQuad(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color)
         {
+            freePoly[0].p = a; freePoly[0].c = color;
+            freePoly[1].p = b; freePoly[1].c = color;
+            freePoly[2].p = c; freePoly[2].c = color;
+            freePoly[3].p = d; freePoly[3].c = color;
+
+            GLClip.V[] poly = freePoly;
+            int n = 4;
             if (ClipRect.width > 0 && ClipRect.height > 0)
             {
                 float minX = Mathf.Min(Mathf.Min(a.x, b.x), Mathf.Min(c.x, d.x));
@@ -120,26 +126,37 @@ namespace YART.Rendering
                 float maxY = Mathf.Max(Mathf.Max(a.y, b.y), Mathf.Max(c.y, d.y));
                 if (maxX < ClipRect.xMin || minX > ClipRect.xMax ||
                     maxY < ClipRect.yMin || minY > ClipRect.yMax) return;
+
+                bool fullyInside = minX >= ClipRect.xMin && maxX <= ClipRect.xMax &&
+                                   minY >= ClipRect.yMin && maxY <= ClipRect.yMax;
+                if (!fullyInside)
+                {
+                    n = GLClip.ClipConvex(freePoly, 4, ClipRect, out poly);
+                    if (n < 3) return;
+                }
             }
 
-            bool aboutToExceedBatch = vertices.Count >= MaxVerticesPerBatch - 4;
-            if (aboutToExceedBatch) Flush();
+            // 최대 8정점 → 최대 3쿼드(12정점) 방출
+            if (vertices.Count >= MaxVerticesPerBatch - 12) Flush();
 
-            Vector2 sa = GUIScreenTransform.ToScreen(a);
-            Vector2 sb = GUIScreenTransform.ToScreen(b);
-            Vector2 sc = GUIScreenTransform.ToScreen(c);
-            Vector2 sd = GUIScreenTransform.ToScreen(d);
+            void AddQuad(in GLClip.V v0, in GLClip.V v1, in GLClip.V v2, in GLClip.V v3)
+            {
+                Vector2 s0 = GUIScreenTransform.ToScreen(v0.p);
+                Vector2 s1 = GUIScreenTransform.ToScreen(v1.p);
+                Vector2 s2 = GUIScreenTransform.ToScreen(v2.p);
+                Vector2 s3 = GUIScreenTransform.ToScreen(v3.p);
+                vertices.Add(new Vector3(s0.x, s0.y, 0)); colors.Add(v0.c);
+                vertices.Add(new Vector3(s1.x, s1.y, 0)); colors.Add(v1.c);
+                vertices.Add(new Vector3(s2.x, s2.y, 0)); colors.Add(v2.c);
+                vertices.Add(new Vector3(s3.x, s3.y, 0)); colors.Add(v3.c);
+            }
 
-            vertices.Add(new Vector3(sa.x, sa.y, 0));
-            vertices.Add(new Vector3(sb.x, sb.y, 0));
-            vertices.Add(new Vector3(sc.x, sc.y, 0));
-            vertices.Add(new Vector3(sd.x, sd.y, 0));
-
-            colors.Add(color);
-            colors.Add(color);
-            colors.Add(color);
-            colors.Add(color);
+            int idx = 1;
+            while (idx + 2 < n) { AddQuad(poly[0], poly[idx], poly[idx + 1], poly[idx + 2]); idx += 2; }
+            if (idx + 1 <= n - 1) AddQuad(poly[0], poly[idx], poly[idx + 1], poly[idx + 1]);
         }
+
+        private static readonly GLClip.V[] freePoly = new GLClip.V[4];
 
         public static void Flush()
         {
