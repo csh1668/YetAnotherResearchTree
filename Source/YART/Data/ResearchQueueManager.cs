@@ -192,6 +192,28 @@ namespace YART.Data
             MultiplayerCompat.PlayActionSound(SoundDefOf.ResearchStart);
         }
 
+        public void EnqueueWithChainExclusive(ResearchProjectDef def)
+        {
+            if (def == null || def.IsFinished) return;
+            if (SemiRandomResearchCompat.Active) return;
+            if (MultiplayerCompat.TryClearAndEnqueue(def)) return;
+            DoEnqueueExclusive(def);
+        }
+
+        internal void DoEnqueueExclusive(ResearchProjectDef def)
+        {
+            if (def == null || def.IsFinished) return;
+
+            var cleared = new HashSet<ResearchChannel>();
+            foreach (var d in CollectMissingChain(def))
+            {
+                var ch = ChannelOf(d);
+                if (cleared.Add(ch)) DoClear(ch);
+            }
+
+            DoEnqueue(def, toFront: false); // 비운 뒤라 앞/끝 무관
+        }
+
         /// <summary>
         /// 채널 큐를 비웁니다. 이 채널에서 진행 중이던 연구도 중단합니다 (UI 진입점)
         /// </summary>

@@ -7,7 +7,7 @@
   <YART_Settings_Section_Compat>호환성</YART_Settings_Section_Compat>
   <YART_Settings_Section_Maintenance>유지보수</YART_Settings_Section_Maintenance>
   <YART_Settings_SemiRandomCompat>Semi Random Research 호환 기능 (기본값: O)</YART_Settings_SemiRandomCompat>
-  <YART_Settings_SemiRandomCompatDesc>Semi Random Research가 설치되어 있고 이 옵션이 켜져 있으면, 연구 선택을 SRR이 관리하도록 YART의 수동 연구 큐 조작을 막습니다.</YART_Settings_SemiRandomCompatDesc>
+  <YART_Settings_SemiRandomCompatDesc>Semi Random Research가 설치되어 있고 이 옵션이 켜져 있으면, 연구 선택을 SRR이 관리하도록 YART의 수동 연구 대기열 조작을 막습니다.</YART_Settings_SemiRandomCompatDesc>
   <YART_Settings_SemiRandomDetected>상태: Semi Random Research 감지됨 — 호환 기능 작동 중.</YART_Settings_SemiRandomDetected>
   <YART_Settings_SemiRandomNotDetected>상태: Semi Random Research 감지 안 됨 — 이 설정은 효과가 없습니다.</YART_Settings_SemiRandomNotDetected>
   <YART_Settings_ReplaceTab>바닐라 연구 탭을 YART로 교체 (기본값: O)</YART_Settings_ReplaceTab>
@@ -18,6 +18,8 @@
   <YART_Settings_FocusDimmingDesc>켜면 연구에 마우스를 올렸을 때 그 선행/해금 경로가 아닌 모든 것을 어둡게 합니다. 끄면 어둡게 하지 않고 관련 경로만 강조합니다.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>연구 완료 시 편지 보내기 (기본값: O)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>켜면 연구 완료 시 뜨는 바닐라 팝업 창을, 알림 편지로 대체합니다. 끄면 바닐라 완료 창을 유지합니다.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>격자 배경 표시 (기본값: O)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>켜면 연구 트리 뒤에 청사진 격자(선과 교차점)를 그립니다. 끄면 격자 없이 어두운 배경만 유지합니다.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>연구 그래프 재생성</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>백그라운드에서 트리를 다시 생성합니다.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>연구 트리 구조 내보내기 (개발용)</YART_Settings_ExportGraph>
@@ -38,11 +40,14 @@
   <YART_SearchHint_ModDesc>모드 이름, 패키지 ID</YART_SearchHint_ModDesc>
 
   <!-- 동작 -->
-  <YART_StartNow>연구</YART_StartNow>
+  <YART_StartNow>즉시 시작</YART_StartNow>
+  <YART_TipQueueShift>Shift+클릭: 대기열 끝에 추가</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+클릭: 대기열 맨 앞에 삽입</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+클릭: 대기열 비우고 추가</YART_TipQueueCtrl>
   <YART_Stop>중단</YART_Stop>
-  <YART_Queue>예약</YART_Queue>
-  <YART_QueueChain>예약 ({0})</YART_QueueChain>
-  <YART_Unqueue>예약 취소 ({0})</YART_Unqueue>
+  <YART_Queue>대기열에 추가</YART_Queue>
+  <YART_QueueChain>대기열에 추가 ({0})</YART_QueueChain>
+  <YART_Unqueue>대기열에서 제거 ({0})</YART_Unqueue>
   <YART_InProgress>연구 중</YART_InProgress>
   <YART_Completed>완료됨</YART_Completed>
   <YART_Locked>잠김</YART_Locked>
@@ -81,11 +86,11 @@
   <YART_TechLevelUndefined>미정의</YART_TechLevelUndefined>
   <YART_RequiredByExternal>다른 탭의 연구 {0}개가 요구함:</YART_RequiredByExternal>
 
-  <!-- 예약 바 -->
-  <YART_QueueEmpty>연구 큐가 비어 있습니다.</YART_QueueEmpty>
+  <!-- 대기열 바 -->
+  <YART_QueueEmpty>연구 대기열이 비어 있습니다.</YART_QueueEmpty>
   <YART_Clear>비우기</YART_Clear>
-  <YART_ClearTooltip>현재 채널의 연구 큐를 모두 비웁니다.</YART_ClearTooltip>
-  <YART_ClearConfirm>연구 큐를 비울까요? ({0}개)</YART_ClearConfirm>
+  <YART_ClearTooltip>현재 채널의 연구 대기열을 모두 비웁니다.</YART_ClearTooltip>
+  <YART_ClearConfirm>연구 대기열을 비울까요? ({0}개)</YART_ClearConfirm>
   <YART_CannotStartYet>아직 시작할 수 없음: {0}\n선행 연구 또는 요구 사항이 충족되지 않았습니다.</YART_CannotStartYet>
   <YART_NextInQueue>다음 연구: {0}</YART_NextInQueue>
   <YART_NextResearchHeader>다음 연구</YART_NextResearchHeader>

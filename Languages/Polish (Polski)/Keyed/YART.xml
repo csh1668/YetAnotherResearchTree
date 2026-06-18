@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>Wł.: najechanie na badanie przyciemnia wszystko, co nie leży na jego ścieżce wymagań/odblokowań, niczym reflektor. Wył.: tylko podświetla powiązaną ścieżkę bez przyciemniania reszty.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Wyślij list przy ukończeniu badania (domyślnie: wł.)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>Wł.: zamienia domyślne okno wyskakujące wyświetlane po ukończeniu badania na powiadomienie w postaci listu. Wył.: zachowaj domyślne okno ukończenia.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>Pokaż tło siatki (domyślnie: wł.)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>Wł.: wyświetla siatkę projektu (linie i punkty przecięć) za drzewem badań. Wył.: zachowaj zwykłe ciemne tło bez siatki.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Przebuduj graf badań</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Generuje drzewo ponownie w tle.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Eksportuj strukturę drzewa badań na Pulpit (dev)</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>Nazwa moda, identyfikator pakietu</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Badaj</YART_StartNow>
+  <YART_StartNow>Rozpocznij teraz</YART_StartNow>
+  <YART_TipQueueShift>Shift+Klik: dodaj na koniec kolejki</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+Klik: wstaw na początek kolejki</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+Klik: wyczyść kolejkę, a następnie dodaj</YART_TipQueueCtrl>
   <YART_Stop>Zatrzymaj</YART_Stop>
   <YART_Queue>Do kolejki</YART_Queue>
   <YART_QueueChain>Do kolejki ({0})</YART_QueueChain>

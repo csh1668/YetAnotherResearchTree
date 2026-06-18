@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>An: Wenn du eine Forschung mit der Maus überfährst, wird alles abgedunkelt, was nicht auf ihrem Voraussetzungs-/Freischaltungspfad liegt, wie ein Scheinwerfer. Aus: Nur den zugehörigen Pfad hervorheben, ohne den Rest abzudunkeln.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Schreiben beim Forschungsabschluss senden (Standard: an)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>An: ersetzt das Vanilla-Popup-Fenster, das bei Forschungsabschluss angezeigt wird, durch einen Benachrichtigungsbrief. Aus: behalte das Vanilla-Abschlussfenster bei.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>Gitter-Hintergrund anzeigen (Standard: an)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>An: zeigt das Blueprint-Gitter (Linien und Kreuzungspunkte) hinter dem Forschungsbaum an. Aus: behält den einfachen dunklen Hintergrund ohne Gitter bei.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Forschungsgraph neu aufbauen</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Erzeugt den Baum im Hintergrund neu.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Forschungsbaumstruktur auf den Desktop exportieren (Entw.)</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>Mod-Name, Paket-ID</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Forschen</YART_StartNow>
+  <YART_StartNow>Jetzt starten</YART_StartNow>
+  <YART_TipQueueShift>Shift+Klick: am Ende der Warteschlange einreihen</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+Klick: am Anfang der Warteschlange einreihen</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+Klick: Warteschlange leeren, dann einreihen</YART_TipQueueCtrl>
   <YART_Stop>Stoppen</YART_Stop>
   <YART_Queue>Einreihen</YART_Queue>
   <YART_QueueChain>Einreihen ({0})</YART_QueueChain>

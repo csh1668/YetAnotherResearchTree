@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>Activé : survoler une recherche estompe tout ce qui ne se trouve pas sur son chemin de prérequis/déblocages, comme un projecteur. Désactivé : met uniquement en évidence le chemin associé sans estomper le reste.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Envoyer une lettre à la fin de la recherche (par défaut : activé)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>Activé : remplace la fenêtre contextuelle d'origine affichée lorsque la recherche se termine par une lettre de notification. Désactivé : conserver la fenêtre de fin d'origine.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>Afficher la grille d'arrière-plan (par défaut : activé)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>Activé : affiche la grille de fond (lignes et points d'intersection) derrière l'arbre de recherche. Désactivé : conserve l'arrière-plan noir uni sans grille.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Reconstruire le graphe de recherche</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Régénère l'arbre en arrière-plan.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Exporter la structure de l'arbre de recherche vers le Bureau (dév)</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>Nom du mod, identifiant de paquet</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Rechercher</YART_StartNow>
+  <YART_StartNow>Démarrer</YART_StartNow>
+  <YART_TipQueueShift>Shift+Clic : ajouter à la fin de la file d'attente</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+Clic : insérer au début de la file d'attente</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+Clic : vider la file d'attente, puis ajouter</YART_TipQueueCtrl>
   <YART_Stop>Arrêter</YART_Stop>
   <YART_Queue>File d'attente</YART_Queue>
   <YART_QueueChain>Mettre en file ({0})</YART_QueueChain>

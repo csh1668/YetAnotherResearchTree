@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>オン：研究にカーソルを合わせると、その前提条件や解放経路にないものをすべて暗くし、スポットライトのように強調します。オフ：関連する経路を強調するだけで、他は暗くしません。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>研究完了時に手紙を送信する（既定：オン）</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>オン：研究完了時に表示されるバニラのポップアップウィンドウを通知手紙に置き換えます。オフ：バニラの完了ウィンドウを表示します。</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>グリッド背景を表示する（既定：オン）</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>オン：研究ツリーの背後にブループリントグリッド（線と交差点のドット）を描画します。オフ：グリッドなしの単純な暗い背景を保ちます。</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>研究グラフを再構築</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>バックグラウンドでツリーを再生成します。</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>研究ツリー構造をデスクトップに書き出す（開発者向け）</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>MOD名、パッケージID</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>研究する</YART_StartNow>
+  <YART_StartNow>今すぐ開始</YART_StartNow>
+  <YART_TipQueueShift>Shift+クリック：予約の最後に追加</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+クリック：予約の最前に挿入</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+クリック：予約をクリア、その後追加</YART_TipQueueCtrl>
   <YART_Stop>中止</YART_Stop>
   <YART_Queue>予約</YART_Queue>
   <YART_QueueChain>予約 ({0})</YART_QueueChain>

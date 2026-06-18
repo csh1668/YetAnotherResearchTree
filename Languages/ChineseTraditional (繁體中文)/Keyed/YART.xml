@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>開啟：懸停於某項研究時，會淡化所有不在其前置／解鎖路徑上的項目，如同聚光燈。關閉：僅突顯相關路徑，不淡化其餘部分。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>研究完成時發送信函（預設：開啟）</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>開啟：以通知信函取代研究完成時顯示的原版快顯視窗。關閉：保留原版完成視窗。</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>顯示格線背景（預設：開啟）</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>開啟：在研究樹背景繪製藍圖格線（線和交點點）。關閉：保留純色深色背景，不顯示格線。</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>重建研究圖譜</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>於背景重新產生研究樹。</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>將研究樹結構匯出至桌面（開發用）</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>模組名稱、套件 ID</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>研究</YART_StartNow>
+  <YART_StartNow>立即開始</YART_StartNow>
+  <YART_TipQueueShift>Shift+點擊：加入佇列末端</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+點擊：插入佇列開端</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+點擊：清空佇列，然後加入</YART_TipQueueCtrl>
   <YART_Stop>停止</YART_Stop>
   <YART_Queue>排入佇列</YART_Queue>
   <YART_QueueChain>排入佇列（{0}）</YART_QueueChain>

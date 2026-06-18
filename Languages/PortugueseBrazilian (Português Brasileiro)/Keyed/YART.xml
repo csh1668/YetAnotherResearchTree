@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>Ligado: ao passar o cursor sobre uma pesquisa, escurece tudo que não está no seu caminho de pré-requisitos/desbloqueios, como um holofote. Desligado: apenas destaca o caminho relacionado sem escurecer o resto.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Enviar uma carta ao concluir a pesquisa (padrão: ligado)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>Ligado: substitui a janela pop-up padrão mostrada quando a pesquisa termina por uma carta de notificação. Desligado: mantém a janela de conclusão padrão.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>Mostrar grade de fundo (padrão: ligado)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>Ligado: desenha a grade de planejamento (linhas e pontos de intersecção) atrás da árvore de pesquisa. Desligado: mantém o fundo escuro simples sem a grade.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Reconstruir grafo de pesquisa</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Gera a árvore novamente em segundo plano.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Exportar a estrutura da árvore de pesquisa para a Área de Trabalho (dev)</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>Nome do mod, ID do pacote</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Pesquisar</YART_StartNow>
+  <YART_StartNow>Iniciar agora</YART_StartNow>
+  <YART_TipQueueShift>Shift+Clique: adicionar ao final da fila</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+Clique: inserir no início da fila</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+Clique: limpar fila, em seguida adicionar</YART_TipQueueCtrl>
   <YART_Stop>Parar</YART_Stop>
   <YART_Queue>Fila</YART_Queue>
   <YART_QueueChain>Enfileirar ({0})</YART_QueueChain>

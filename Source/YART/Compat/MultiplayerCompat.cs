@@ -31,6 +31,7 @@ namespace YART.Compat
                 MP.RegisterSyncMethod(typeof(MultiplayerCompat), nameof(Cmd_Remove));
                 MP.RegisterSyncMethod(typeof(MultiplayerCompat), nameof(Cmd_Reorder));
                 MP.RegisterSyncMethod(typeof(MultiplayerCompat), nameof(Cmd_Clear));
+                MP.RegisterSyncMethod(typeof(MultiplayerCompat), nameof(Cmd_ClearAndEnqueue));
                 MP.RegisterSyncMethod(typeof(MultiplayerCompat), nameof(Cmd_StartNow));
                 Log.Message("[YART] Multiplayer API detected — research queue sync registered.");
             }
@@ -77,12 +78,20 @@ namespace YART.Compat
             return true;
         }
 
+        public static bool TryClearAndEnqueue(ResearchProjectDef def)
+        {
+            if (!InMultiplayer) return false;
+            ConfirmMemesThenSync(def, () => Cmd_ClearAndEnqueue(def));
+            return true;
+        }
+
         // ---- MP sync 진입점 (전 클라이언트에서 실행) ----
 
         public static void Cmd_Enqueue(ResearchProjectDef def, bool toFront) => ResearchQueueManager.Instance?.DoEnqueue(def, toFront);
         public static void Cmd_Remove(ResearchProjectDef def) => ResearchQueueManager.Instance?.DoRemove(def);
         public static void Cmd_StartNow(ResearchProjectDef def) => ResearchQueueManager.Instance?.DoStartNow(def);
         public static void Cmd_Clear(string channelId) => ResearchQueueManager.Instance?.DoClear(ChannelRegistry.ById(channelId));
+        public static void Cmd_ClearAndEnqueue(ResearchProjectDef def) => ResearchQueueManager.Instance?.DoEnqueueExclusive(def);
         public static void Cmd_Reorder(string channelId, ResearchProjectDef def, int targetIndex)
             => ResearchQueueManager.Instance?.DoReorder(ChannelRegistry.ById(channelId), def, targetIndex);
 

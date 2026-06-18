@@ -44,6 +44,18 @@ namespace YART
                         return;
                     }
 
+                    // Ctrl+클릭 = 체인이 닿는 채널을 비우고 추가 (이 체인만 남김). Available일 때만.
+                    if (Event.current.control)
+                    {
+                        var mgr = ResearchQueueManager.Instance;
+                        if (mgr != null && target.State == ResearchNodeState.Available && !SemiRandomResearchCompat.Active)
+                            mgr.EnqueueWithChainExclusive(target.Def); // 사운드는 DoEnqueue 내부(ResearchStart)
+                        else
+                            SoundDefOf.ClickReject.PlayOneShotOnCamera();
+                        Event.current.Use();
+                        return;
+                    }
+
                     // Alt+클릭 = 큐 맨 앞에 삽입 (진행 중 연구를 밀어내고 먼저 연구).
                     // Available일 때만 큐잉 가능 — 좌측 패널과 동일(Locked는 불가, 거부음).
                     if (Event.current.alt)

@@ -18,6 +18,8 @@
   <YART_Settings_FocusDimmingDesc>On: hovering a research dims everything not on its prerequisite/unlock path, like a spotlight. Off: only highlight the related path without dimming the rest.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Send a letter on research completion (default: on)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>On: replaces the vanilla pop-up window shown when research finishes with a notification letter. Off: keep the vanilla completion window.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>Show grid background (default: on)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>On: draws the blueprint grid (lines and intersection dots) behind the research tree. Off: keeps the plain dark background without the grid.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Rebuild research graph</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Regenerates the tree in the background.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Export research tree structure to Desktop (dev)</YART_Settings_ExportGraph>
@@ -38,7 +40,10 @@
   <YART_SearchHint_ModDesc>Mod name, package ID</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Research</YART_StartNow>
+  <YART_StartNow>Start Now</YART_StartNow>
+  <YART_TipQueueShift>Shift+Click: add to end of queue</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+Click: insert at front of queue</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+Click: clear queue, then add</YART_TipQueueCtrl>
   <YART_Stop>Stop</YART_Stop>
   <YART_Queue>Queue</YART_Queue>
   <YART_QueueChain>Queue ({0})</YART_QueueChain>

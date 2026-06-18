@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>Activado: al pasar el cursor sobre una investigación se atenúa todo lo que no esté en su ruta de prerrequisitos/desbloqueos, como un foco de luz. Desactivado: solo resalta la ruta relacionada sin atenuar el resto.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Enviar una carta al completar la investigación (por defecto: activado)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>Activado: reemplaza la ventana emergente original que se muestra cuando termina la investigación con una carta de notificación. Desactivado: mantén la ventana de finalización original.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>Mostrar fondo de cuadrícula (por defecto: activado)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>Activado: dibuja la cuadrícula (líneas y puntos de intersección) detrás del árbol de investigación. Desactivado: conserva el fondo oscuro sin la cuadrícula.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Reconstruir el árbol de investigación</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Regenera el árbol en segundo plano.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Exportar la estructura del árbol de investigación al Escritorio (dev)</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>Nombre del mod, ID del paquete</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Investigar</YART_StartNow>
+  <YART_StartNow>Empezar ahora</YART_StartNow>
+  <YART_TipQueueShift>Shift+Clic: añadir al final de la cola</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+Clic: insertar al inicio de la cola</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+Clic: vaciar la cola e insertar</YART_TipQueueCtrl>
   <YART_Stop>Detener</YART_Stop>
   <YART_Queue>En cola</YART_Queue>
   <YART_QueueChain>En cola ({0})</YART_QueueChain>

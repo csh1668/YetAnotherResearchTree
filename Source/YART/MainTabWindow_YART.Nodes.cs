@@ -5,6 +5,7 @@ using Verse;
 using YART.Data;
 using YART.Utils;
 using YART.Rendering;
+using YART.Compat;
 
 namespace YART
 {
@@ -457,6 +458,15 @@ namespace YART
             if (showTabLine && !node.IsProxy && !node.IsDummy && real.Tab != null)
             {
                 sb.AppendLine().Append((string)"YART_Tab".Translate(real.Tab.LabelCap));
+            }
+
+            // 안내 푸터
+            if (real.State == ResearchNodeState.Available && !SemiRandomResearchCompat.Active)
+            {
+                sb.AppendLine().AppendLine();
+                sb.AppendLine((string)"YART_TipQueueShift".Translate());
+                sb.AppendLine((string)"YART_TipQueueAlt".Translate());
+                sb.Append((string)"YART_TipQueueCtrl".Translate());
             }
 
             return sb.ToString();

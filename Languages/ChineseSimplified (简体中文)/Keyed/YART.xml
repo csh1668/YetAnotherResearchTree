@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>开启：悬停某项研究时，会淡化所有不在其前置/解锁路径上的内容，如同聚光灯效果。关闭：仅高亮相关路径，而不淡化其余部分。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>研究完成时发送信件（默认：开启）</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>开启：用通知信件替换研究完成时显示的原版弹窗。关闭：保留原版完成窗口。</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>显示网格背景（默认：开启）</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>开启：在研究树后面绘制蓝图网格（网格线和交点）。关闭：保持纯色深色背景，不显示网格。</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>重建研究图谱</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>在后台重新生成研究树。</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>将研究树结构导出到桌面（开发者）</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>模组名称、包 ID</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>研究</YART_StartNow>
+  <YART_StartNow>立即开始</YART_StartNow>
+  <YART_TipQueueShift>Shift+点击：添加到排队末尾</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+点击：插入到排队前端</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+点击：清空排队，然后添加</YART_TipQueueCtrl>
   <YART_Stop>停止</YART_Stop>
   <YART_Queue>排队</YART_Queue>
   <YART_QueueChain>排队（{0}）</YART_QueueChain>

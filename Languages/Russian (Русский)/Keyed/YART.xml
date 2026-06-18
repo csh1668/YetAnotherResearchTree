@@ -10,6 +10,8 @@
   <YART_Settings_FocusDimmingDesc>Вкл.: при наведении на исследование затемняется всё, что не лежит на его пути требований/открытий, словно прожектором. Выкл.: только подсвечивать связанный путь, не затемняя остальное.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Отправить письмо при завершении исследования (по умолчанию: вкл.)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>Вкл.: заменяет всплывающее окно ванили, показываемое по завершении исследования, на уведомление-письмо. Выкл.: сохраняет стандартное окно завершения.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_GridBackground>Показывать фоновую сетку (по умолчанию: вкл.)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>Вкл.: рисует сетку чертежей (линии и точки пересечений) позади дерева исследований. Выкл.: сохраняет простой тёмный фон без сетки.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Перестроить граф исследований</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Заново строит дерево в фоновом режиме.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Экспортировать структуру дерева исследований на Рабочий стол (разработка)</YART_Settings_ExportGraph>
@@ -30,7 +32,10 @@
   <YART_SearchHint_ModDesc>Название мода, ID пакета</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Исследовать</YART_StartNow>
+  <YART_StartNow>Начать сейчас</YART_StartNow>
+  <YART_TipQueueShift>Shift+Щелчок: добавить в конец очереди</YART_TipQueueShift>
+  <YART_TipQueueAlt>Alt+Щелчок: вставить в начало очереди</YART_TipQueueAlt>
+  <YART_TipQueueCtrl>Ctrl+Щелчок: очистить очередь, затем добавить</YART_TipQueueCtrl>
   <YART_Stop>Остановить</YART_Stop>
   <YART_Queue>В очередь</YART_Queue>
   <YART_QueueChain>В очередь ({0})</YART_QueueChain>

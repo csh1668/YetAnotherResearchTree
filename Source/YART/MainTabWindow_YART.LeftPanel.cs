@@ -516,51 +516,6 @@ namespace YART
                     return rowHeight;
                 }
 
-                bool canStartNow = def.CanStartNow;
-
-                if (canStartNow)
-                {
-                    if (queuePos > 0)
-                    {
-                        // 이미 큐에 있음: Start now + Unqueue
-                        if (DrawPanelButton(btnA, "YART_StartNow".Translate(), Constraints.ButtonActive, enabled: true))
-                        {
-                            StartResearch(def);
-                        }
-                        if (DrawPanelButton(btnB, "YART_Unqueue".Translate(queuePos), Constraints.ButtonDisabled, enabled: true))
-                        {
-                            queueMgr.Remove(def);
-                            SoundDefOf.Tick_Low.PlayOneShotOnCamera();
-                        }
-                        return rowHeight;
-                    }
-
-                    // 큐가 비어 있으면 Queue는 Start now와 동작이 동일(머리=즉시 시작)하므로 숨기고 Start now만 전폭
-                    bool queueEmpty = queueMgr == null
-                        || queueMgr.GetQueue(ResearchQueueManager.ChannelOf(def)).Count == 0;
-
-                    if (queueEmpty)
-                    {
-                        if (DrawPanelButton(btnFull, "YART_StartNow".Translate(), Constraints.ButtonActive, enabled: true))
-                        {
-                            StartResearch(def);
-                        }
-                    }
-                    else
-                    {
-                        if (DrawPanelButton(btnA, "YART_StartNow".Translate(), Constraints.ButtonActive, enabled: true))
-                        {
-                            StartResearch(def);
-                        }
-                        if (queueMgr != null && DrawPanelButton(btnB, "YART_Queue".Translate(), Constraints.ButtonActive, enabled: true))
-                        {
-                            queueMgr.EnqueueWithChain(def); // 사운드는 EnqueueWithChain 내부(ResearchStart)
-                        }
-                    }
-                    return rowHeight;
-                }
-
-                // 큐는 가능하지만 즉시 시작은 불가 (선행 미완 등)
                 if (queuePos > 0)
                 {
                     if (DrawPanelButton(btnFull, "YART_Unqueue".Translate(queuePos), Constraints.ButtonDisabled, enabled: true))
@@ -568,15 +523,15 @@ namespace YART
                         queueMgr.Remove(def);
                         SoundDefOf.Tick_Low.PlayOneShotOnCamera();
                     }
+                    return rowHeight;
                 }
-                else
+
+                int chainCount = ResearchQueueManager.CollectMissingChain(def).Count;
+                string label = chainCount > 1 ? "YART_QueueChain".Translate(chainCount) : "YART_Queue".Translate();
+                if (queueMgr != null) TooltipHandler.TipRegion(btnFull, QueueModifierTip());
+                if (DrawPanelButton(btnFull, label, Constraints.ButtonActive, enabled: queueMgr != null))
                 {
-                    int chainCount = ResearchQueueManager.CollectMissingChain(def).Count;
-                    string label = chainCount > 1 ? "YART_QueueChain".Translate(chainCount) : "YART_Queue".Translate();
-                    if (DrawPanelButton(btnFull, label, Constraints.ButtonActive, enabled: queueMgr != null))
-                    {
-                        queueMgr.EnqueueWithChain(def); // 사운드는 EnqueueWithChain 내부(ResearchStart)
-                    }
+                    EnqueueByModifier(queueMgr, def); // 노드 클릭과 동일: 기본=끝, Alt=앞, Ctrl=비우고 추가
                 }
                 return rowHeight;
             }
@@ -584,6 +539,21 @@ namespace YART
             DrawPanelButton(btnFull, "YART_Locked".Translate(), Constraints.ButtonDisabled, enabled: false);
             return rowHeight;
         }
+
+
+        private static void EnqueueByModifier(ResearchQueueManager mgr, ResearchProjectDef def)
+        {
+            if (mgr == null) return;
+            var e = Event.current;
+            if (e.control) mgr.EnqueueWithChainExclusive(def);
+            else if (e.alt) mgr.EnqueueWithChainToFront(def);
+            else mgr.EnqueueWithChain(def);
+        }
+
+        private static string QueueModifierTip() => string.Concat(
+            (string)"YART_TipQueueShift".Translate(), "\n",
+            (string)"YART_TipQueueAlt".Translate(), "\n",
+            (string)"YART_TipQueueCtrl".Translate());
 
         private bool DrawPanelButton(Rect rect, string label, Color color, bool enabled)
         {
