@@ -76,7 +76,7 @@ namespace YART.Data
                 if (IsDummy) return string.Empty;
                 if (IsProxy) return OriginalNode.Label;
                 if (IsHidden) return UnknownLabel;
-                return Def.label;
+                return Def.label.CapitalizeFirst();
             }
         }
 
