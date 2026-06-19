@@ -107,9 +107,14 @@ namespace YART
             // 창이 열릴 때 현재 제너레이션을 기준으로 삼는다.
             lastSeenGeneration = GraphBuildPipeline.Generation;
 
+            bool viewReady = GraphBuildPipeline.GraphReady;
+            if (viewReady) SaveCurrentView();
+
             // 통합 뷰 상태 초기화 — DoWindowContents 첫 진입 시 설정 기반 자동 전환을 수행한다.
             currentPresetId = null;
             unifiedViewApplied = false;
+
+            if (viewReady) RestoreView(CurrentKey);
 
             // World Tech Level 등으로 가시성 필터 레벨이 바뀌었으면(주로 게임 진입 1회) 그래프를
             // 백그라운드로 다시 빌드한다. 필터는 정적이라 게임당 거의 1회만 트리거된다.
@@ -346,20 +351,31 @@ namespace YART
             }
         }
 
+        private void SaveCurrentView()
+        {
+            graphScrollPositions[CurrentKey] = scrollAnimating ? scrollAnimTarget : scrollPosition;
+            graphZoomLevels[CurrentKey] = zoomLevel;
+        }
+
+        private void RestoreView(GraphKey key)
+        {
+            scrollPosition = graphScrollPositions.TryGetValue(key, out var s) ? s : new Vector2(500f, 500f);
+            zoomLevel = graphZoomLevels.TryGetValue(key, out var z) ? z : Constraints.DefaultZoom;
+            scrollAnimating = false;
+        }
+
         private void SwitchGraph(GraphKey key, bool playSound = true)
         {
             if (key.Equals(CurrentKey)) return;
 
-            graphScrollPositions[CurrentKey] = scrollAnimating ? scrollAnimTarget : scrollPosition;
-            graphZoomLevels[CurrentKey] = zoomLevel;
+            SaveCurrentView();
             scrollAnimating = false;
 
             currentPresetId = key.IsPreset ? key.PresetId : null;
             SelectedChannel = key.Channel;
             if (!key.IsPreset && key.Channel.IsBench) selectedTab = key.Tab;
 
-            scrollPosition = graphScrollPositions.TryGetValue(key, out var s) ? s : new Vector2(500f, 500f);
-            zoomLevel = graphZoomLevels.TryGetValue(key, out var z) ? z : Constraints.DefaultZoom;
+            RestoreView(key);
 
             hoveredNode = null;
             focusedNodes.Clear();
