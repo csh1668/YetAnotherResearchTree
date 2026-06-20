@@ -30,6 +30,8 @@ namespace YART
         public static readonly Texture2D IconStar = ContentFinder<Texture2D>.Get("YART/IconStar");
         public static readonly Texture2D IconStarHollow = ContentFinder<Texture2D>.Get("YART/IconStarHollow");
 
+        public static readonly Texture2D IconTechprint = ContentFinder<Texture2D>.Get("UI/Icons/Research/Techprint");
+
         public const float PanelCornerUV = 12f / 64f;
 
         static Assets()

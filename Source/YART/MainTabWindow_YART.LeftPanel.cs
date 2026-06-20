@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -22,9 +21,6 @@ namespace YART
         private float panelHeightCacheWidth;
         private float panelHeightCacheValue;
         private float panelHeightCacheTime = float.NegativeInfinity;
-
-        // 테크프린트 보유 팩션 목록을 펼친 노드 (기본 접힘 — 스크롤 압박 방지). null이면 전부 접힘.
-        private ResearchNode techprintExpandedNode;
 
         /// <summary>
         /// TechLevel 표시 라벨. 바닐라 ToStringHuman은 Undefined에 대한 번역 키("Undefined")가
@@ -215,50 +211,12 @@ namespace YART
                     }
                 }
 
-                // 테크프린트 (바닐라: applied/total + 보유 세력 + DevMode 적용 치트)
-                if (currentNode.Def.TechprintCount > 0)
+                // 청사진 구입처 보충
+                if (currentNode.Def.TechprintCount > 0 && !currentNode.Def.TechprintRequirementMet)
                 {
-                    bool techprintMet = currentNode.Def.TechprintRequirementMet;
-                    // TODO: 잠금 사유에서도 이미 보이므로 굳이 필요한가 싶긴 해
-                    // var tpFactions = currentNode.Def.heldByFactionCategoryTags != null
-                    //     ? TechprintFactions(currentNode.Def).ToList()
-                    //     : new List<Faction>();
-                    // bool canExpand = tpFactions.Count > 0;
-                    // bool expanded = techprintExpandedNode == currentNode;
-                    //
-                    // // 헤더(applied/total) — 보유 팩션이 있으면 클릭으로 목록 펼침/접힘 (기본 접힘 = 스크롤 압박 방지)
-                    // Rect tpHeader = new Rect(padding, y, contentWidth, 22);
-                    // if (canExpand && Mouse.IsOver(tpHeader)) Widgets.DrawHighlight(tpHeader);
-                    // using (Temporary.Font(GameFont.Small))
-                    // using (Temporary.Color(techprintMet ? new Color(0.6f, 1f, 0.6f) : new Color(0.95f, 0.8f, 0.35f)))
-                    // {
-                    //     string label = "YART_Techprints".Translate(currentNode.Def.TechprintsApplied, currentNode.Def.TechprintCount);
-                    //     if (canExpand) label = (expanded ? "▾ " : "▸ ") + label + $"  ({tpFactions.Count})";
-                    //     Widgets.Label(tpHeader, label);
-                    // }
-                    // if (canExpand && Widgets.ButtonInvisible(tpHeader))
-                    // {
-                    //     techprintExpandedNode = expanded ? null : currentNode;
-                    //     panelHeightCacheTime = float.NegativeInfinity; // 높이 즉시 재계산 (스크롤 영역 갱신)
-                    //     SoundDefOf.Click.PlayOneShotOnCamera();
-                    // }
-                    // y += 24;
-                    //
-                    // // 테크프린트 보유 세력 (펼쳐졌을 때만; 바닐라 DrawTechprintInfo와 동일 소스)
-                    // if (expanded)
-                    // {
-                    //     foreach (var faction in tpFactions)
-                    //     {
-                    //         using (Temporary.Font(GameFont.Tiny))
-                    //         using (Temporary.Color(new Color(0.7f, 0.75f, 0.85f)))
-                    //         {
-                    //             Widgets.Label(new Rect(padding + 8, y, contentWidth - 8, 18), "• " + faction.Name);
-                    //         }
-                    //         y += 18;
-                    //     }
-                    // }
+                    y += DrawTechprintSourcesSection(currentNode.Def, padding, y, contentWidth);
 
-                    if (Prefs.DevMode && !techprintMet)
+                    if (Prefs.DevMode)
                     {
                         if (DrawPanelButton(new Rect(padding, y, contentWidth, 26), "Dev: Apply techprint",
                                 new Color(0.85f, 0.5f, 0.3f), enabled: true))
@@ -833,6 +791,42 @@ namespace YART
             return 24f + rows * 32f + 6f; // 헤더 + 행(28+4) + 하단 여백
         }
 
+        private float DrawTechprintSourcesSection(ResearchProjectDef def, float padding, float y, float contentWidth)
+        {
+            float startY = y;
+
+            using (Temporary.Font(GameFont.Small))
+            using (Temporary.Color(new Color(0.7f, 0.78f, 0.9f)))
+            {
+                Widgets.Label(new Rect(padding, y, contentWidth, 22), "ResearchTechprintsFromFactions".Translate());
+            }
+            y += 24f;
+
+            const float rowH = 26f;
+            foreach (var faction in TechprintFactions(def))
+            {
+                Rect iconRect = new Rect(padding + 6f, y + (rowH - 22f) / 2f, 22f, 22f);
+                FactionUIUtility.DrawFactionIconWithTooltip(iconRect, faction);
+                using (Temporary.Font(GameFont.Small))
+                using (Temporary.Anchor(TextAnchor.MiddleLeft))
+                using (Temporary.Color(new Color(0.8f, 0.82f, 0.88f)))
+                {
+                    Widgets.Label(new Rect(iconRect.xMax + 6f, y, contentWidth - 34f, rowH), faction.Name);
+                }
+                y += rowH;
+            }
+            y += 4f;
+            return y - startY;
+        }
+
+        /// <summary>DrawTechprintSourcesSection의 높이 측정 (CalculateLeftPanelHeight 전용).</summary>
+        private static float MeasureTechprintSourcesHeight(ResearchProjectDef def)
+        {
+            float h = 24f; // "...FromFactions" 헤더
+            foreach (var _ in TechprintFactions(def)) h += 26f; // 세력 행
+            return h + 4f;
+        }
+
         /// <summary>테크프린트를 보유/판매하는 세력 (바닐라 MainTabWindow_Research.DrawTechprintInfo와 동일 판정).</summary>
         private static IEnumerable<Faction> TechprintFactions(ResearchProjectDef def)
         {
@@ -903,15 +897,11 @@ namespace YART
                 }
             }
 
-            // 테크프린트 섹션 (DoLeftRect와 동일 구성)
-            if (node.Def.TechprintCount > 0)
+            // 테크프린트 구입처 보충 (DoLeftRect와 동일 조건/구성)
+            if (node.Def.TechprintCount > 0 && !node.Def.TechprintRequirementMet)
             {
-                height += 24; // 헤더(applied/total + 토글)
-                if (techprintExpandedNode == node) // 펼쳤을 때만 팩션 목록 높이 반영
-                {
-                    foreach (var _ in TechprintFactions(node.Def)) height += 18;
-                }
-                if (Prefs.DevMode && !node.Def.TechprintRequirementMet) height += 30;
+                height += MeasureTechprintSourcesHeight(node.Def);
+                if (Prefs.DevMode) height += 30;
                 height += 4;
             }
 

@@ -6,8 +6,8 @@ namespace YART.Data
     public static class Constraints
     {
         // Viewport
-        public const float DefaultZoom = 1.0f;
-        public const float MinZoom = 0.25f;
+        public const float DefaultZoom = 1.1f;
+        public const float MinZoom = 0.20f;
         public const float MaxZoom = 2.0f;
         public const float CameraFocusAnimDuration = 0.3f;
 

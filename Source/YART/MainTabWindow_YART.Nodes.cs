@@ -402,6 +402,10 @@ namespace YART
             {
                 DrawRichCardContent(node, nodeRectScreen, zoom, nodeAlpha * richLerp);
             }
+            else
+            {
+                DrawTechprintLowZoomMarker(node, nodeRectScreen, zoom, nodeAlpha);
+            }
 
             DrawQueueBadge(node, nodeRectScreen, zoom, nodeAlpha);
             DrawExternalDependentsBadge(node, nodeRectScreen, zoom, nodeAlpha);
@@ -715,14 +719,36 @@ namespace YART
                 Widgets.Label(noneRect, "-");
             }
 
-            // 비용 (우하단) — 리치 카드는 줌 1.1 이상에서만 보이므로 Small 폰트로 크게
-            Rect costRect = new Rect(nodeRectScreen.x + 6f * zoom, nodeRectScreen.yMax - 22f * zoom,
-                nodeRectScreen.width - 12f * zoom, 19f * zoom);
+            // 우하단 비용 행 — 우→좌로 [비용] [테크프린트 카운트] [테크프린트 아이콘] 배치
+            // (바닐라 DrawBottomRow의 "비용 | 테크프린트" 그룹핑과 동일). 리치 카드는 줌 1.1 이상에서만 보임.
+            float rowY = nodeRectScreen.yMax - 22f * zoom;
+            float rowH = 19f * zoom;
+            float right = nodeRectScreen.xMax - 6f * zoom;
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleRight;
+
+            // 비용 (가장 오른쪽) — CostApparent (Cost = baseCost 또는 knowledgeCost, × 테크레벨 계수)
+            string costStr = realNode.Def.CostApparent.ToString("N0");
+            float costW = Text.CalcSize(costStr).x;
             GUI.color = new Color(0.72f, 0.79f, 0.88f, alpha);
-            // 바닐라 리스트와 동일하게 CostApparent (Cost = baseCost 또는 knowledgeCost, × 테크레벨 계수)
-            Widgets.Label(costRect, realNode.Def.CostApparent.ToString("N0"));
+            Widgets.Label(new Rect(right - costW, rowY, costW, rowH), costStr);
+            right -= costW + 8f * zoom;
+
+            // 테크프린트 요구 (비용 왼쪽) — 색=충족(초록)/미충족(빨강), 아이콘은 바닐라처럼 흰색 틴트
+            if (realNode.Def.TechprintCount > 0)
+            {
+                bool met = realNode.Def.TechprintRequirementMet;
+                string tpStr = realNode.Def.TechprintsApplied + "/" + realNode.Def.TechprintCount;
+                float tpW = Text.CalcSize(tpStr).x;
+                GUI.color = (met ? Color.green : ColorLibrary.RedReadable).WithAlpha(alpha);
+                Widgets.Label(new Rect(right - tpW, rowY, tpW, rowH), tpStr);
+                right -= tpW + 2f * zoom;
+
+                float iconSz = 15f * zoom;
+                GUI.color = new Color(1f, 1f, 1f, alpha);
+                GUI.DrawTexture(new Rect(right - iconSz, rowY + (rowH - iconSz) / 2f, iconSz, iconSz),
+                    Assets.IconTechprint, ScaleMode.ScaleToFit);
+            }
 
             // 루프 공유 상태 복원
             GUI.color = prevColor;
@@ -791,14 +817,41 @@ namespace YART
             var icon = GetModIcon(node.SourceMod);
             if (icon == null) return;
 
-            float sz = 18f * zoom;
-            float rightPad = 5f * zoom;
-            if (HasQueueBadge(node, zoom)) rightPad += Mathf.Max(18f, 26f * zoom) * 0.7f;
-
-            Rect r = new Rect(nodeRectScreen.xMax - sz - rightPad, nodeRectScreen.center.y - sz / 2f, sz, sz);
+            Rect r = ModIconSlot(node, nodeRectScreen, zoom);
             GUI.color = new Color(1f, 1f, 1f, alpha);
             GUI.DrawTexture(r, icon, ScaleMode.ScaleToFit); // 종횡비 유지
             GUI.color = restoreColor;
+        }
+
+        /// <summary>모드/DLC 출처 아이콘의 화면 사각형 (마커가 같은 슬롯을 공유하도록 DrawNodeModIcon과 동일 계산).</summary>
+        private Rect ModIconSlot(ResearchNode node, Rect nodeRectScreen, float zoom)
+        {
+            float sz = 18f * zoom;
+            float rightPad = 5f * zoom;
+            if (HasQueueBadge(node, zoom)) rightPad += Mathf.Max(18f, 26f * zoom) * 0.7f;
+            return new Rect(nodeRectScreen.xMax - sz - rightPad, nodeRectScreen.center.y - sz / 2f, sz, sz);
+        }
+
+        /// <summary>
+        /// 저줌(리치 카드 미표시)에서 테크프린트 요구를 알리는 작은 마커. 모드 아이콘 바로 아래 같은
+        /// 가로 슬롯에 배치하며, 색=충족(초록)/미충족(빨강)으로 트리 스캔만으로 막힌 노드를 식별하게 한다.
+        /// 카운트는 줌 인 시 비용 옆에서 확인(상호배타). 미발견·테크프린트 없는 노드는 생략.
+        /// </summary>
+        private void DrawTechprintLowZoomMarker(ResearchNode node, Rect nodeRectScreen, float zoom, float alpha)
+        {
+            if (node.IsHidden) return;
+            var def = node.IsProxy ? node.OriginalNode.Def : node.Def;
+            if (def == null || def.TechprintCount <= 0) return;
+
+            Rect modSlot = ModIconSlot(node, nodeRectScreen, zoom);
+            float markSz = 13f * zoom;
+            Rect r = new Rect(modSlot.center.x - markSz / 2f, modSlot.yMax + 2f * zoom, markSz, markSz);
+
+            bool met = def.TechprintRequirementMet;
+            var prevColor = GUI.color;
+            GUI.color = (met ? Color.green : ColorLibrary.RedReadable).WithAlpha(alpha);
+            GUI.DrawTexture(r, Assets.IconTechprint, ScaleMode.ScaleToFit);
+            GUI.color = prevColor;
         }
 
         /// <summary>이 노드에 큐 배지(진행 중 ▶ 또는 큐 순번 #N)가 그려지는지. DrawQueueBadge와 동일 판정.</summary>
