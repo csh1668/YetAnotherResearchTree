@@ -740,7 +740,7 @@ namespace YART
                 bool met = realNode.Def.TechprintRequirementMet;
                 string tpStr = realNode.Def.TechprintsApplied + "/" + realNode.Def.TechprintCount;
                 float tpW = Text.CalcSize(tpStr).x;
-                GUI.color = (met ? Color.green : ColorLibrary.RedReadable).WithAlpha(alpha);
+                GUI.color = (met ? ActiveColors.PrereqMet : ActiveColors.PrereqUnmet).WithAlpha(alpha);
                 Widgets.Label(new Rect(right - tpW, rowY, tpW, rowH), tpStr);
                 right -= tpW + 2f * zoom;
 
@@ -849,7 +849,7 @@ namespace YART
 
             bool met = def.TechprintRequirementMet;
             var prevColor = GUI.color;
-            GUI.color = (met ? Color.green : ColorLibrary.RedReadable).WithAlpha(alpha);
+            GUI.color = (met ? ActiveColors.PrereqMet : ActiveColors.PrereqUnmet).WithAlpha(alpha);
             GUI.DrawTexture(r, Assets.IconTechprint, ScaleMode.ScaleToFit);
             GUI.color = prevColor;
         }

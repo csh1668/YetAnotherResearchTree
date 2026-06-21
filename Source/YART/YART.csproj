@@ -81,6 +81,8 @@
         <Compile Include="Data\SearchNormalizer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="Data\Constraints.cs" />
+        <Compile Include="Data\ColorPalettes.cs" />
+        <Compile Include="Data\ActiveColors.cs" />
         <Compile Include="Data\GraphKey.cs" />
         <Compile Include="Data\ResearchChannel.cs" />
         <Compile Include="Data\ResearchGraph.cs" />
@@ -94,6 +96,7 @@
         <Compile Include="TabPresetManager.cs" />
         <Compile Include="Favorites.cs" />
         <Compile Include="Dialog_PresetEditor.cs" />
+        <Compile Include="Dialog_YARTColorPicker.cs" />
         <Compile Include="Dialog_YARTSettings.cs" />
         <Compile Include="ResearchCompletedLetter.cs" />
         <Compile Include="Dialog_ResearchCompleted.cs" />

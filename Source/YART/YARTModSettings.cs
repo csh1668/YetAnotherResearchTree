@@ -41,6 +41,12 @@ namespace YART
         // Semi Random Research 호환 기능. on(기본) = SRR 감지 시 연구 큐 조작 차단
         public bool semiRandomCompatEnabled = true;
 
+        // 색상 커스터마이징
+        public string activeColorPreset = ColorPalettes.DefaultId;
+        public List<Color> eraColors;
+        public Color prereqMetColor = Color.green;
+        public Color prereqUnmetColor = ColorLibrary.RedReadable;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -52,19 +58,66 @@ namespace YART
             Scribe_Values.Look(ref focusHighlightDimming,     "focusHighlightDimming",     false);
             Scribe_Values.Look(ref completionLetterInsteadOfDialog, "completionLetterInsteadOfDialog", true);
             Scribe_Values.Look(ref semiRandomCompatEnabled,    "semiRandomCompatEnabled",    true);
+            Scribe_Values.Look(ref activeColorPreset, "activeColorPreset", ColorPalettes.DefaultId);
+            Scribe_Collections.Look(ref eraColors, "eraColors", LookMode.Value);
+            Scribe_Values.Look(ref prereqMetColor, "prereqMetColor", Color.green);
+            Scribe_Values.Look(ref prereqUnmetColor, "prereqUnmetColor", ColorLibrary.RedReadable);
             Scribe_Collections.Look(ref tabPresets, "tabPresets", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.LoadingVars && tabPresets == null)
                 tabPresets = new List<ResearchPreset>();
             Scribe_Collections.Look(ref favorites, "favorites", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.LoadingVars && favorites == null)
                 favorites = new List<string>();
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+                EnsureColorsInitialized();
             // Constraints 반영은 YARTMod ctor(GetSettings 직후) + UI 변경 핸들러에서 한다.
         }
+
+        // eraColors가 비었거나 길이가 안 맞으면 기본 프리셋으로 채운다.
+        private void EnsureColorsInitialized()
+        {
+            if (eraColors == null || eraColors.Count != ColorPalette.EraCount)
+                eraColors = new List<Color>(ColorPalettes.Get(ColorPalettes.DefaultId).era);
+        }
+
+        // 현재 설정 색을 ActiveColors(라이브 렌더링 소스)에 푸시한다.
+        public void ApplyColors()
+        {
+            EnsureColorsInitialized();
+            ActiveColors.Apply(new ColorPalette
+            {
+                era = eraColors.ToArray(),
+                prereqMet = prereqMetColor,
+                prereqUnmet = prereqUnmetColor,
+            });
+        }
+
+        // 프리셋 적용 → 8색 덮어쓰기 + 즉시 반영.
+        private void ApplyPreset(string id)
+        {
+            var p = ColorPalettes.Get(id);
+            eraColors = new List<Color>(p.era);
+            prereqMetColor = p.prereqMet;
+            prereqUnmetColor = p.prereqUnmet;
+            activeColorPreset = id;
+            ApplyColors();
+        }
+
+        private void SetEraColor(int idx, Color c)
+        {
+            eraColors[idx] = c;
+            activeColorPreset = ColorPalettes.CustomId;
+            ApplyColors();
+        }
+
+        private void SetPrereqMet(Color c)   { prereqMetColor = c;   activeColorPreset = ColorPalettes.CustomId; ApplyColors(); }
+        private void SetPrereqUnmet(Color c) { prereqUnmetColor = c; activeColorPreset = ColorPalettes.CustomId; ApplyColors(); }
 
         // 좌측 네비게이션의 섹션
         private static readonly string[] SectionKeys =
         {
             "YART_Settings_Section_Display",
+            "YART_Settings_Section_Colors",
             "YART_Settings_Section_Behavior",
             "YART_Settings_Section_Compat",
             "YART_Settings_Section_Maintenance",
@@ -103,9 +156,10 @@ namespace YART
             switch (selectedSection)
             {
                 case 0: DrawDisplaySection(listing);     break;
-                case 1: DrawBehaviorSection(listing);    break;
-                case 2: DrawCompatSection(listing);      break;
-                case 3: DrawMaintenanceSection(listing); break;
+                case 1: DrawColorsSection(listing);      break;
+                case 2: DrawBehaviorSection(listing);    break;
+                case 3: DrawCompatSection(listing);      break;
+                case 4: DrawMaintenanceSection(listing); break;
             }
 
             listing.End();
@@ -156,6 +210,69 @@ namespace YART
 
             listing.CheckboxLabeled("YART_Settings_FocusDimming".Translate(), ref focusHighlightDimming,
                 "YART_Settings_FocusDimmingDesc".Translate());
+        }
+
+        private void DrawColorsSection(Listing_Standard listing)
+        {
+            EnsureColorsInitialized();
+
+            // 프리셋 버튼 한 줄 (활성 프리셋 하이라이트)
+            Rect presetRow = listing.GetRect(32f);
+            int n = ColorPalettes.SelectableIds.Length;
+            const float gap = 8f;
+            float bw = (presetRow.width - gap * (n - 1)) / n;
+            for (int i = 0; i < n; i++)
+            {
+                string id = ColorPalettes.SelectableIds[i];
+                Rect br = new Rect(presetRow.x + i * (bw + gap), presetRow.y, bw, presetRow.height);
+                if (activeColorPreset == id)
+                    Widgets.DrawHighlightSelected(br);
+                if (Widgets.ButtonText(br, ("YART_Settings_ColorPreset_" + id).Translate()))
+                    ApplyPreset(id);
+            }
+            listing.Gap(10f);
+
+            // 시대 색
+            using (Temporary.Anchor(TextAnchor.MiddleLeft))
+                listing.Label("YART_Settings_ColorEraHeader".Translate());
+            ColorPalette def = ColorPalettes.Get(ColorPalettes.DefaultId);
+            for (int i = 0; i < ActiveColors.EraOrder.Length; i++)
+            {
+                int idx = i;
+                ColorRow(listing, ActiveColors.EraOrder[i].ToStringHuman().CapitalizeFirst(),
+                    eraColors[i], def.era[i], c => SetEraColor(idx, c));
+            }
+
+            listing.Gap(8f);
+
+            // 선행(테크프린트) 충족/미충족
+            using (Temporary.Anchor(TextAnchor.MiddleLeft))
+                listing.Label("YART_Settings_ColorPrereqHeader".Translate());
+            ColorRow(listing, "YART_Settings_ColorPrereqMet".Translate(),
+                prereqMetColor, def.prereqMet, SetPrereqMet);
+            ColorRow(listing, "YART_Settings_ColorPrereqUnmet".Translate(),
+                prereqUnmetColor, def.prereqUnmet, SetPrereqUnmet);
+        }
+
+        // 스와치 + 라벨 한 행. 클릭 시 컬러 피커를 연다.
+        private void ColorRow(Listing_Standard listing, string label, Color current, Color def, System.Action<Color> onSet)
+        {
+            Rect row = listing.GetRect(28f);
+            Widgets.DrawHighlightIfMouseover(row);
+
+            Rect swatch = new Rect(row.x + 2f, row.y + 3f, 42f, 22f);
+            Widgets.DrawBoxSolid(swatch, current);
+            using (Temporary.Color(new Color(1f, 1f, 1f, 0.35f)))
+                Widgets.DrawBox(swatch);
+
+            Rect labelRect = new Rect(swatch.xMax + 12f, row.y, row.width - swatch.width - 14f, row.height);
+            using (Temporary.Anchor(TextAnchor.MiddleLeft))
+                Widgets.Label(labelRect, label);
+
+            if (Widgets.ButtonInvisible(row))
+                Find.WindowStack.Add(new Dialog_YARTColorPicker(current, def, onSet));
+
+            listing.Gap(2f);
         }
 
         private void DrawBehaviorSection(Listing_Standard listing)

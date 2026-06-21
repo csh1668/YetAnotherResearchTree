@@ -14,6 +14,7 @@ namespace YART
         public YARTMod(ModContentPack content) : base(content)
         {
             Settings = GetSettings<YARTModSettings>();
+            Settings.ApplyColors();
 
             var harmony = new Harmony("seohyeon.yart");
             harmony.PatchAll();

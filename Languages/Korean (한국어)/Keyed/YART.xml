@@ -3,9 +3,19 @@
 
   <!-- 설정 -->
   <YART_Settings_Section_Display>표시</YART_Settings_Section_Display>
+  <YART_Settings_Section_Colors>색상</YART_Settings_Section_Colors>
   <YART_Settings_Section_Behavior>동작</YART_Settings_Section_Behavior>
   <YART_Settings_Section_Compat>호환성</YART_Settings_Section_Compat>
   <YART_Settings_Section_Maintenance>유지보수</YART_Settings_Section_Maintenance>
+
+  <YART_Settings_ColorPreset_default>기본</YART_Settings_ColorPreset_default>
+  <YART_Settings_ColorPreset_highContrast>고대비</YART_Settings_ColorPreset_highContrast>
+  <YART_Settings_ColorPreset_lumOrdered>휘도 정렬</YART_Settings_ColorPreset_lumOrdered>
+  <YART_Settings_ColorEraHeader>시대 색</YART_Settings_ColorEraHeader>
+  <YART_Settings_ColorPrereqHeader>선행 조건 (청사진)</YART_Settings_ColorPrereqHeader>
+  <YART_Settings_ColorPrereqMet>요구 충족</YART_Settings_ColorPrereqMet>
+  <YART_Settings_ColorPrereqUnmet>요구 미충족</YART_Settings_ColorPrereqUnmet>
+  
   <YART_Settings_SemiRandomCompat>Semi Random Research 호환 기능 (기본값: O)</YART_Settings_SemiRandomCompat>
   <YART_Settings_SemiRandomCompatDesc>Semi Random Research가 설치되어 있고 이 옵션이 켜져 있으면, 연구 선택을 SRR이 관리하도록 YART의 수동 연구 대기열 조작을 막습니다.</YART_Settings_SemiRandomCompatDesc>
   <YART_Settings_SemiRandomDetected>상태: Semi Random Research 감지됨 — 호환 기능 작동 중.</YART_Settings_SemiRandomDetected>

@@ -268,24 +268,7 @@ namespace YART.Data
                 if (IsDummy) return Constraints.EdgeDefault;
                 if (IsProxy) return OriginalNode.EraAccentColor;
 
-                switch (ColorTechLevel)
-                {
-                    case TechLevel.Animal:
-                    case TechLevel.Neolithic:
-                        return Constraints.EraColors.Neolithic;
-                    case TechLevel.Medieval:
-                        return Constraints.EraColors.Medieval;
-                    case TechLevel.Industrial:
-                        return Constraints.EraColors.Industrial;
-                    case TechLevel.Spacer:
-                        return Constraints.EraColors.Spacer;
-                    case TechLevel.Ultra:
-                        return Constraints.EraColors.Ultra;
-                    case TechLevel.Archotech:
-                        return Constraints.EraColors.Archotech;
-                    default:
-                        return Color.gray;
-                }
+                return ActiveColors.Era(ColorTechLevel);
             }
         }
 

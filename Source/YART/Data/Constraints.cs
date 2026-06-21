@@ -1,4 +1,3 @@
-using RimWorld;
 using UnityEngine;
 
 namespace YART.Data
@@ -84,34 +83,6 @@ namespace YART.Data
         public const float PulseSpeed = 150f;         // 이동 속도 (월드 px/초)
         public const float PulseArriveDelay = 0.8f;   // 도착 후 다음 펄스까지 대기 (초)
         public const float PulseTailLength = 0.18f;   // 경로 대비 꼬리 길이 비율
-
-        public static class EraColors
-        {
-            public static readonly Color Neolithic = new Color(0.85f, 0.36f, 0.30f);
-            public static readonly Color Medieval = new Color(0.784f, 0.608f, 0.314f);
-            public static readonly Color Industrial = new Color(0.3f, 0.7f, 0.4f);
-            public static readonly Color Spacer = new Color(0.0f, 0.898f, 0.898f);
-            public static readonly Color Ultra = new Color(0.70f, 0.44f, 1.0f);
-            public static readonly Color Archotech = new Color(1.0f, 0.843f, 0.0f);
-        }
-
-        /// <summary>
-        /// TechLevel -> 시대 액센트 색 매핑
-        /// </summary>
-        public static Color GetEraColor(TechLevel techLevel)
-        {
-            switch (techLevel)
-            {
-                case TechLevel.Animal:
-                case TechLevel.Neolithic: return EraColors.Neolithic;
-                case TechLevel.Medieval: return EraColors.Medieval;
-                case TechLevel.Industrial: return EraColors.Industrial;
-                case TechLevel.Spacer: return EraColors.Spacer;
-                case TechLevel.Ultra: return EraColors.Ultra;
-                case TechLevel.Archotech: return EraColors.Archotech;
-                default: return Color.gray;
-            }
-        }
 
         // Edge Colors
         public static readonly Color EdgeDefault = new Color(0.3f, 0.35f, 0.45f);

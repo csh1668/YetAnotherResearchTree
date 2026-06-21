@@ -3,9 +3,19 @@
 
   <!-- Settings -->
   <YART_Settings_Section_Display>Display</YART_Settings_Section_Display>
+  <YART_Settings_Section_Colors>Colors</YART_Settings_Section_Colors>
   <YART_Settings_Section_Behavior>Behavior</YART_Settings_Section_Behavior>
   <YART_Settings_Section_Compat>Compatibility</YART_Settings_Section_Compat>
   <YART_Settings_Section_Maintenance>Maintenance</YART_Settings_Section_Maintenance>
+
+  <YART_Settings_ColorPreset_default>Default</YART_Settings_ColorPreset_default>
+  <YART_Settings_ColorPreset_highContrast>High contrast</YART_Settings_ColorPreset_highContrast>
+  <YART_Settings_ColorPreset_lumOrdered>Ordered contrast</YART_Settings_ColorPreset_lumOrdered>
+  <YART_Settings_ColorEraHeader>Era colors</YART_Settings_ColorEraHeader>
+  <YART_Settings_ColorPrereqHeader>Prerequisite (techprint)</YART_Settings_ColorPrereqHeader>
+  <YART_Settings_ColorPrereqMet>Requirement met</YART_Settings_ColorPrereqMet>
+  <YART_Settings_ColorPrereqUnmet>Requirement not met</YART_Settings_ColorPrereqUnmet>
+  
   <YART_Settings_SemiRandomCompat>Semi Random Research compatibility (default: on)</YART_Settings_SemiRandomCompat>
   <YART_Settings_SemiRandomCompatDesc>When Semi Random Research is installed and this is on, YART disables manual research queue/start/stop so SRR controls research selection.</YART_Settings_SemiRandomCompatDesc>
   <YART_Settings_SemiRandomDetected>Status: Semi Random Research detected — compatibility active.</YART_Settings_SemiRandomDetected>

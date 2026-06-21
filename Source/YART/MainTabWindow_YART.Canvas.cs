@@ -100,7 +100,7 @@ namespace YART
                     float x1 = (zoneEndWorld * zoom) + offset.x;
                     if (x1 <= x0) continue;
 
-                    Color era = Constraints.GetEraColor(boundaries[i].Key);
+                    Color era = ActiveColors.Era(boundaries[i].Key);
                     GLSolidQuadBatcher.QueueGradientQuadH(
                         new Rect(x0, rect.y, x1 - x0, rect.height),
                         GenColor.WithAlpha(era, Constraints.EraZoneTintAlpha),

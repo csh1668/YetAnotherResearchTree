@@ -102,6 +102,7 @@ namespace YART.Data
     {
         public readonly string Id;
         public readonly bool IsUnified;
+        public bool IsPreset => false;
         public GraphKey(string id, bool unified = false) { Id = id; IsUnified = unified; }
         public bool Equals(GraphKey o) => Id == o.Id && IsUnified == o.IsUnified;
         public override bool Equals(object o) => o is GraphKey g && Equals(g);

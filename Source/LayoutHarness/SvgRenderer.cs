@@ -65,7 +65,7 @@ namespace LayoutHarness
             foreach (var n in g.Nodes.Where(n => !n.IsDummy))
             {
                 float x = n.Position.x, y = n.Position.y - halfReal;
-                var c = Constraints.GetEraColor(n.TechLevel);
+                var c = EraColor(n.TechLevel);
                 string hex = Hex(c);
                 if (n.IsProxy)
                 {
@@ -82,6 +82,21 @@ namespace LayoutHarness
 
             sb.Append("</svg>\n");
             return sb.ToString();
+        }
+
+        private static Color EraColor(TechLevel tl)
+        {
+            switch (tl)
+            {
+                case TechLevel.Animal:
+                case TechLevel.Neolithic: return new Color(0.85f, 0.36f, 0.30f);
+                case TechLevel.Medieval:  return new Color(0.784f, 0.608f, 0.314f);
+                case TechLevel.Industrial:return new Color(0.3f, 0.7f, 0.4f);
+                case TechLevel.Spacer:    return new Color(0.0f, 0.898f, 0.898f);
+                case TechLevel.Ultra:     return new Color(0.70f, 0.44f, 1.0f);
+                case TechLevel.Archotech: return new Color(1.0f, 0.843f, 0.0f);
+                default: return Color.gray;
+            }
         }
 
         private static string Hex(Color c)
