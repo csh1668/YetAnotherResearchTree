@@ -426,7 +426,6 @@ namespace YART
         {
             var graph = ResearchGraph.Instance;
             if (def == null || !graph.Initialized) return null;
-            if (graph.AllNodes.TryGetValue(def, out var node) && node.Key.Equals(CurrentKey)) return node;
             return graph.GetNodeForGraph(def, CurrentKey);
         }
 

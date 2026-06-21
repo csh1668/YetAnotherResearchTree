@@ -115,7 +115,7 @@ namespace YART
             var body = new StringBuilder();
             body.Append(proj.LabelCap).Append("\n\n").Append(proj.description);
 
-            int unlockCount = ResearchCompletedLetter.GetUnlockedDefs(proj).Count;
+            int unlockCount = proj.GetUnlockedDefs().Count;
             if (unlockCount > 0)
             {
                 body.Append("\n\n").Append("Unlocks".Translate()).Append(": ").Append(unlockCount);

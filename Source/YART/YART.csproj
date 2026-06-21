@@ -100,6 +100,7 @@
         <Compile Include="Dialog_YARTSettings.cs" />
         <Compile Include="ResearchCompletedLetter.cs" />
         <Compile Include="Dialog_ResearchCompleted.cs" />
+        <Compile Include="Utils\UnlockedDefsUtility.cs" />
         <Compile Include="Utils\GUIDrawingUtilities.cs" />
         <Compile Include="Utils\HistoryNavigator.cs" />
         <Compile Include="Utils\SuffixStructure.cs" />

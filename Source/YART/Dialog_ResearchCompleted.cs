@@ -13,7 +13,8 @@ namespace YART
         private readonly ResearchCompletedLetter letter;
         private readonly ResearchProjectDef project;
         private readonly ResearchProjectDef nextProject;
-        private readonly List<Def> unlocks;
+        private readonly List<UnlockedDefsUtility.UnlockedGroup> unlockGroups;
+        private readonly int unlockCount;
 
         private Vector2 scroll;
         private float contentHeight = 99999f;
@@ -25,12 +26,14 @@ namespace YART
             this.letter = letter;
             project = letter.project;
             nextProject = letter.nextProject;
-            unlocks = ResearchCompletedLetter.GetUnlockedDefs(project);
+            unlockGroups = project.GetUnlockedGroups();
+            foreach (var g in unlockGroups) unlockCount += g.Defs.Count;
 
             draggable = true;
             doCloseX = true;
-            closeOnClickedOutside = false;
-            absorbInputAroundWindow = true;
+            forcePause = false;
+            absorbInputAroundWindow = false;
+            preventCameraMotion = false;
             soundAppear = SoundDefOf.CommsWindow_Open;
             soundClose = SoundDefOf.TabClose;
         }
@@ -90,9 +93,9 @@ namespace YART
             using (Temporary.Font(GameFont.Small))
             using (Temporary.Color(Constraints.SectionUnlocks))
             {
-                Widgets.Label(new Rect(0f, cy, viewW, 26f), $"{"Unlocks".Translate()} ({unlocks.Count})");
+                Widgets.Label(new Rect(0f, cy, viewW, 26f), $"{"Unlocks".Translate()} ({unlockCount})");
             }
-            if (unlocks.Count > 0)
+            if (unlockCount > 0)
             {
                 bool expanded = YARTMod.Settings.unlockedContentExpanded;
                 Rect toggleRect = new Rect(viewW - 18f, cy + 4f, 18f, 18f);
@@ -109,80 +112,16 @@ namespace YART
             }
             cy += 30f;
 
-            if (unlocks.Count == 0)
+            if (unlockCount == 0)
             {
                 using (Temporary.Color(Constraints.MutedText))
                     Widgets.Label(new Rect(8f, cy, viewW, 24f), "YART_None".Translate());
                 return cy + 28f;
             }
 
-            return YARTMod.Settings.unlockedContentExpanded
-                ? DrawUnlocksList(viewW, cy)
-                : DrawUnlocksIcons(viewW, cy);
-        }
-
-        private float DrawUnlocksIcons(float viewW, float cy)
-        {
-            const float icon = 40f, gap = 6f;
-            float x = 0f, rowY = cy;
-            foreach (var def in unlocks)
-            {
-                if (x + icon > viewW) { x = 0f; rowY += icon + gap; }
-                DrawUnlockCell(new Rect(x, rowY, icon, icon), def);
-                x += icon + gap;
-            }
-            return rowY + icon + 6f;
-        }
-
-        private float DrawUnlocksList(float viewW, float cy)
-        {
-            const float rowH = 30f, rowGap = 2f, colGap = 8f, cellIcon = 24f;
-            float colW = (viewW - colGap) / 2f;
-            for (int i = 0; i < unlocks.Count; i++)
-            {
-                var def = unlocks[i];
-                int col = i % 2;
-                float cellX = col * (colW + colGap);
-                Rect cellRect = new Rect(cellX, cy, colW, rowH);
-
-                Rect iconRect = new Rect(cellX, cy + (rowH - cellIcon) / 2f, cellIcon, cellIcon);
-                Widgets.DefIcon(iconRect, def, null, 1f, null, drawPlaceholder: true);
-
-                Rect labelRect = new Rect(iconRect.xMax + 6f, cy, colW - cellIcon - 6f, rowH);
-                using (Temporary.Font(GameFont.Tiny))
-                using (Temporary.Anchor(TextAnchor.MiddleLeft))
-                    Widgets.Label(labelRect, ((string)def.LabelCap).Truncate(labelRect.width));
-
-                if (Mouse.IsOver(cellRect))
-                {
-                    Widgets.DrawHighlight(cellRect);
-                    TooltipHandler.TipRegion(cellRect, def.LabelCap);
-                }
-                if (Widgets.ButtonInvisible(cellRect))
-                {
-                    SoundDefOf.Click.PlayOneShotOnCamera();
-                    Find.WindowStack.Add(new Dialog_InfoCard(def));
-                }
-                if (col == 1) cy += rowH + rowGap;
-            }
-            if (unlocks.Count % 2 == 1) cy += rowH + rowGap;
+            cy = UnlockedDefsUtility.Draw(0f, cy, viewW, unlockGroups,
+                YARTMod.Settings.unlockedContentExpanded, 40f, JumpToResearch);
             return cy + 6f;
-        }
-
-        // 단일 해금 셀
-        private static void DrawUnlockCell(Rect r, Def def)
-        {
-            Widgets.DefIcon(r, def, null, 1f, null, drawPlaceholder: true);
-            if (Mouse.IsOver(r))
-            {
-                Widgets.DrawHighlight(r);
-                TooltipHandler.TipRegion(r, def.LabelCap);
-            }
-            if (Widgets.ButtonInvisible(r))
-            {
-                SoundDefOf.Click.PlayOneShotOnCamera();
-                Find.WindowStack.Add(new Dialog_InfoCard(def));
-            }
         }
 
         private void DrawNext(Rect rect)
@@ -205,26 +144,26 @@ namespace YART
             if (Mouse.IsOver(row)) Widgets.DrawHighlight(row);
             using (Temporary.Anchor(TextAnchor.MiddleLeft))
                 Widgets.Label(new Rect(row.x + 8f, row.y, row.width - 16f, row.height), nextProject.LabelCap);
-            TooltipHandler.TipRegion(row, "YART_ShowInfoCard".Translate());
             if (Widgets.ButtonInvisible(row))
             {
                 SoundDefOf.Click.PlayOneShotOnCamera();
-                JumpToNext();
+                JumpToResearch(nextProject);
             }
         }
 
-        private void JumpToNext()
+        private void JumpToResearch(ResearchProjectDef def)
         {
+            if (def == null) return;
             if (MainButtonDefOf.Research.TabWindow is MainTabWindow_YART yart)
             {
                 Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Research);
-                yart.RequestOpenAt(nextProject);
+                yart.RequestOpenAt(def);
             }
             else
             {
-                Find.WindowStack.Add(new Dialog_InfoCard(nextProject));
+                Find.WindowStack.Add(new Dialog_InfoCard(def));
             }
-            Dismiss();
+            // Dismiss();
         }
 
         private void Dismiss()

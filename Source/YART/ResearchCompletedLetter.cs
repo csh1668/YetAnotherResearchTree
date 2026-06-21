@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
-using YART.Data;
 
 namespace YART
 {
@@ -40,16 +39,6 @@ namespace YART
             base.ExposeData();
             Scribe_Defs.Look(ref project, "project");
             Scribe_Defs.Look(ref nextProject, "nextProject");
-        }
-
-        public static List<Def> GetUnlockedDefs(ResearchProjectDef proj)
-        {
-            var graph = ResearchGraph.Instance;
-            if (proj != null && graph != null && graph.Initialized && graph.AllNodes.TryGetValue(proj, out var node))
-            {
-                return node.UnlockedDefs;
-            }
-            return new List<Def>();
         }
     }
 }

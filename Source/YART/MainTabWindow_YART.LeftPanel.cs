@@ -269,81 +269,11 @@ namespace YART
                     }
                     y += 26;
                 }
-                else if (YARTMod.Settings.unlockedContentExpanded)
-                {
-                    // 2-column: 아이콘 + 라벨
-                    const float rowH = 30f, rowGap = 2f, colGap = 8f, cellIcon = 24f;
-                    float colW = (contentWidth - colGap) / 2f;
-
-                    for (int i = 0; i < unlockedDefs.Count; i++)
-                    {
-                        var def = unlockedDefs[i];
-                        int col = i % 2;
-                        float cellX = padding + col * (colW + colGap);
-                        Rect cellRect = new Rect(cellX, y, colW, rowH);
-
-                        Rect iconRect = new Rect(cellX, y + (rowH - cellIcon) / 2f, cellIcon, cellIcon);
-                        Widgets.DefIcon(iconRect, def, null, 1f, null, drawPlaceholder: true);
-
-                        Rect labelRect = new Rect(iconRect.xMax + 6f, y, colW - cellIcon - 6f, rowH);
-                        using (Temporary.Font(GameFont.Tiny))
-                        using (Temporary.Anchor(TextAnchor.MiddleLeft))
-                        {
-                            Widgets.Label(labelRect, ((string)def.LabelCap).Truncate(labelRect.width));
-                        }
-
-                        if (Mouse.IsOver(cellRect))
-                        {
-                            Widgets.DrawHighlight(cellRect);
-                            TooltipHandler.TipRegion(cellRect, def.LabelCap);
-                        }
-                        if (Widgets.ButtonInvisible(cellRect))
-                        {
-                            SoundDefOf.Click.PlayOneShotOnCamera();
-                            Find.WindowStack.Add(new Dialog_InfoCard(def));
-                        }
-
-                        if (col == 1) y += rowH + rowGap; // 행 완료 시 전진
-                    }
-                    if (unlockedDefs.Count % 2 == 1) y += rowH + rowGap; // 홀수 마지막 행 정산
-                }
                 else
                 {
-                    float iconSize = 32f;
-                    float iconGap = 6f;
-                    float startX = padding;
-                    float curX = startX;
-
-                    foreach (var def in unlockedDefs)
-                    {
-                        if (curX + iconSize > contentWidth)
-                        {
-                            curX = startX;
-                            y += iconSize + iconGap;
-                        }
-
-                        Rect iconRect = new Rect(curX, y, iconSize, iconSize);
-
-                        // Draw Icon (아이콘 없으면 placeholder)
-                        Widgets.DefIcon(iconRect, def, null, 1f, null, drawPlaceholder: true);
-
-                        // Highlight on hover
-                        if (Mouse.IsOver(iconRect))
-                        {
-                            Widgets.DrawHighlight(iconRect);
-                            TooltipHandler.TipRegion(iconRect, def.LabelCap);
-                        }
-
-                        // Click to open Info Card
-                        if (Widgets.ButtonInvisible(iconRect))
-                        {
-                            SoundDefOf.Click.PlayOneShotOnCamera();
-                            Find.WindowStack.Add(new Dialog_InfoCard(def));
-                        }
-
-                        curX += iconSize + iconGap;
-                    }
-                    y += iconSize + iconGap; // Final row height
+                    y = UnlockedDefsUtility.Draw(padding, y, contentWidth,
+                        currentNode.UnlockedDefsGrouped, YARTMod.Settings.unlockedContentExpanded, 32f,
+                        NavigateToResearchDef);
                 }
                 y += 8;
 
@@ -400,6 +330,14 @@ namespace YART
 
                 Widgets.EndScrollView();
             }
+        }
+
+        private void NavigateToResearchDef(ResearchProjectDef def)
+        {
+            if (def == null) return;
+            var node = GetNodeOnCurrentGraph(def);
+            if (node == null) ResearchGraph.Instance.AllNodes.TryGetValue(def, out node);
+            JumpToNode(node);
         }
 
         /// <summary>

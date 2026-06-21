@@ -4,6 +4,7 @@ using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using YART.Utils;
 
 namespace YART.Data
 {
@@ -330,6 +331,12 @@ namespace YART.Data
                 return _cachedUnlockedDefs;
             }
         }
+
+        private List<UnlockedDefsUtility.UnlockedGroup> _cachedUnlockedGroups;
+
+        /// <summary>해금 항목을 "추가로 필요한 선행연구" 집합별로 묶은 목록 (조건 적은 그룹부터). 그룹핑 로직은 <see cref="UnlockedDefsUtility"/>.</summary>
+        public List<UnlockedDefsUtility.UnlockedGroup> UnlockedDefsGrouped =>
+            _cachedUnlockedGroups ?? (_cachedUnlockedGroups = UnlockedDefsUtility.GroupUnlockedDefs(UnlockedDefs, Def));
 
         /// <summary>
         /// 일반 연구 노드를 생성합니다
