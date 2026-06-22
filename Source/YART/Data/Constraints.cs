@@ -57,9 +57,9 @@ namespace YART.Data
         // Background Layers
         public const float GridMinorSpacing = 40f;
         public const float GridMajorSpacing = 200f;
-        public static readonly Color GridMinorColor = new Color(1f, 1f, 1f, 0.04f);
-        public static readonly Color GridMajorColor = new Color(1f, 1f, 1f, 0.09f);
-        public static readonly Color GridDotColor = new Color(0.133f, 0.275f, 0.478f, 0.9f);
+        public static readonly Color GridMinorColor = new Color(1f, 1f, 1f, 0.018f);
+        public static readonly Color GridMajorColor = new Color(1f, 1f, 1f, 0.035f);
+        public static readonly Color GridDotColor = new Color(0.133f, 0.275f, 0.478f, 0.35f);
         public const float GridDotSize = 7f;
         public const float GridMinorFadeOutZoom = 0.6f; // 이 줌 미만에서 보조선 페이드 아웃
         public const float EraZoneTintAlpha = 0.09f;
