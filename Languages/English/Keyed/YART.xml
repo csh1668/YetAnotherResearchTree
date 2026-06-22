@@ -28,6 +28,8 @@
   <YART_Settings_FocusDimmingDesc>On: hovering a research dims everything not on its prerequisite/unlock path, like a spotlight. Off: only highlight the related path without dimming the rest.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>Send a letter on research completion (default: on)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>On: replaces the vanilla pop-up window shown when research finishes with a notification letter. Off: keep the vanilla completion window.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_PauseOnOpen>Pause the game while the research window is open (default: off)</YART_Settings_PauseOnOpen>
+  <YART_Settings_PauseOnOpenDesc>On: pauses the game when you open the research window and restores the previous speed when you close it.</YART_Settings_PauseOnOpenDesc>
   <YART_Settings_GridBackground>Show grid background (default: on)</YART_Settings_GridBackground>
   <YART_Settings_GridBackgroundDesc>On: draws the blueprint grid (lines and intersection dots) behind the research tree. Off: keeps the plain dark background without the grid.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>Rebuild research graph</YART_Settings_Rebuild>

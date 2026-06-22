@@ -28,6 +28,8 @@
   <YART_Settings_FocusDimmingDesc>켜면 연구에 마우스를 올렸을 때 그 선행/해금 경로가 아닌 모든 것을 어둡게 합니다. 끄면 어둡게 하지 않고 관련 경로만 강조합니다.</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>연구 완료 시 편지 보내기 (기본값: O)</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>켜면 연구 완료 시 뜨는 바닐라 팝업 창을, 알림 편지로 대체합니다. 끄면 바닐라 완료 창을 유지합니다.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_PauseOnOpen>연구창을 여는 동안 게임 일시정지 (기본값: X)</YART_Settings_PauseOnOpen>
+  <YART_Settings_PauseOnOpenDesc>켜면 연구창을 열 때 게임을 일시정지하고, 닫을 때 직전 속도로 복원합니다.</YART_Settings_PauseOnOpenDesc>
   <YART_Settings_GridBackground>격자 배경 표시 (기본값: O)</YART_Settings_GridBackground>
   <YART_Settings_GridBackgroundDesc>켜면 연구 트리 뒤에 청사진 격자(선과 교차점)를 그립니다. 끄면 격자 없이 어두운 배경만 유지합니다.</YART_Settings_GridBackgroundDesc>
   <YART_Settings_Rebuild>연구 그래프 재생성</YART_Settings_Rebuild>

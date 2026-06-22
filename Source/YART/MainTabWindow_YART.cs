@@ -92,11 +92,16 @@ namespace YART
         // 인게임 Rebuild 후 노드 참조 무효화 감지 — Generation이 변하면 스테일 참조 초기화
         private int lastSeenGeneration;
 
+        // 이 창이 게임을 일시정지시켰는지
+        private bool pausedByYart;
+
         public override void PreOpen()
         {
             base.PreOpen();
 
             preventCameraMotion = true;
+
+            MaybePauseGame();
 
             // PreOpen에서도 설정하지만 SetInitialSizeAndPosition에서도 설정하여 확실하게 함
             this.windowRect.x = 0;
@@ -124,6 +129,31 @@ namespace YART
             // 백그라운드 빌드 미완이어도 블로킹하지 않는다 — DoWindowContents가 준비될 때까지
             // 안내 라벨을 그리고, 창은 평소처럼 닫을 수 있다. 실패/미시작 시에만 동기 폴백.
             GraphBuildPipeline.EnsureBuiltNonBlocking();
+        }
+
+        private void MaybePauseGame()
+        {
+            pausedByYart = false;
+            if (!YARTMod.Settings.pauseGameWhenOpen) return;
+            if (MultiplayerCompat.InMultiplayer) return;
+
+            var tm = Find.TickManager;
+            if (tm == null || tm.CurTimeSpeed == TimeSpeed.Paused) return;
+
+            tm.Pause();
+            pausedByYart = true;
+        }
+
+        public override void PostClose()
+        {
+            base.PostClose();
+
+            if (!pausedByYart) return;
+            pausedByYart = false;
+
+            var tm = Find.TickManager;
+            if (tm != null && tm.CurTimeSpeed == TimeSpeed.Paused)
+                tm.TogglePaused();
         }
 
         protected override void SetInitialSizeAndPosition()

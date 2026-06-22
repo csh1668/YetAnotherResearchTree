@@ -41,6 +41,9 @@ namespace YART
         // Semi Random Research 호환 기능. on(기본) = SRR 감지 시 연구 큐 조작 차단
         public bool semiRandomCompatEnabled = true;
 
+        // 연구창을 열 때 게임을 일시정지하고 닫을 때 복원할지. off(기본). MP 세션에선 무시.
+        public bool pauseGameWhenOpen = false;
+
         // 색상 커스터마이징
         public string activeColorPreset = ColorPalettes.DefaultId;
         public List<Color> eraColors;
@@ -58,6 +61,7 @@ namespace YART
             Scribe_Values.Look(ref focusHighlightDimming,     "focusHighlightDimming",     false);
             Scribe_Values.Look(ref completionLetterInsteadOfDialog, "completionLetterInsteadOfDialog", true);
             Scribe_Values.Look(ref semiRandomCompatEnabled,    "semiRandomCompatEnabled",    true);
+            Scribe_Values.Look(ref pauseGameWhenOpen,          "pauseGameWhenOpen",          false);
             Scribe_Values.Look(ref activeColorPreset, "activeColorPreset", ColorPalettes.DefaultId);
             Scribe_Collections.Look(ref eraColors, "eraColors", LookMode.Value);
             Scribe_Values.Look(ref prereqMetColor, "prereqMetColor", Color.green);
@@ -279,6 +283,9 @@ namespace YART
         {
             listing.CheckboxLabeled("YART_Settings_CompletionLetter".Translate(), ref completionLetterInsteadOfDialog,
                 "YART_Settings_CompletionLetterDesc".Translate());
+
+            listing.CheckboxLabeled("YART_Settings_PauseOnOpen".Translate(), ref pauseGameWhenOpen,
+                "YART_Settings_PauseOnOpenDesc".Translate());
         }
 
         private void DrawCompatSection(Listing_Standard listing)
