@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse;
 using YART.Data;
@@ -270,25 +271,46 @@ namespace YART
             return 0;
         }
 
-        /// <summary>
-        /// Gets the edge color based on node state and era.
-        /// </summary>
+        private readonly List<KeyValuePair<TechLevel, float>> eraBandsBuffer = new List<KeyValuePair<TechLevel, float>>(8);
+        private void BuildEraBands(ResearchSubGraph graph)
+        {
+            eraBandsBuffer.Clear();
+            if (graph?.TechLevelBoundaries == null) return;
+            foreach (var kvp in graph.TechLevelBoundaries) eraBandsBuffer.Add(kvp);
+            eraBandsBuffer.Sort((a, b) => a.Value.CompareTo(b.Value));
+        }
+
+        private TechLevel EraAtWorldX(float worldX)
+        {
+            if (eraBandsBuffer.Count == 0) return TechLevel.Undefined;
+            TechLevel result = eraBandsBuffer[0].Key;
+            for (int i = 0; i < eraBandsBuffer.Count; i++)
+            {
+                if (worldX >= eraBandsBuffer[i].Value) result = eraBandsBuffer[i].Key;
+                else break;
+            }
+            return result;
+        }
+
+        private static Color TonedEra(Color era) =>
+            Color.Lerp(era, Constraints.EdgeDefault, Constraints.EdgeEraDesaturate);
+
         private Color GetEdgeColor(ResearchNode node)
         {
             if (node.IsDummy)
             {
-                // For dummy nodes, try to get color from connected nodes
-                if (node.Prerequisites.Count > 0)
-                    return GetEdgeColor(node.Prerequisites[0]);
-                if (node.Children.Count > 0)
-                    return GetEdgeColor(node.Children[0]);
-                return Constraints.EdgeDefault;
+                var src = ResolveRealSource(node);
+                if (src == null || src.State != ResearchNodeState.Completed)
+                    return Constraints.EdgeDefault;
+
+                TechLevel era = EraAtWorldX(node.Position.x);
+                return era == TechLevel.Undefined ? TonedEra(src.EraAccentColor) : TonedEra(ActiveColors.Era(era));
             }
 
             switch (node.State)
             {
                 case ResearchNodeState.Completed:
-                    return node.EraAccentColor;
+                    return TonedEra(node.EraAccentColor);
                 default:
                     return Constraints.EdgeDefault;
             }

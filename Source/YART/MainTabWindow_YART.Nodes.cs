@@ -29,6 +29,12 @@ namespace YART
             return 1f;
         }
 
+        private float FocusHighlightAmount(ResearchNode node)
+        {
+            if (hoveredNode == null || node == hoveredNode) return 0f;
+            return focusedNodes.Contains(node) ? focusAmount : 0f;
+        }
+
         private static float GetRichCardLerp(float zoom)
         {
             return Mathf.InverseLerp(Constraints.RichCardZoomStart, Constraints.RichCardZoomFull, zoom);
@@ -161,10 +167,22 @@ namespace YART
                     new TipSignal(() => BuildNodeTooltip(tipNode, tipShowTab), tipNode.Def.GetHashCode()));
             }
 
+            // 연결 노드 양성 강조(선행/후행) — 디밍 OFF에서도 보이도록. 글로우/테두리에 반영.
+            float focusHL = FocusHighlightAmount(node);
+            // 잠긴 노드는 평소 톤다운(nodeAlpha 0.75)이라 반투명 패널로 글로우가 비쳐 배경색이
+            // 과하게 변한다(연구 가능 노드는 패널이 더 불투명해 덜 비침). 강조 시엔 불투명도를
+            // 연구 가능 노드 수준으로 끌어올려 글로우 번짐과 강조 강도를 일치시킨다.
+            if (focusHL > 0f && state == ResearchNodeState.Locked)
+            {
+                nodeAlpha = Mathf.Lerp(nodeAlpha, 1f, focusHL);
+                borderAlpha = Mathf.Lerp(borderAlpha, 1f, focusHL);
+            }
+
             float glowIntensity = 0f;
             if (isHovered) glowIntensity = 0.45f;
             else if (state == ResearchNodeState.InProgress) glowIntensity = 0.55f;
             else if (state == ResearchNodeState.Completed) glowIntensity = 0.22f;
+            if (focusHL > 0f) glowIntensity = Mathf.Max(glowIntensity, Constraints.FocusNodeGlow * focusHL);
 
             if (glowIntensity > 0f)
             {
@@ -183,6 +201,13 @@ namespace YART
 
             // 3. 테두리 (텍스처의 3px/12px 비율로 corner/4 두께) — 프록시는 점선
             Color finalBorderColor = borderColor.WithAlpha(borderColor.a * borderAlpha);
+            if (focusHL > 0f)
+            {
+                // 엣지가 흰색으로 강조되는 것과 같은 시각 언어 — 테두리를 흰색 쪽으로 끌고 알파를 채운다.
+                // (잠긴 후행 노드의 옅은 테두리도 이때 또렷해져 경로가 끝까지 보인다.)
+                Color whitened = Color.Lerp(borderColor, Constraints.EdgeHighlight, Constraints.FocusNodeBorderWhiten * focusHL);
+                finalBorderColor = whitened.WithAlpha(Mathf.Max(finalBorderColor.a, focusHL));
+            }
             if (node.IsProxy)
             {
                 DrawDashedBorder(nodeRectScreen, finalBorderColor, zoom, corner);

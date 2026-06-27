@@ -212,6 +212,8 @@ namespace YART
             // TechLevel 구분선 그리기
             DrawTechLevelLines(graph, offset, zoom);
 
+            BuildEraBands(graph);
+
             // 1. 엣지 먼저 그리기 (노드 뒤에 가려지도록)
             // graph.Edges 리스트를 직접 순회하여 O(E)로 최적화
             PerfSec(0); // 엣지 큐 (CPU: 앵커/색/하이라이트/리본 지오메트리)

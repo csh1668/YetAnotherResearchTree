@@ -87,6 +87,7 @@ namespace YART.Data
         // Edge Colors
         public static readonly Color EdgeDefault = new Color(0.3f, 0.35f, 0.45f);
         public static readonly Color EdgeHighlight = new Color(1f, 1f, 1f);
+        public const float EdgeEraDesaturate = 0.3f;
 
         // Edge Line Ribbon
         public const float EdgeLineWidth = 3f;
@@ -129,6 +130,8 @@ namespace YART.Data
         public const float UnfocusedNodeOpacity = 0.3f;
         public const float UnfocusedEdgeOpacity = 0.15f;
         public const float FocusFadeDuration = 0.23f;
+        public const float FocusNodeGlow = 0.03f;
+        public const float FocusNodeBorderWhiten = 0.1f;
 
         // Layout Algorithm Configuration
         public const float LayoutTechLevelBoundaryOffset = 0.5f;
@@ -155,6 +158,8 @@ namespace YART.Data
         public const int LayoutOrderingMaxIterations = 24;
         public const int LayoutOrderingPatience = 5;
         public const int LayoutTransposeMaxSweeps = 8;
+        public const float LayoutGroupCrossEdgeWeight = 0.15f;
+        public const int LayoutGroupSearchMaxPasses = 8;
         public const int LayoutExactLayerMaxNodes = 10; // 부분집합 DP를 적용할 레이어 크기 상한
         // 멀티 스타트 선택 점수 = 교차 수 + 이 값 x 높이행수(estHeight/gridY)
         public const float LayoutOrderingHeightWeight = 4f;
