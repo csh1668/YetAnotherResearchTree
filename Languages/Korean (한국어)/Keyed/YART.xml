@@ -32,6 +32,8 @@
   <YART_Settings_PauseOnOpenDesc>켜면 연구창을 열 때 게임을 일시정지하고, 닫을 때 직전 속도로 복원합니다.</YART_Settings_PauseOnOpenDesc>
   <YART_Settings_GridBackground>격자 배경 표시 (기본값: O)</YART_Settings_GridBackground>
   <YART_Settings_GridBackgroundDesc>켜면 연구 트리 뒤에 청사진 격자(선과 교차점)를 그립니다. 끄면 격자 없이 어두운 배경만 유지합니다.</YART_Settings_GridBackgroundDesc>
+  <YART_Settings_GroupClusterByTab>전체 탭 및 프리셋 연구 트리에서 연구 탭 별로 연구 묶기 (기본값: O)</YART_Settings_GroupClusterByTab>
+  <YART_Settings_GroupClusterByTabDesc>여러 개의 연구 탭이 합쳐진 연구 트리를 가능한 한 같은 연구 탭끼리 가까히 배치되도록 합니다.</YART_Settings_GroupClusterByTabDesc>
   <YART_Settings_Rebuild>연구 그래프 재생성</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>백그라운드에서 트리를 다시 생성합니다.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>연구 트리 구조 내보내기 (개발용)</YART_Settings_ExportGraph>

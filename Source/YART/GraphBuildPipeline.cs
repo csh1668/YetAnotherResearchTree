@@ -124,6 +124,8 @@ namespace YART
             var graph = ResearchGraph.Instance;
             LayoutExport.Begin();
 
+            SugiyamaLayout.GroupClusteringEnabled = YARTMod.Settings.groupClusterByTab;
+
             // 1. 일반 탭 서브그래프 레이아웃 (병렬)
             Parallel.ForEach(graph.SubGraphs.Values.ToList(),
                 subGraph => new SugiyamaLayout().Calculate(subGraph));

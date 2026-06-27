@@ -32,6 +32,8 @@
   <YART_Settings_PauseOnOpenDesc>On: pauses the game when you open the research window and restores the previous speed when you close it.</YART_Settings_PauseOnOpenDesc>
   <YART_Settings_GridBackground>Show grid background (default: on)</YART_Settings_GridBackground>
   <YART_Settings_GridBackgroundDesc>On: draws the blueprint grid (lines and intersection dots) behind the research tree. Off: keeps the plain dark background without the grid.</YART_Settings_GridBackgroundDesc>
+  <YART_Settings_GroupClusterByTab>Group research by tab in unified and preset trees (default: on)</YART_Settings_GroupClusterByTab>
+  <YART_Settings_GroupClusterByTabDesc>In a research tree that merges multiple research tabs, keeps research from the same tab placed as close together as possible.</YART_Settings_GroupClusterByTabDesc>
   <YART_Settings_Rebuild>Rebuild research graph</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Regenerates the tree in the background.</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>Export research tree structure to Desktop (dev)</YART_Settings_ExportGraph>

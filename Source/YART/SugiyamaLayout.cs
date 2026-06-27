@@ -27,6 +27,11 @@ namespace YART
         // 그래프별 적응형 컬럼 높이 예산 (통합 그래프는 per-rank 분포 기반, per-tab은 기본 936). ComputeColumnBudget에서 설정.
         private float columnBudget;
 
+        // IsPreset && GroupClusteringEnabled라면 그룹 클러스터링을 활성화한다.
+        // 같은 연구 탭의 연구들을 비슷한 위치에 배치한다
+        public static bool GroupClusteringEnabled = false;
+        private Dictionary<string, int> groupOrderIndex;
+
         public void Calculate(ResearchSubGraph graph)
         {
             if (graph.Nodes.Count == 0) return;
@@ -56,7 +61,16 @@ namespace YART
             NormalizeEdges();
             ExtractIsolated();
             var layers = BuildLayers(0);
+            // ungrouped 교차최소화를 먼저 돌린다. grouping 시 EnforceGroupContiguity가 전역 배치는 재정렬하지만,
+            // 이 패스가 만든 '그룹 내부 상대순서'는 stable-sort로 보존돼 시드가 된다 (bends·체인 수렴이 더 좋음, 실측).
             int metricsCrossings = MinimizeCrossings(layers);
+
+            // 그룹 클러스터링: 같은 출처 탭끼리 세로로 묶기 (병합 그래프 Unified/Preset에만, per-tab은 no-op).
+            if (GroupClusteringEnabled && graph.Key.IsPreset)
+            {
+                ApplyGroupClustering(layers);
+                metricsCrossings = TotalCrossings(layers);
+            }
 
             var rankX = AssignX(layers);
             AssignY(layers, rankX);
@@ -67,6 +81,8 @@ namespace YART
             }
 
             PlaceIsolated(layers, rankX, bands);
+            // 모든 더미 셰이핑(UntangleChains→ShapeChains)·고립 배치가 끝난 뒤 말단 리프를 들어오는 체인에 정렬
+            AlignTerminalLeavesToIncoming(layers);
             ValidateLayerSeparation(layers);
 
             graph.UpdateBoundingBox();
@@ -1059,6 +1075,7 @@ namespace YART
                     var dummy = ResearchNode.CreateDummy(graph.Key);
                     dummy.Rank = r;
                     dummy.TechLevel = from.TechLevel;
+                    dummy.GroupKey = from.GroupKey;
 
                     graph.AddNode(dummy);
                     Connect(current, dummy);
@@ -1740,6 +1757,365 @@ namespace YART
             return inversions;
         }
 
+        private static string GroupOf(ResearchNode n) => string.IsNullOrEmpty(n.GroupKey) ? "(none)" : n.GroupKey;
+
+        // 1. 그룹 세로 순서 산정 → 2. 그룹 띠 시드 → 3. 그룹 띠 내부 교차최소화 루프 → 4. 그룹 순서 국소탐색 → 5. 선택된 순서로 띠 내부 재최적화
+        private void ApplyGroupClustering(List<List<ResearchNode>> layers)
+        {
+            ComputeGroupOrder();
+            if (groupOrderIndex.Count <= 1) return;
+            EnforceGroupContiguity(layers);
+            GroupAwareOrderingLoop(layers);
+            RefineGroupOrderBySearch(layers);
+            GroupAwareOrderingLoop(layers);
+            SyncVOrder(layers);
+        }
+
+        /// <summary>
+        /// 그룹 세로 순서를 휴리스틱으로 선정한다
+        /// </summary>
+        private void RefineGroupOrderBySearch(List<List<ResearchNode>> layers)
+        {
+            var order = groupOrderIndex.OrderBy(kv => kv.Value).Select(kv => kv.Key).ToList();
+            int m = order.Count;
+            if (m < 3) return;
+
+            // 띠 내부 상대순서 고정
+            var localIndex = new Dictionary<ResearchNode, int>(graph.Nodes.Count);
+            foreach (var layer in layers)
+            {
+                int i = 0;
+                while (i < layer.Count)
+                {
+                    string g = GroupOf(layer[i]);
+                    int k = 0, j = i;
+                    while (j < layer.Count && GroupOf(layer[j]) == g) { localIndex[layer[j]] = k++; j++; }
+                    i = j;
+                }
+            }
+
+            var slot = new Dictionary<string, int>(m);
+
+            int Restack(List<string> perm)
+            {
+                for (int i = 0; i < m; i++) slot[perm[i]] = i;
+                foreach (var layer in layers)
+                {
+                    layer.Sort((a, b) =>
+                    {
+                        int c = slot[GroupOf(a)].CompareTo(slot[GroupOf(b)]);
+                        return c != 0 ? c : localIndex[a].CompareTo(localIndex[b]);
+                    });
+                    for (int i = 0; i < layer.Count; i++) layer[i].VOrder = i;
+                }
+                return TotalCrossings(layers);
+            }
+
+            int baseCross = Restack(order);
+            var best = new List<string>(order);
+            int bestCross = baseCross;
+
+            bool improved = true;
+            int pass = 0;
+            while (improved && pass++ < Constraints.LayoutGroupSearchMaxPasses)
+            {
+                improved = false;
+
+                // (a) pairwise swap
+                for (int i = 0; i < m; i++)
+                {
+                    for (int j = i + 1; j < m; j++)
+                    {
+                        var trial = new List<string>(best);
+                        var tmp = trial[i]; trial[i] = trial[j]; trial[j] = tmp;
+                        int c = Restack(trial);
+                        if (c < bestCross) { bestCross = c; best = trial; improved = true; }
+                    }
+                }
+
+                // (b) insertion
+                for (int i = 0; i < m; i++)
+                {
+                    for (int j = 0; j < m; j++)
+                    {
+                        if (j == i || j == i + 1) continue;
+                        var trial = new List<string>(best);
+                        var g = trial[i];
+                        trial.RemoveAt(i);
+                        trial.Insert(j > i ? j - 1 : j, g);
+                        int c = Restack(trial);
+                        if (c < bestCross) { bestCross = c; best = trial; improved = true; }
+                    }
+                }
+            }
+
+            Restack(best); // 레이어를 최선 순서로 확정
+            var newOrder = new Dictionary<string, int>(m);
+            for (int i = 0; i < m; i++) newOrder[best[i]] = i;
+            groupOrderIndex = newOrder;
+
+            if (Prefs.DevMode)
+                Log.Message($"[YART] group-order search: {baseCross} → {bestCross} ({m} groups)");
+        }
+
+        private void GroupAwareOrderingLoop(List<List<ResearchNode>> layers)
+        {
+            float bestScore = OrderingScore(layers, TotalCrossings(layers));
+            var best = Snapshot(layers);
+            int stale = 0;
+            for (int iter = 0;
+                 iter < Constraints.LayoutOrderingMaxIterations && stale < Constraints.LayoutOrderingPatience;
+                 iter++)
+            {
+                GroupWMedian(layers, forward: iter % 2 == 0);
+                GroupConstrainedTranspose(layers);
+
+                int cr = TotalCrossings(layers);
+                float sc = OrderingScore(layers, cr);
+                if (sc < bestScore - 1e-4f) { bestScore = sc; best = Snapshot(layers); stale = 0; }
+                else stale++;
+            }
+            Restore(layers, best);
+
+            GroupConstrainedSifting(layers);
+        }
+
+        private void GroupConstrainedSifting(List<List<ResearchNode>> layers)
+        {
+            bool improvedAny = true;
+            int guard = 0;
+            while (improvedAny && guard++ < Constraints.LayoutSiftingMaxPasses)
+            {
+                improvedAny = false;
+                foreach (var layer in layers)
+                {
+                    int n = layer.Count;
+                    if (n < 3) continue;
+
+                    int blockStart = 0;
+                    while (blockStart < n)
+                    {
+                        string g = GroupOf(layer[blockStart]);
+                        int blockEnd = blockStart + 1;
+                        while (blockEnd < n && GroupOf(layer[blockEnd]) == g) blockEnd++;
+                        int len = blockEnd - blockStart;
+
+                        if (len >= 3)
+                        {
+                            var prevOrder = layer.ToArray();
+                            var prevV = new int[n];
+                            for (int i = 0; i < n; i++) prevV[i] = prevOrder[i].VOrder;
+                            float scoreBefore = OrderingScore(layers, TotalCrossings(layers));
+
+                            if (SiftWithinBlock(layer, blockStart, blockEnd))
+                            {
+                                float scoreAfter = OrderingScore(layers, TotalCrossings(layers));
+                                if (scoreAfter < scoreBefore - 1e-4f) improvedAny = true;
+                                else
+                                {
+                                    for (int i = 0; i < n; i++) { layer[i] = prevOrder[i]; layer[i].VOrder = prevV[i]; }
+                                }
+                            }
+                        }
+                        blockStart = blockEnd;
+                    }
+                }
+            }
+        }
+
+        private bool SiftWithinBlock(List<ResearchNode> layer, int lo, int hi)
+        {
+            int len = hi - lo;
+            var nodes = new ResearchNode[len];
+            for (int i = 0; i < len; i++) nodes[i] = layer[lo + i];
+            var localIndex = new Dictionary<ResearchNode, int>(len);
+            for (int i = 0; i < len; i++) localIndex[nodes[i]] = i;
+
+            // cost[i,j] = nodes[i]가 nodes[j] 위일 때 둘 사이 교차 (블록 밖 이웃 VOrder는 고정이라 불변)
+            var cost = new int[len, len];
+            for (int i = 0; i < len; i++)
+                for (int j = 0; j < len; j++)
+                    if (i != j) cost[i, j] = PairCrossings(nodes[i], nodes[j]);
+
+            bool changed = false;
+            var work = new List<ResearchNode>(len);
+            for (int i = 0; i < len; i++) work.Add(layer[lo + i]);
+
+            foreach (var v in nodes)
+            {
+                int vi = localIndex[v];
+                int curPos = work.IndexOf(v);
+
+                var others = new List<ResearchNode>(len - 1);
+                foreach (var x in work) if (!ReferenceEquals(x, v)) others.Add(x);
+
+                long running = 0;
+                for (int j = 0; j < others.Count; j++) running += cost[vi, localIndex[others[j]]];
+                long best = running;
+                int bestP = 0;
+                for (int p = 1; p <= others.Count; p++)
+                {
+                    int wi = localIndex[others[p - 1]];
+                    running += cost[wi, vi] - cost[vi, wi];
+                    if (running < best) { best = running; bestP = p; }
+                }
+
+                if (bestP != curPos)
+                {
+                    work.Clear();
+                    for (int j = 0; j <= others.Count; j++)
+                    {
+                        if (j == bestP) work.Add(v);
+                        if (j < others.Count) work.Add(others[j]);
+                    }
+                    changed = true;
+                }
+            }
+
+            if (changed)
+                for (int i = 0; i < len; i++) { layer[lo + i] = work[i]; work[i].VOrder = lo + i; }
+            return changed;
+        }
+
+        /// <summary>그룹 경계를 넘지 않는 wmedian 스윕 — 각 그룹 블록 내부에서만 median 재정렬.</summary>
+        private void GroupWMedian(List<List<ResearchNode>> layers, bool forward)
+        {
+            if (forward)
+                for (int r = 1; r < layers.Count; r++) ReorderWithinGroups(layers[r], useUp: true);
+            else
+                for (int r = layers.Count - 2; r >= 0; r--) ReorderWithinGroups(layers[r], useUp: false);
+        }
+
+        /// <summary>
+        /// 한 레이어에서 같은 그룹의 연속 블록을 찾아, 블록 내부만 median 순으로 안정 재정렬한다(블록 경계 불변).
+        /// 그룹 블록은 EnforceGroupContiguity가 만든 뒤로 절대 섞이지 않으므로 띠 구조가 보존된다.
+        /// </summary>
+        private void ReorderWithinGroups(List<ResearchNode> layer, bool useUp)
+        {
+            int n = layer.Count;
+            if (n < 2) return;
+
+            int blockStart = 0;
+            while (blockStart < n)
+            {
+                string g = GroupOf(layer[blockStart]);
+                int blockEnd = blockStart + 1;
+                while (blockEnd < n && GroupOf(layer[blockEnd]) == g) blockEnd++;
+
+                int len = blockEnd - blockStart;
+                if (len >= 2)
+                {
+                    // 블록 [blockStart, blockEnd) 내부 median 재정렬 (이웃 없는 노드는 제자리 고정)
+                    var medians = new float[len];
+                    for (int i = 0; i < len; i++)
+                    {
+                        var positions = (useUp ? Ups(layer[blockStart + i]) : Downs(layer[blockStart + i]))
+                            .Select(u => u.VOrder).ToList();
+                        positions.Sort();
+                        medians[i] = MedianValue(positions);
+                    }
+
+                    var slot = new ResearchNode[len];
+                    var movable = new List<int>(len);
+                    for (int i = 0; i < len; i++)
+                    {
+                        if (medians[i] < 0f) slot[i] = layer[blockStart + i];
+                        else movable.Add(i);
+                    }
+                    var sorted = movable.OrderBy(i => medians[i]).ToList(); // 안정 정렬
+                    int next = 0;
+                    for (int i = 0; i < len; i++)
+                        if (slot[i] == null) slot[i] = layer[blockStart + sorted[next++]];
+
+                    for (int i = 0; i < len; i++)
+                    {
+                        layer[blockStart + i] = slot[i];
+                        slot[i].VOrder = blockStart + i;
+                    }
+                }
+                blockStart = blockEnd;
+            }
+        }
+
+        private void ComputeGroupOrder()
+        {
+            // 등장 그룹별 cross-degree (그룹 간 선행 엣지 수)
+            var deg = new Dictionary<string, int>();
+            foreach (var n in graph.Nodes)
+                if (!deg.ContainsKey(GroupOf(n))) deg[GroupOf(n)] = 0;
+            foreach (var e in graph.Edges)
+            {
+                string gf = GroupOf(e.From), gt = GroupOf(e.To);
+                if (gf == gt) continue;
+                deg[gf]++; deg[gt]++;
+            }
+
+            // 차수 내림차순(타이브레이크 서수) → 허브를 중앙, 나머지를 양쪽으로 교대
+            var byDeg = deg.Keys.OrderByDescending(g => deg[g]).ThenBy(g => g, StringComparer.Ordinal).ToList();
+            var dq = new LinkedList<string>();
+            for (int r = 0; r < byDeg.Count; r++)
+            {
+                if ((r & 1) == 0) dq.AddLast(byDeg[r]); // 가장 무거운(r=0) 중앙
+                else dq.AddFirst(byDeg[r]);
+            }
+
+            var order = new Dictionary<string, int>(dq.Count);
+            int p = 0;
+            foreach (var g in dq) order[g] = p++;
+            groupOrderIndex = order;
+
+            if (Prefs.DevMode)
+            {
+                var sb = new System.Text.StringBuilder();
+                sb.Append("[YART] group order (centerdeg) top→bottom:");
+                foreach (var kv in order.OrderBy(k => k.Value))
+                    sb.Append($"\n  {kv.Value,2}: {kv.Key}  (crossDeg={deg[kv.Key]})");
+                Log.Message(sb.ToString());
+            }
+        }
+
+        /// <summary>각 레이어를 그룹 세로 순서로 안정 정렬 — 같은 그룹이 한 덩어리(연속 런)가 된다.</summary>
+        private void EnforceGroupContiguity(List<List<ResearchNode>> layers)
+        {
+            foreach (var layer in layers)
+            {
+                if (layer.Count < 2) continue;
+                // OrderBy는 안정 정렬 → 그룹 내 상대순서(교차 최소화 결과)는 보존
+                var sorted = layer.OrderBy(n => groupOrderIndex.TryGetValue(GroupOf(n), out int idx) ? idx : int.MaxValue).ToList();
+                layer.Clear();
+                layer.AddRange(sorted);
+                for (int i = 0; i < layer.Count; i++) layer[i].VOrder = i;
+            }
+        }
+
+        /// <summary>그룹 내부에서만 인접 스왑 — 그룹 밴드를 깨지 않고 그룹 안 교차만 정리한다.</summary>
+        private void GroupConstrainedTranspose(List<List<ResearchNode>> layers)
+        {
+            bool improved = true;
+            int sweep = 0;
+            while (improved && sweep++ < Constraints.LayoutTransposeMaxSweeps)
+            {
+                improved = false;
+                foreach (var layer in layers)
+                {
+                    for (int i = 0; i + 1 < layer.Count; i++)
+                    {
+                        var v = layer[i];
+                        var w = layer[i + 1];
+                        if (GroupOf(v) != GroupOf(w)) continue; // 그룹 경계는 넘지 않음
+                        if (PairCrossings(w, v) < PairCrossings(v, w))
+                        {
+                            layer[i] = w;
+                            layer[i + 1] = v;
+                            w.VOrder = i;
+                            v.VOrder = i + 1;
+                            improved = true;
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>랭크별 X 좌표 + TechLevel 경계에 간격/구분선 할당 (graph.TechLevelBoundaries 채움).</summary>
         private float[] AssignX(List<List<ResearchNode>> layers)
         {
@@ -1844,6 +2220,55 @@ namespace YART
             // 더미 체인 성형 → 잔여 분리 위반 해소 (실제 노드는 그리드 고정, 더미만 이동)
             ShapeChains(layers);
             ResolveDummyRuns(layers);
+            // 리프 정렬은 Calculate 맨 끝(UntangleChains·PlaceIsolated 이후)에서 — 더미 최종 위치 기준이어야 한다.
+        }
+
+        /// <summary>
+        /// 후처리: 자식이 없는 말단(leaf) 실노드를 들어오는 이웃(더미 체인 끝 등)에 가장 가까운 그리드 행으로 당긴다.
+        /// 그리드 스냅이 리프를 체인 Y에서 한 행 밀어내 생기는 끝단 꺾임(예: …→Y1→Y1→Y2)을 제거한다.
+        /// 실노드는 반드시 그리드 행에 머무르며(스냅 유지), 그 그리드 행이 레이어 내 분리 가능 범위(빈 슬롯)에
+        /// 들어갈 때만 이동하므로 겹침을 만들지 않는다. grouping 무관 보편 개선.
+        /// </summary>
+        private void AlignTerminalLeavesToIncoming(List<List<ResearchNode>> layers)
+        {
+            float gridY = Constraints.NodeSize.y + Constraints.NodeSpacing.y;
+
+            // 2패스: 한쪽 이웃이 먼저 비워준 슬롯을 반대 패스가 활용.
+            for (int pass = 0; pass < 2; pass++)
+            {
+                foreach (var layer in layers)
+                {
+                    foreach (var v in layer)
+                    {
+                        if (v.IsDummy || v.IsProxy) continue;
+                        if (Downs(v).Any()) continue;          // 말단(자식 없음)만 — 출고 엣지가 없어 이동해도 다른 꺾임 무생성
+                        if (isolatedNodesSet.Contains(v)) continue;
+
+                        float sum = 0f; int deg = 0;
+                        foreach (var u in Ups(v)) { sum += u.Position.y; deg++; }
+                        if (deg == 0) continue;                // 소스/고립 제외
+                        float target = sum / deg;              // 단일 더미 체인이면 그 더미의 Y
+
+                        // 체인에 가장 가까운 '그리드 행'으로만 이동 (실노드 그리드 정렬 보존)
+                        float gridTarget = Mathf.Floor(target / gridY + 0.5f) * gridY;
+                        if (Mathf.Abs(gridTarget - v.Position.y) <= 0.5f) continue; // 이미 그 행
+
+                        // 현재 위치 기준 Y로 가장 가까운 위/아래 이웃 → 분리 가능 범위 (리스트 순서 가정 없음, 그룹 밴드 보존)
+                        float loBound = float.NegativeInfinity, hiBound = float.PositiveInfinity;
+                        foreach (var u in layer)
+                        {
+                            if (ReferenceEquals(u, v)) continue;
+                            float uy = u.Position.y;
+                            if (uy <= v.Position.y) { float b = uy + SeparationOf(u, v); if (b > loBound) loBound = b; }
+                            if (uy >= v.Position.y) { float b = uy - SeparationOf(v, u); if (b < hiBound) hiBound = b; }
+                        }
+
+                        // 그 그리드 행이 빈 슬롯일 때만 이동 (아니면 원래 스냅 위치 유지)
+                        if (gridTarget < loBound - 0.5f || gridTarget > hiBound + 0.5f) continue;
+                        v.Position = new Vector2(v.Position.x, gridTarget);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1929,15 +2354,22 @@ namespace YART
                         float sum = finalY[v] * selfAnchor;
                         float weight = selfAnchor + lambdaEff;
 
+                        // 그룹 클러스터링 시: 타 그룹으로 가는 엣지는 약하게 가중 → 노드가 제 띠(같은 그룹) 이웃을
+                        // 따라가 띠가 평평해지고, 띠 횡단 엣지는 노드를 끌어내지 않고 혼자 길게 그려진다(slant 국소화).
+                        bool grouped = GroupClusteringEnabled;
+                        float crossW = Constraints.LayoutGroupCrossEdgeWeight;
+                        string gv = grouped ? GroupOf(v) : null;
                         foreach (var u in Ups(v))
                         {
-                            sum += finalY[u];
-                            weight += 1f;
+                            float ew = (!grouped || GroupOf(u) == gv) ? 1f : crossW;
+                            sum += finalY[u] * ew;
+                            weight += ew;
                         }
                         foreach (var u in Downs(v))
                         {
-                            sum += finalY[u];
-                            weight += 1f;
+                            float ew = (!grouped || GroupOf(u) == gv) ? 1f : crossW;
+                            sum += finalY[u] * ew;
+                            weight += ew;
                         }
 
                         desired[i] = sum / weight; // degree==0이면 selfAnchor만 남아 desired = currentY

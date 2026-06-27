@@ -23,6 +23,9 @@ namespace YART
         // 통합 벤치 뷰 — 켜면 벤치 탭을 단일 통합 그래프로 표시 (연구 창에서 토글)
         public bool unifiedBenchView = true;
 
+        // Preset 그래프에서 같은 연구 탭의 연구끼리 모아서 표시할지
+        public bool groupClusterByTab = true;
+
         // 연구 캔버스 배경으로 격자를 사용할지
         public bool gridBackground = true;
 
@@ -55,6 +58,7 @@ namespace YART
             base.ExposeData();
             Scribe_Values.Look(ref replaceVanillaResearchTab, "replaceVanillaResearchTab", true);
             Scribe_Values.Look(ref unifiedBenchView,          "unifiedBenchView",          true);
+            Scribe_Values.Look(ref groupClusterByTab,         "groupClusterByTab",         true);
             Scribe_Values.Look(ref gridBackground,            "gridBackground",            true);
             Scribe_Values.Look(ref unifyEraColorToEffective,  "unifyEraColorToEffective",  false);
             Scribe_Values.Look(ref unlockedContentExpanded,   "unlockedContentExpanded",   false);
@@ -124,7 +128,6 @@ namespace YART
             "YART_Settings_Section_Colors",
             "YART_Settings_Section_Behavior",
             "YART_Settings_Section_Compat",
-            "YART_Settings_Section_Maintenance",
         };
 
         // 현재 선택된 섹션
@@ -163,7 +166,6 @@ namespace YART
                 case 1: DrawColorsSection(listing);      break;
                 case 2: DrawBehaviorSection(listing);    break;
                 case 3: DrawCompatSection(listing);      break;
-                case 4: DrawMaintenanceSection(listing); break;
             }
 
             listing.End();
@@ -209,11 +211,31 @@ namespace YART
             listing.CheckboxLabeled("YART_Settings_GridBackground".Translate(), ref gridBackground,
                 "YART_Settings_GridBackgroundDesc".Translate());
 
+            listing.CheckboxLabeled("YART_Settings_GroupClusterByTab".Translate(), ref groupClusterByTab,
+                "YART_Settings_GroupClusterByTabDesc".Translate());
+
             listing.CheckboxLabeled("YART_Settings_EraColor".Translate(), ref unifyEraColorToEffective,
                 "YART_Settings_EraColorDesc".Translate());
 
             listing.CheckboxLabeled("YART_Settings_FocusDimming".Translate(), ref focusHighlightDimming,
                 "YART_Settings_FocusDimmingDesc".Translate());
+
+            listing.GapLine(8f);
+            if (listing.ButtonText("YART_Settings_Rebuild".Translate()))
+            {
+                GraphBuildPipeline.RebuildNonBlocking();
+            }
+            Hint(listing, "YART_Settings_RebuildDesc".Translate());
+
+            if (Prefs.DevMode)
+            {
+                listing.Gap();
+                if (listing.ButtonText("YART_Settings_ExportGraph".Translate()))
+                {
+                    LayoutExport.WriteToDesktop();
+                }
+                Hint(listing, "YART_Settings_ExportGraphDesc".Translate());
+            }
         }
 
         private void DrawColorsSection(Listing_Standard listing)
@@ -297,23 +319,5 @@ namespace YART
                 : "YART_Settings_SemiRandomNotDetected").Translate());
         }
 
-        private void DrawMaintenanceSection(Listing_Standard listing)
-        {
-            if (listing.ButtonText("YART_Settings_Rebuild".Translate()))
-            {
-                GraphBuildPipeline.RebuildNonBlocking();
-            }
-            Hint(listing, "YART_Settings_RebuildDesc".Translate());
-
-            if (Prefs.DevMode)
-            {
-                listing.Gap();
-                if (listing.ButtonText("YART_Settings_ExportGraph".Translate()))
-                {
-                    LayoutExport.WriteToDesktop();
-                }
-                Hint(listing, "YART_Settings_ExportGraphDesc".Translate());
-            }
-        }
     }
 }

@@ -101,6 +101,9 @@ namespace YART.Data
         /// </summary>
         public int VOrder { get; set; }
 
+
+        public string GroupKey { get; set; }
+
         /// <summary>
         /// 캔버스 상의 위치 (좌상단 기준)
         /// </summary>
@@ -350,6 +353,7 @@ namespace YART.Data
             OriginalNode = null;
             IsDummy = false;
             _keyOverride = null;
+            GroupKey = def?.tab?.defName; // 출처 탭 = 그룹 클러스터링 키 (통합 뷰 세로 묶기용)
         }
 
         public ResearchNode(ResearchNode originalNode, GraphKey targetKey)
@@ -362,6 +366,7 @@ namespace YART.Data
             IsDummy = false;
             // 프록시가 속한 그래프 키를 보존
             _keyOverride = targetKey;
+            GroupKey = originalNode.Def?.tab?.defName; // 프록시는 원본 연구의 출처 탭으로 그룹화
         }
 
         // Private constructor for dummy nodes
@@ -391,6 +396,7 @@ namespace YART.Data
             OriginalNode = null;
             IsDummy = false;
             _keyOverride = keyOverride;
+            GroupKey = def?.tab?.defName; // 통합/프리셋 병합 복사본도 출처 탭으로 그룹화 (누락 시 클러스터링이 no-op됨)
         }
 
         /// <summary>

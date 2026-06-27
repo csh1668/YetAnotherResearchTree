@@ -65,7 +65,8 @@ namespace LayoutHarness
             foreach (var n in g.Nodes.Where(n => !n.IsDummy))
             {
                 float x = n.Position.x, y = n.Position.y - halfReal;
-                var c = EraColor(n.TechLevel);
+                // 그룹키가 있으면 그룹별 색(정렬 가시화), 없으면 시대색 폴백
+                var c = !string.IsNullOrEmpty(n.GroupKey) ? GroupColor(n.GroupKey) : EraColor(n.TechLevel);
                 string hex = Hex(c);
                 if (n.IsProxy)
                 {
@@ -97,6 +98,33 @@ namespace LayoutHarness
                 case TechLevel.Archotech: return new Color(1.0f, 0.843f, 0.0f);
                 default: return Color.gray;
             }
+        }
+
+        // 그룹키 → 안정적 고채도 색 (해시 기반 hue, 정렬 가시화용)
+        private static Color GroupColor(string group)
+        {
+            int hash = 17;
+            foreach (char ch in group) hash = hash * 31 + ch;
+            float hue = ((hash & 0x7fffffff) % 360) / 360f;
+            return HsvToRgb(hue, 0.65f, 0.95f);
+        }
+
+        private static Color HsvToRgb(float h, float s, float v)
+        {
+            float r = 0, g = 0, b = 0;
+            int i = (int)MathF.Floor(h * 6f);
+            float f = h * 6f - i;
+            float p = v * (1f - s), q = v * (1f - f * s), t = v * (1f - (1f - f) * s);
+            switch (((i % 6) + 6) % 6)
+            {
+                case 0: r = v; g = t; b = p; break;
+                case 1: r = q; g = v; b = p; break;
+                case 2: r = p; g = v; b = t; break;
+                case 3: r = p; g = q; b = v; break;
+                case 4: r = t; g = p; b = v; break;
+                case 5: r = v; g = p; b = q; break;
+            }
+            return new Color(r, g, b);
         }
 
         private static string Hex(Color c)

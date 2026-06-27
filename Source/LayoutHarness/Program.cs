@@ -43,8 +43,25 @@ namespace LayoutHarness
             }
 
             Prefs.DevMode = opt.DevMode;
+            YART.SugiyamaLayout.GroupClusteringEnabled = opt.Group;
 
-            var graph = BuildGraph(picked);
+            // 그룹키(출처 탭) 복원: per-tab 그래프(Unified류 제외)에서 defName→탭키 맵을 만든다 (export 재생성 불필요).
+            // picked도 포함 — 그래야 per-tab 그래프를 picked로 골라도 노드가 자기 탭 그룹을 갖고 no-op이 검증된다.
+            var groupMap = new Dictionary<string, string>();
+            foreach (var g in dump)
+            {
+                if (IsMergedKey(g.Key)) continue;
+                foreach (var n in g.Nodes)
+                    if (!groupMap.ContainsKey(n.Id)) groupMap[n.Id] = g.Key;
+            }
+
+            var graph = BuildGraph(picked, groupMap);
+            if (opt.Group)
+            {
+                int withGroup = graph.Nodes.Count(n => !n.IsDummy && !string.IsNullOrEmpty(n.GroupKey));
+                int distinct = graph.Nodes.Where(n => !n.IsDummy && !string.IsNullOrEmpty(n.GroupKey)).Select(n => n.GroupKey).Distinct().Count();
+                Console.WriteLine($"[group] clustering ON — {withGroup} nodes mapped into {distinct} groups");
+            }
             var sw = System.Diagnostics.Stopwatch.StartNew();
             new YART.SugiyamaLayout().Calculate(graph);
             sw.Stop();
@@ -55,9 +72,35 @@ namespace LayoutHarness
             if (opt.Trace != null)
             {
                 Console.WriteLine($"--- TRACE '{opt.Trace}' ---");
-                foreach (var n in graph.Nodes.Where(x => !x.IsDummy && (x.Label ?? "").IndexOf(opt.Trace, StringComparison.OrdinalIgnoreCase) >= 0))
+                foreach (var n in graph.Nodes.Where(x => !x.IsDummy && (((x.Label ?? "").IndexOf(opt.Trace, StringComparison.OrdinalIgnoreCase) >= 0) || ((x.Id ?? "").IndexOf(opt.Trace, StringComparison.OrdinalIgnoreCase) >= 0))))
                 {
                     Console.WriteLine($"  [{n.Label}] rank={n.Rank} vo={n.VOrder} y={n.Position.y:F0}");
+
+                    // 이 노드가 속한 레이어(rank) 전체 — 빈 공간/장애물 확인용
+                    var myLayer = graph.Nodes.Where(z => z.Rank == n.Rank).OrderBy(z => z.VOrder).ToList();
+                    Console.WriteLine($"      LAYER r{n.Rank} ({myLayer.Count} nodes):");
+                    foreach (var z in myLayer)
+                        Console.WriteLine($"        vo{z.VOrder,2} y{z.Position.y,6:F0} {(z.IsDummy ? "(D)" : z.Label)}");
+
+                    // 들어오는(선행) 체인 Y 프로파일 — 더미 체인을 실소스까지 거슬러 올라가며 각 더미의 레이어 위/아래 이웃(장애물)까지 출력
+                    foreach (var p in n.Prerequisites)
+                    {
+                        var profIn = new System.Collections.Generic.List<string>();
+                        var cur = p; var guard = 0;
+                        while (cur != null && cur.IsDummy && guard++ < 60)
+                        {
+                            var lay = graph.Nodes.Where(z => z.Rank == cur.Rank).OrderBy(z => z.VOrder).ToList();
+                            int idx = cur.VOrder;
+                            string up = idx > 0 ? $"{lay[idx-1].Position.y:F0}" : "—";
+                            string dn = idx+1 < lay.Count ? $"{lay[idx+1].Position.y:F0}" : "—";
+                            profIn.Add($"D(r{cur.Rank},vo{cur.VOrder},y{cur.Position.y:F0}|nbr {up}/{dn})");
+                            cur = cur.Prerequisites.FirstOrDefault();
+                        }
+                        if (cur != null) profIn.Add($"SRC[{cur.Label}](r{cur.Rank},y{cur.Position.y:F0})");
+                        profIn.Reverse();
+                        Console.WriteLine($"      <= IN-CHAIN: {string.Join(" -> ", profIn)} -> [{n.Label} y{n.Position.y:F0}]");
+                    }
+
                     foreach (var c in n.Children)
                     {
                         if (!c.IsDummy)
@@ -86,13 +129,21 @@ namespace LayoutHarness
             return 0;
         }
 
-        private static ResearchSubGraph BuildGraph(DumpGraph d)
+        // 병합(통합) 그래프 키 판별 — 게임 프리셋은 "…/AllTabs" 또는 "…/Preset:…", 구버전 export는 "Unified".
+        private static bool IsMergedKey(string key)
+            => key.IndexOf("AllTabs", StringComparison.OrdinalIgnoreCase) >= 0
+            || key.IndexOf("Preset", StringComparison.OrdinalIgnoreCase) >= 0
+            || key.IndexOf("Unified", StringComparison.OrdinalIgnoreCase) >= 0;
+
+        private static ResearchSubGraph BuildGraph(DumpGraph d, Dictionary<string, string> groupMap = null)
         {
-            var key = new GraphKey(d.Key, d.Key.IndexOf("Unified", StringComparison.OrdinalIgnoreCase) >= 0);
+            var key = new GraphKey(d.Key, IsMergedKey(d.Key));
             var g = new ResearchSubGraph(key);
             var byId = new Dictionary<string, ResearchNode>(d.Nodes.Count);
             foreach (var n in d.Nodes)
             {
+                string group = null;
+                groupMap?.TryGetValue(n.Id, out group);
                 var node = new ResearchNode
                 {
                     Id = n.Id,
@@ -100,6 +151,7 @@ namespace LayoutHarness
                     TechLevel = (TechLevel)n.Tech,
                     IsProxy = n.Proxy,
                     Key = key,
+                    GroupKey = group,
                 };
                 g.AddNode(node);
                 byId[n.Id] = node;
@@ -185,6 +237,32 @@ namespace LayoutHarness
             }
             Console.WriteLine($"  EDGE ΔY (slant): Σ={edgeDy:F0}px  avg={edgeDyAvg:F1}px/seg  max={edgeDyMax:F0}px   (ΣLen={edgeLen:F0}px, {segs} segs)   <-- 낮을수록 엣지가 수평");
             Console.WriteLine($"  VISUAL crossings (실제 Y 세그먼트 교차): {visualCross}   <-- 번들/인력 반영 (위상 crossings와 별개)");
+
+            // 그룹 분산도: 각 랭크에서 그룹별 연속 런을 센다. 한 그룹이 한 랭크에서 여러 조각으로 흩어지면 extraRuns↑.
+            // dispersion=0 이면 모든 그룹이 매 랭크에서 한 덩어리(완전 정렬). 실노드만 집계.
+            bool anyGroup = g.Nodes.Any(n => !n.IsDummy && !string.IsNullOrEmpty(n.GroupKey));
+            if (anyGroup)
+            {
+                int extraRuns = 0, nonEmptyPairs = 0, totalRuns = 0;
+                var groupSet = new HashSet<string>();
+                foreach (var grp in g.Nodes.GroupBy(n => n.Rank))
+                {
+                    var reals = grp.Where(n => !n.IsDummy).OrderBy(n => n.VOrder).ToList();
+                    if (reals.Count == 0) continue;
+                    var groupsInRank = new HashSet<string>();
+                    string prev = null;
+                    foreach (var n in reals)
+                    {
+                        string gk = string.IsNullOrEmpty(n.GroupKey) ? "(none)" : n.GroupKey;
+                        groupSet.Add(gk);
+                        if (gk != prev) { totalRuns++; prev = gk; }
+                        groupsInRank.Add(gk);
+                    }
+                    nonEmptyPairs += groupsInRank.Count;
+                }
+                extraRuns = totalRuns - nonEmptyPairs; // 0 = 모든 (랭크,그룹)이 단일 런
+                Console.WriteLine($"  GROUP DISPERSION: extraRuns={extraRuns} (runs={totalRuns}, ideal={nonEmptyPairs}, groups={groupSet.Count})   <-- 0에 가까울수록 출처 탭이 한 덩어리 (낮을수록 '정렬됨')");
+            }
         }
 
         private static void DumpRanks(ResearchSubGraph g)
@@ -317,6 +395,7 @@ namespace LayoutHarness
             public bool DevMode;
             public bool List;
             public bool Dump;
+            public bool Group; // 그룹 클러스터링(출처 탭별 세로 묶기) 활성
             public string Trace;
         }
 
@@ -333,6 +412,7 @@ namespace LayoutHarness
                     case "--devmode": o.DevMode = true; break;
                     case "--list": o.List = true; break;
                     case "--dump": o.Dump = true; break;
+                    case "--group": o.Group = true; break;
                     case "--trace": o.Trace = args[++i]; break;
                     case "-h": case "--help": return null;
                     default: Console.Error.WriteLine($"알 수 없는 인자: {args[i]}"); return null;

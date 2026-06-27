@@ -72,11 +72,8 @@ namespace RimWorld
 
 namespace YART
 {
-    // SugiyamaLayout가 토글을 읽는 진입점
-    public sealed class YARTModSettings
-    {
-        public bool fixOverflowChasing; // Fix D (A/B/C는 효과 없어 revert됨)
-    }
+    // 게임 YARTMod의 헤드리스 대체 (SugiyamaLayout은 GroupClusteringEnabled static을 직접 읽으므로 설정 필드 불필요)
+    public sealed class YARTModSettings { }
 
     public static class YARTMod
     {
@@ -102,7 +99,8 @@ namespace YART.Data
     {
         public readonly string Id;
         public readonly bool IsUnified;
-        public bool IsPreset => false;
+        // 게임에선 Unified가 Preset(AllTabsId)이라 IsPreset=true. 하니스도 일치시켜 적응예산·그룹게이트가 충실해진다.
+        public bool IsPreset => IsUnified;
         public GraphKey(string id, bool unified = false) { Id = id; IsUnified = unified; }
         public bool Equals(GraphKey o) => Id == o.Id && IsUnified == o.IsUnified;
         public override bool Equals(object o) => o is GraphKey g && Equals(g);
@@ -117,6 +115,7 @@ namespace YART.Data
         public bool IsProxy { get; set; }
         public string Id { get; set; }
         public string Label { get; set; }
+        public string GroupKey { get; set; } // 그룹 클러스터링 키 (출처 탭). 더미는 소스 노드에서 상속.
         public TechLevel TechLevel { get; set; }
         public GraphKey Key { get; set; }
         public int Rank { get; set; }
