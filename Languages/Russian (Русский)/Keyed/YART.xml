@@ -98,4 +98,36 @@
   <YART_Idle>(простой)</YART_Idle>
   <YART_ZoomTooltip>Щелчок: сбросить масштаб до 100%\nHome: вписать всё дерево в экран</YART_ZoomTooltip>
 
+
+  <!-- Additional settings and compatibility controls -->
+  <YART_OpenSettings>Открыть настройки YART</YART_OpenSettings>
+  <YART_Settings_ColorEraHeader>Цвета технологических эпох</YART_Settings_ColorEraHeader>
+  <YART_Settings_ColorPrereqHeader>Предварительное условие: техпринт</YART_Settings_ColorPrereqHeader>
+  <YART_Settings_ColorPrereqMet>Условие выполнено</YART_Settings_ColorPrereqMet>
+  <YART_Settings_ColorPrereqUnmet>Условие не выполнено</YART_Settings_ColorPrereqUnmet>
+  <YART_Settings_ColorPreset_default>По умолчанию</YART_Settings_ColorPreset_default>
+  <YART_Settings_ColorPreset_highContrast>Высокий контраст</YART_Settings_ColorPreset_highContrast>
+  <YART_Settings_ColorPreset_lumOrdered>Последовательная яркость</YART_Settings_ColorPreset_lumOrdered>
+  <YART_Settings_GroupClusterByTab>Группировать исследования по вкладкам в общем дереве и сохранённых схемах (по умолчанию включено)</YART_Settings_GroupClusterByTab>
+  <YART_Settings_GroupClusterByTabDesc>В дереве, объединяющем несколько вкладок исследований, проекты одной вкладки располагаются как можно ближе друг к другу.</YART_Settings_GroupClusterByTabDesc>
+  <YART_Settings_HiddenPrereqs>Показывать связи со скрытыми предварительными исследованиями (по умолчанию выключено)</YART_Settings_HiddenPrereqs>
+  <YART_Settings_HiddenPrereqsDesc>Скрытые предварительные исследования (hiddenPrerequisites) соединяются линиями в дереве так же, как обычные.</YART_Settings_HiddenPrereqsDesc>
+  <YART_Settings_PauseOnOpen>Ставить игру на паузу при открытии окна исследований (по умолчанию выключено)</YART_Settings_PauseOnOpen>
+  <YART_Settings_PauseOnOpenDesc>При открытии окна исследований игра ставится на паузу, а при закрытии возвращается к прежней скорости.</YART_Settings_PauseOnOpenDesc>
+  <YART_Settings_RebuildNeeded>Изменения пока не применены. Нажмите ниже «Перестроить граф исследований».</YART_Settings_RebuildNeeded>
+  <YART_Settings_Section_Behavior>Поведение</YART_Settings_Section_Behavior>
+  <YART_Settings_Section_Colors>Цвета</YART_Settings_Section_Colors>
+  <YART_Settings_Section_Compat>Совместимость</YART_Settings_Section_Compat>
+  <YART_Settings_Section_Display>Отображение</YART_Settings_Section_Display>
+  <YART_Settings_Section_Maintenance>Обслуживание</YART_Settings_Section_Maintenance>
+  <YART_Settings_SemiRandomCompat>Совместимость с Semi Random Research (по умолчанию включена)</YART_Settings_SemiRandomCompat>
+  <YART_Settings_SemiRandomCompatDesc>Если установлен Semi Random Research, YART отключает ручное добавление исследований в очередь, их запуск и остановку, передавая выбор исследований этому моду.</YART_Settings_SemiRandomCompatDesc>
+  <YART_Settings_SemiRandomDetected>Semi Random Research обнаружен; совместимость включена.</YART_Settings_SemiRandomDetected>
+  <YART_Settings_SemiRandomNotDetected>Semi Random Research не обнаружен; этот параметр ни на что не влияет.</YART_Settings_SemiRandomNotDetected>
+  <YART_Settings_ShowSourceIcon>Показывать значки у исследований (по умолчанию включено)</YART_Settings_ShowSourceIcon>
+  <YART_Settings_ShowSourceIconDesc>Справа от каждого исследования отображается значок мода или дополнения, из которого оно добавлено.</YART_Settings_ShowSourceIconDesc>
+  <YART_Settings_StoredResearchCompat>Совместимость со Stored Research (по умолчанию включена)</YART_Settings_StoredResearchCompat>
+  <YART_Settings_StoredResearchCompatDesc>Если установлен Stored Research, YART показывает накопленные очки исследований в строке очереди вверху окна исследований.</YART_Settings_StoredResearchCompatDesc>
+  <YART_Settings_StoredResearchDetected>Stored Research обнаружен; совместимость включена.</YART_Settings_StoredResearchDetected>
+  <YART_Settings_StoredResearchNotDetected>Stored Research не обнаружен; этот параметр ни на что не влияет.</YART_Settings_StoredResearchNotDetected>
 </LanguageData>
