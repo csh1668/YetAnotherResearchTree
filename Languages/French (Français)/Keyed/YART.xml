@@ -2,22 +2,53 @@
 <LanguageData>
 
   <!-- Settings -->
-  <YART_Settings_ReplaceTab>Remplacer l'onglet de recherche d'origine par YART (par défaut : activé)</YART_Settings_ReplaceTab>
-  <YART_Settings_ReplaceTabDesc>Lorsque cette option est désactivée, le bouton Recherche ouvre la fenêtre de recherche d'origine.</YART_Settings_ReplaceTabDesc>
-  <YART_Settings_EraColor>Colorer les recherches inter-époques selon leur époque effective (par défaut : activé)</YART_Settings_EraColor>
-  <YART_Settings_EraColorDesc>Lorsqu'une recherche nécessite un prérequis de technologie supérieure, elle est placée dans la zone de cette époque supérieure. Activé : la colorer aussi selon cette époque effective (en accord avec la zone). Désactivé : conserver la couleur de l'époque propre à la recherche. S'applique instantanément, aucune reconstruction nécessaire.</YART_Settings_EraColorDesc>
+  <YART_Settings_Section_Display>Affichage</YART_Settings_Section_Display>
+  <YART_Settings_Section_Colors>Couleurs</YART_Settings_Section_Colors>
+  <YART_Settings_Section_Behavior>Comportement</YART_Settings_Section_Behavior>
+  <YART_Settings_Section_Compat>Compatibilité</YART_Settings_Section_Compat>
+  <YART_Settings_Section_Maintenance>Maintenance</YART_Settings_Section_Maintenance>
+
+  <YART_Settings_ColorPreset_default>Par défaut</YART_Settings_ColorPreset_default>
+  <YART_Settings_ColorPreset_highContrast>Contraste élevé</YART_Settings_ColorPreset_highContrast>
+  <YART_Settings_ColorPreset_lumOrdered>Contraste ordonné</YART_Settings_ColorPreset_lumOrdered>
+  <YART_Settings_ColorEraHeader>Couleurs des ères</YART_Settings_ColorEraHeader>
+  <YART_Settings_ColorPrereqHeader>Prérequis (empreinte technologique)</YART_Settings_ColorPrereqHeader>
+  <YART_Settings_ColorPrereqMet>Exigence remplie</YART_Settings_ColorPrereqMet>
+  <YART_Settings_ColorPrereqUnmet>Exigence non remplie</YART_Settings_ColorPrereqUnmet>
+  
+  <YART_Settings_SemiRandomCompat>Compatibilité avec Semi Random Research (par défaut : activé)</YART_Settings_SemiRandomCompat>
+  <YART_Settings_SemiRandomCompatDesc>Lorsque Semi Random Research est installé et que cette option est activée, YART désactive la file d'attente/le démarrage/l'arrêt manuel des recherches afin que SRR contrôle la sélection des recherches.</YART_Settings_SemiRandomCompatDesc>
+  <YART_Settings_SemiRandomDetected>Statut : Semi Random Research détecté — compatibilité active.</YART_Settings_SemiRandomDetected>
+  <YART_Settings_SemiRandomNotDetected>Statut : Semi Random Research non détecté — ce paramètre n'a aucun effet.</YART_Settings_SemiRandomNotDetected>
+  <YART_Settings_StoredResearchCompat>Compatibilité avec Stored Research (par défaut : activé)</YART_Settings_StoredResearchCompat>
+  <YART_Settings_StoredResearchCompatDesc>Lorsque Stored Research est installé et que cette option est activée, YART affiche les points de recherche stockés dans la barre de file d'attente en haut de la fenêtre de recherche.</YART_Settings_StoredResearchCompatDesc>
+  <YART_Settings_StoredResearchDetected>Statut : Stored Research détecté — compatibilité active.</YART_Settings_StoredResearchDetected>
+  <YART_Settings_StoredResearchNotDetected>Statut : Stored Research non détecté — ce paramètre n'a aucun effet.</YART_Settings_StoredResearchNotDetected>
+  <YART_Settings_ReplaceTab>Remplacer l'onglet de recherche vanilla par YART (par défaut : activé)</YART_Settings_ReplaceTab>
+  <YART_Settings_ReplaceTabDesc>Lorsque désactivé, le bouton Recherche ouvre la fenêtre de recherche vanilla.</YART_Settings_ReplaceTabDesc>
+  <YART_Settings_EraColor>Colorer les recherches inter-ères par leur ère effective (par défaut : activé)</YART_Settings_EraColor>
+  <YART_Settings_EraColorDesc>Lorsqu'une recherche nécessite un prérequis de technologie supérieure, elle est placée dans la zone de cette ère supérieure. Activé : la colore également selon cette ère effective (correspond à la zone). Désactivé : conserve la couleur de l'ère propre à la recherche. S'applique instantanément, aucune reconstruction nécessaire.</YART_Settings_EraColorDesc>
   <YART_Settings_FocusDimming>Estomper les recherches non liées au survol (par défaut : désactivé)</YART_Settings_FocusDimming>
-  <YART_Settings_FocusDimmingDesc>Activé : survoler une recherche estompe tout ce qui ne se trouve pas sur son chemin de prérequis/déblocages, comme un projecteur. Désactivé : met uniquement en évidence le chemin associé sans estomper le reste.</YART_Settings_FocusDimmingDesc>
-  <YART_Settings_CompletionLetter>Envoyer une lettre à la fin de la recherche (par défaut : activé)</YART_Settings_CompletionLetter>
-  <YART_Settings_CompletionLetterDesc>Activé : remplace la fenêtre contextuelle d'origine affichée lorsque la recherche se termine par une lettre de notification. Désactivé : conserver la fenêtre de fin d'origine.</YART_Settings_CompletionLetterDesc>
-  <YART_Settings_GridBackground>Afficher la grille d'arrière-plan (par défaut : activé)</YART_Settings_GridBackground>
-  <YART_Settings_GridBackgroundDesc>Activé : affiche la grille de fond (lignes et points d'intersection) derrière l'arbre de recherche. Désactivé : conserve l'arrière-plan noir uni sans grille.</YART_Settings_GridBackgroundDesc>
-  <YART_Settings_Rebuild>Reconstruire le graphe de recherche</YART_Settings_Rebuild>
+  <YART_Settings_FocusDimmingDesc>Activé : survoler une recherche estompe tout ce qui ne se trouve pas sur son chemin de prérequis/déblocage, comme un projecteur. Désactivé : met uniquement en évidence le chemin lié sans estomper le reste.</YART_Settings_FocusDimmingDesc>
+  <YART_Settings_CompletionLetter>Envoyer une lettre à la fin d'une recherche (par défaut : activé)</YART_Settings_CompletionLetter>
+  <YART_Settings_CompletionLetterDesc>Activé : remplace la fenêtre contextuelle vanilla affichée à la fin d'une recherche par une lettre de notification. Désactivé : conserve la fenêtre de fin vanilla.</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_PauseOnOpen>Mettre le jeu en pause pendant que la fenêtre de recherche est ouverte (par défaut : désactivé)</YART_Settings_PauseOnOpen>
+  <YART_Settings_PauseOnOpenDesc>Activé : met le jeu en pause lorsque vous ouvrez la fenêtre de recherche et restaure la vitesse précédente lorsque vous la fermez.</YART_Settings_PauseOnOpenDesc>
+  <YART_Settings_GridBackground>Afficher la grille en arrière-plan (par défaut : activé)</YART_Settings_GridBackground>
+  <YART_Settings_GridBackgroundDesc>Activé : dessine la grille de plan (lignes et points d'intersection) derrière l'arbre de recherche. Désactivé : conserve l'arrière-plan sombre uni sans la grille.</YART_Settings_GridBackgroundDesc>
+  <YART_Settings_GroupClusterByTab>Grouper les recherches par onglet dans les arbres unifiés et prédéfinis (par défaut : activé)</YART_Settings_GroupClusterByTab>
+  <YART_Settings_GroupClusterByTabDesc>Dans un arbre de recherche qui fusionne plusieurs onglets de recherche, maintient les recherches du même onglet aussi proches que possible les unes des autres.</YART_Settings_GroupClusterByTabDesc>
+  <YART_Settings_ShowSourceIcon>Afficher l'icône sur les nœuds de recherche (par défaut : activé)</YART_Settings_ShowSourceIcon>
+  <YART_Settings_ShowSourceIconDesc>Activé : affiche l'icône du mod/DLC sur le côté droit de chaque nœud de recherche.</YART_Settings_ShowSourceIconDesc>
+  <YART_Settings_HiddenPrereqs>Connecter les prérequis masqués dans l'arbre (par défaut : désactivé)</YART_Settings_HiddenPrereqs>
+  <YART_Settings_HiddenPrereqsDesc>Activé : les prérequis masqués (hiddenPrerequisites) sont connectés comme des liens dans la disposition de l'arbre de recherche, comme les prérequis normaux.</YART_Settings_HiddenPrereqsDesc>
+  <YART_Settings_RebuildNeeded>Les paramètres modifiés ne sont pas encore appliqués — appuyez sur « Reconstruire le graphique de recherche » ci-dessous.</YART_Settings_RebuildNeeded>
+  <YART_Settings_Rebuild>Reconstruire le graphique de recherche</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>Régénère l'arbre en arrière-plan.</YART_Settings_RebuildDesc>
-  <YART_Settings_ExportGraph>Exporter la structure de l'arbre de recherche vers le Bureau (dév)</YART_Settings_ExportGraph>
+  <YART_Settings_ExportGraph>Exporter la structure de l'arbre de recherche vers le Bureau (dev)</YART_Settings_ExportGraph>
   <YART_Settings_ExportGraphDesc>Écrit la structure de l'arbre de recherche dans Bureau\YART_layout_graph.json.</YART_Settings_ExportGraphDesc>
-  <YART_Export_Done>YART : graphe de disposition exporté vers {0}</YART_Export_Done>
-  <YART_Export_Empty>YART : aucun graphe à exporter (échec de la reconstruction ou graphe vide).</YART_Export_Empty>
+  <YART_Export_Done>YART : graphique de disposition exporté vers {0}</YART_Export_Done>
+  <YART_Export_Empty>YART : aucun graphique à exporter (la reconstruction a échoué ou le graphique est vide).</YART_Export_Empty>
   <YART_Export_Failed>YART : échec de l'exportation de la disposition — {0}</YART_Export_Failed>
 
   <!-- Building notice -->
@@ -26,27 +57,27 @@
 
   <!-- Search -->
   <YART_SearchPlaceholder>Rechercher...</YART_SearchPlaceholder>
-  <YART_SearchHint_WordsSyntax>console de communication</YART_SearchHint_WordsSyntax>
-  <YART_SearchHint_WordsDesc>Nom de la recherche, débloque, description, etc.</YART_SearchHint_WordsDesc>
+  <YART_SearchHint_WordsSyntax>communications électricité</YART_SearchHint_WordsSyntax>
+  <YART_SearchHint_WordsDesc>Nom de la recherche, déblocages, description, etc.</YART_SearchHint_WordsDesc>
   <YART_SearchHint_ModSyntax>@mod</YART_SearchHint_ModSyntax>
-  <YART_SearchHint_ModDesc>Nom du mod, identifiant de paquet</YART_SearchHint_ModDesc>
+  <YART_SearchHint_ModDesc>Nom du mod, ID du paquet</YART_SearchHint_ModDesc>
 
   <!-- Actions -->
-  <YART_StartNow>Démarrer</YART_StartNow>
-  <YART_TipQueueShift>Shift+Clic : ajouter à la fin de la file d'attente</YART_TipQueueShift>
+  <YART_StartNow>Commencer maintenant</YART_StartNow>
+  <YART_TipQueueShift>Maj+Clic : ajouter à la fin de la file d'attente</YART_TipQueueShift>
   <YART_TipQueueAlt>Alt+Clic : insérer au début de la file d'attente</YART_TipQueueAlt>
   <YART_TipQueueCtrl>Ctrl+Clic : vider la file d'attente, puis ajouter</YART_TipQueueCtrl>
   <YART_Stop>Arrêter</YART_Stop>
   <YART_Queue>File d'attente</YART_Queue>
-  <YART_QueueChain>Mettre en file ({0})</YART_QueueChain>
+  <YART_QueueChain>File d'attente ({0})</YART_QueueChain>
   <YART_Unqueue>Retirer de la file ({0})</YART_Unqueue>
   <YART_InProgress>En cours</YART_InProgress>
   <YART_Completed>Terminé</YART_Completed>
   <YART_Locked>Verrouillé</YART_Locked>
-  <YART_SemiRandomActive>Recherche semi-aléatoire</YART_SemiRandomActive>
-  <YART_SemiRandomActiveDesc>La recherche semi-aléatoire est active, il est donc impossible de démarrer ou de mettre en file une recherche d'ici. Choisissez votre prochain projet dans son onglet « Prochaine recherche ».</YART_SemiRandomActiveDesc>
-  <YART_GoToOriginal>Aller au graphe d'origine</YART_GoToOriginal>
-  <YART_ShowInfoCard>Ouvrir l'onglet d'information</YART_ShowInfoCard>
+  <YART_SemiRandomActive>Semi Random Research</YART_SemiRandomActive>
+  <YART_SemiRandomActiveDesc>Semi Random Research est actif, la recherche ne peut donc pas être lancée ni mise en file d'attente à partir d'ici. Choisissez votre prochain projet dans son onglet « Next Research ».</YART_SemiRandomActiveDesc>
+  <YART_GoToOriginal>Aller au graphique d'origine</YART_GoToOriginal>
+  <YART_ShowInfoCard>Ouvrir la fiche d'information</YART_ShowInfoCard>
 
   <!-- Tab presets (custom tab groups) -->
   <YART_Preset_New>Nouveau groupe d'onglets</YART_Preset_New>
@@ -57,23 +88,23 @@
   <YART_Preset_EditTitle>Modifier le groupe d'onglets</YART_Preset_EditTitle>
   <YART_Preset_Name>Nom</YART_Preset_Name>
   <YART_Preset_PickTabs>Onglets à inclure :</YART_Preset_PickTabs>
-  <YART_Preset_Preview>Prévisualiser cet onglet sur le canevas</YART_Preset_Preview>
+  <YART_Preset_Preview>Aperçu de cet onglet sur le canevas</YART_Preset_Preview>
   <YART_Preset_Done>Terminé</YART_Preset_Done>
   <YART_Preset_Cancel>Annuler</YART_Preset_Cancel>
 
   <!-- Detail panel -->
   <YART_UnlockedContent>Contenu débloqué</YART_UnlockedContent>
-  <YART_ToggleUnlockedView>Basculer entre la vue icônes et la vue liste</YART_ToggleUnlockedView>
+  <YART_ToggleUnlockedView>Basculer entre la vue icône / liste</YART_ToggleUnlockedView>
   <YART_Prerequisites>Prérequis</YART_Prerequisites>
   <YART_Unlocks>Débloque</YART_Unlocks>
   <YART_None>Aucun</YART_None>
   <YART_Requires>Nécessite</YART_Requires>
   <YART_LockedReasons>Verrouillé :</YART_LockedReasons>
-  <YART_Finished>Achevé</YART_Finished>
+  <YART_Finished>Terminé</YART_Finished>
   <YART_Cost>Coût : {0}</YART_Cost>
   <YART_CostProgress>Coût : {0} / {1}</YART_CostProgress>
   <YART_Progress>Progression : {0} / {1}</YART_Progress>
-  <YART_Techprints>Schémas techniques : {0} / {1}</YART_Techprints>
+  <YART_Techprints>Empreintes technologiques : {0} / {1}</YART_Techprints>
   <YART_Tab>Onglet : {0}</YART_Tab>
   <YART_TechLevelUndefined>indéfini</YART_TechLevelUndefined>
   <YART_RequiredByExternal>Requis par {0} recherche(s) dans d'autres onglets :</YART_RequiredByExternal>
@@ -82,20 +113,21 @@
   <YART_QueueEmpty>La file d'attente de recherche est vide.</YART_QueueEmpty>
   <YART_Clear>Vider</YART_Clear>
   <YART_ClearTooltip>Vider toute la file d'attente de recherche sur ce canal.</YART_ClearTooltip>
-  <YART_ClearConfirm>Vider la file d'attente de recherche ? ({0} en file)</YART_ClearConfirm>
-  <YART_CannotStartYet>Impossible de démarrer pour l'instant : {0}\nLes prérequis ou les conditions ne sont pas remplis.</YART_CannotStartYet>
-  <YART_NextInQueue>Suivant en file d'attente : {0}</YART_NextInQueue>
+  <YART_ClearConfirm>Vider la file d'attente de recherche ? ({0} en attente)</YART_ClearConfirm>
+  <YART_CannotStartYet>Impossible de commencer pour le moment : {0}\nPrérequis ou conditions non remplis.</YART_CannotStartYet>
+  <YART_NextInQueue>Suivant dans la file : {0}</YART_NextInQueue>
   <YART_NextResearchHeader>Prochaine recherche</YART_NextResearchHeader>
 
   <!-- Tabs / unified / switch -->
   <YART_AllTabs>Tous les onglets</YART_AllTabs>
   <YART_AllTabsTooltip>Afficher toutes les catégories de recherche dans un arbre unifié</YART_AllTabsTooltip>
-  <YART_TabDropdownTooltip>Catégorie de recherche (ajoutée par des mods)</YART_TabDropdownTooltip>
-  <YART_SwitchToVanilla>Passer à la fenêtre de recherche d'origine</YART_SwitchToVanilla>
-  <YART_SwitchToYART>Passer à l'arbre de recherche YART</YART_SwitchToYART>
+  <YART_TabDropdownTooltip>Catégorie de recherche (ajoutée par les mods)</YART_TabDropdownTooltip>
+  <YART_SwitchToVanilla>Basculer vers la fenêtre de recherche vanilla</YART_SwitchToVanilla>
+  <YART_SwitchToYART>Basculer vers l'arbre de recherche YART</YART_SwitchToYART>
+  <YART_OpenSettings>Ouvrir les paramètres de YART</YART_OpenSettings>
 
   <!-- Channel chip / zoom -->
   <YART_Idle>(inactif)</YART_Idle>
-  <YART_ZoomTooltip>Clic : réinitialiser le zoom à 100 %\nOrigine : ajuster tout l'arbre à l'écran</YART_ZoomTooltip>
+  <YART_ZoomTooltip>Clic : réinitialiser le zoom à 100%\nTouche Home : ajuster tout l'arbre à l'écran</YART_ZoomTooltip>
 
 </LanguageData>
