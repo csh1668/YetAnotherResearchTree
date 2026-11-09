@@ -2,6 +2,28 @@
 <LanguageData>
 
   <!-- 设置 -->
+  <YART_Settings_Section_Display>显示</YART_Settings_Section_Display>
+  <YART_Settings_Section_Colors>颜色</YART_Settings_Section_Colors>
+  <YART_Settings_Section_Behavior>行为</YART_Settings_Section_Behavior>
+  <YART_Settings_Section_Compat>兼容性</YART_Settings_Section_Compat>
+  <YART_Settings_Section_Maintenance>维护</YART_Settings_Section_Maintenance>
+
+  <YART_Settings_ColorPreset_default>默认</YART_Settings_ColorPreset_default>
+  <YART_Settings_ColorPreset_highContrast>高对比度</YART_Settings_ColorPreset_highContrast>
+  <YART_Settings_ColorPreset_lumOrdered>亮度排序对比</YART_Settings_ColorPreset_lumOrdered>
+  <YART_Settings_ColorEraHeader>时代颜色</YART_Settings_ColorEraHeader>
+  <YART_Settings_ColorPrereqHeader>前置条件（科研蓝图）</YART_Settings_ColorPrereqHeader>
+  <YART_Settings_ColorPrereqMet>已满足要求</YART_Settings_ColorPrereqMet>
+  <YART_Settings_ColorPrereqUnmet>未满足要求</YART_Settings_ColorPrereqUnmet>
+  
+  <YART_Settings_SemiRandomCompat>半随机研究（Semi Random Research）兼容（默认：开启）</YART_Settings_SemiRandomCompat>
+  <YART_Settings_SemiRandomCompatDesc>安装了半随机研究且此项开启时，YART 会禁用手动排队／开始／停止研究，改由半随机研究决定研究项目。</YART_Settings_SemiRandomCompatDesc>
+  <YART_Settings_SemiRandomDetected>状态：已检测到半随机研究 — 兼容已生效。</YART_Settings_SemiRandomDetected>
+  <YART_Settings_SemiRandomNotDetected>状态：未检测到半随机研究 — 此设置无效。</YART_Settings_SemiRandomNotDetected>
+  <YART_Settings_StoredResearchCompat>储存研究（Stored Research）兼容（默认：开启）</YART_Settings_StoredResearchCompat>
+  <YART_Settings_StoredResearchCompatDesc>安装了储存研究且此项开启时，YART 会在研究窗口顶部的队列栏中显示已储存的研究点数。</YART_Settings_StoredResearchCompatDesc>
+  <YART_Settings_StoredResearchDetected>状态：已检测到储存研究 — 兼容已生效。</YART_Settings_StoredResearchDetected>
+  <YART_Settings_StoredResearchNotDetected>状态：未检测到储存研究 — 此设置无效。</YART_Settings_StoredResearchNotDetected>
   <YART_Settings_ReplaceTab>用 YART 替换原版研究标签页（默认：开启）</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>关闭后，点击「研究」按钮将打开原版研究界面。</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>按有效时代为跨时代研究着色（默认：开启）</YART_Settings_EraColor>
@@ -10,8 +32,17 @@
   <YART_Settings_FocusDimmingDesc>开启：悬停某项研究时，会淡化所有不在其前置/解锁路径上的内容，如同聚光灯效果。关闭：仅高亮相关路径，而不淡化其余部分。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>研究完成时发送信件（默认：开启）</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>开启：用通知信件替换研究完成时显示的原版弹窗。关闭：保留原版完成窗口。</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_PauseOnOpen>打开研究窗口时暂停游戏（默认：关闭）</YART_Settings_PauseOnOpen>
+  <YART_Settings_PauseOnOpenDesc>开启：打开研究窗口时暂停游戏，关闭窗口后恢复之前的游戏速度。</YART_Settings_PauseOnOpenDesc>
   <YART_Settings_GridBackground>显示网格背景（默认：开启）</YART_Settings_GridBackground>
   <YART_Settings_GridBackgroundDesc>开启：在研究树后面绘制蓝图网格（网格线和交点）。关闭：保持纯色深色背景，不显示网格。</YART_Settings_GridBackgroundDesc>
+  <YART_Settings_GroupClusterByTab>在统合研究树和标签页分组中按标签页归类研究（默认：开启）</YART_Settings_GroupClusterByTab>
+  <YART_Settings_GroupClusterByTabDesc>在合并了多个研究标签页的研究树中，尽量将同一标签页的研究排在一起。</YART_Settings_GroupClusterByTabDesc>
+  <YART_Settings_ShowSourceIcon>在研究节点上显示图标（默认：开启）</YART_Settings_ShowSourceIcon>
+  <YART_Settings_ShowSourceIconDesc>开启：在每个研究节点右侧显示所属模组／DLC 的图标。</YART_Settings_ShowSourceIconDesc>
+  <YART_Settings_HiddenPrereqs>在研究树中连接隐藏前置条件（默认：关闭）</YART_Settings_HiddenPrereqs>
+  <YART_Settings_HiddenPrereqsDesc>开启：隐藏前置条件（hiddenPrerequisites）会像普通前置条件一样，在研究树布局中以连线相连。</YART_Settings_HiddenPrereqsDesc>
+  <YART_Settings_RebuildNeeded>已更改的设置尚未生效 — 请点击下方的“重建研究图谱”。</YART_Settings_RebuildNeeded>
   <YART_Settings_Rebuild>重建研究图谱</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>在后台重新生成研究树。</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>将研究树结构导出到桌面（开发者）</YART_Settings_ExportGraph>
@@ -93,6 +124,7 @@
   <YART_TabDropdownTooltip>研究分类（由模组添加）</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>切换到原版研究界面</YART_SwitchToVanilla>
   <YART_SwitchToYART>切换到 YART 研究树</YART_SwitchToYART>
+  <YART_OpenSettings>打开 YART 设置</YART_OpenSettings>
 
   <!-- Channel chip / zoom -->
   <YART_Idle>（空闲）</YART_Idle>

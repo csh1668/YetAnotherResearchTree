@@ -2,6 +2,28 @@
 <LanguageData>
 
   <!-- Settings -->
+  <YART_Settings_Section_Display>顯示</YART_Settings_Section_Display>
+  <YART_Settings_Section_Colors>顏色</YART_Settings_Section_Colors>
+  <YART_Settings_Section_Behavior>行為</YART_Settings_Section_Behavior>
+  <YART_Settings_Section_Compat>相容性</YART_Settings_Section_Compat>
+  <YART_Settings_Section_Maintenance>維護</YART_Settings_Section_Maintenance>
+
+  <YART_Settings_ColorPreset_default>預設</YART_Settings_ColorPreset_default>
+  <YART_Settings_ColorPreset_highContrast>高對比</YART_Settings_ColorPreset_highContrast>
+  <YART_Settings_ColorPreset_lumOrdered>亮度排序對比</YART_Settings_ColorPreset_lumOrdered>
+  <YART_Settings_ColorEraHeader>時代顏色</YART_Settings_ColorEraHeader>
+  <YART_Settings_ColorPrereqHeader>前置條件（科技藍圖）</YART_Settings_ColorPrereqHeader>
+  <YART_Settings_ColorPrereqMet>已滿足要求</YART_Settings_ColorPrereqMet>
+  <YART_Settings_ColorPrereqUnmet>未滿足要求</YART_Settings_ColorPrereqUnmet>
+  
+  <YART_Settings_SemiRandomCompat>半隨機研究（Semi Random Research）相容（預設：開啟）</YART_Settings_SemiRandomCompat>
+  <YART_Settings_SemiRandomCompatDesc>安裝半隨機研究且此選項開啟時，YART 會停用手動排入佇列／開始／停止研究，改由半隨機研究決定研究項目。</YART_Settings_SemiRandomCompatDesc>
+  <YART_Settings_SemiRandomDetected>狀態：已偵測到半隨機研究 — 相容功能已啟用。</YART_Settings_SemiRandomDetected>
+  <YART_Settings_SemiRandomNotDetected>狀態：未偵測到半隨機研究 — 此設定不會生效。</YART_Settings_SemiRandomNotDetected>
+  <YART_Settings_StoredResearchCompat>儲存研究（Stored Research）相容（預設：開啟）</YART_Settings_StoredResearchCompat>
+  <YART_Settings_StoredResearchCompatDesc>安裝儲存研究且此選項開啟時，YART 會在研究視窗頂端的佇列列中顯示已儲存的研究點數。</YART_Settings_StoredResearchCompatDesc>
+  <YART_Settings_StoredResearchDetected>狀態：已偵測到儲存研究 — 相容功能已啟用。</YART_Settings_StoredResearchDetected>
+  <YART_Settings_StoredResearchNotDetected>狀態：未偵測到儲存研究 — 此設定不會生效。</YART_Settings_StoredResearchNotDetected>
   <YART_Settings_ReplaceTab>以 YART 取代原版研究分頁（預設：開啟）</YART_Settings_ReplaceTab>
   <YART_Settings_ReplaceTabDesc>關閉後，研究按鈕將開啟原版研究視窗。</YART_Settings_ReplaceTabDesc>
   <YART_Settings_EraColor>依有效時代為跨時代研究上色（預設：開啟）</YART_Settings_EraColor>
@@ -10,8 +32,17 @@
   <YART_Settings_FocusDimmingDesc>開啟：懸停於某項研究時，會淡化所有不在其前置／解鎖路徑上的項目，如同聚光燈。關閉：僅突顯相關路徑，不淡化其餘部分。</YART_Settings_FocusDimmingDesc>
   <YART_Settings_CompletionLetter>研究完成時發送信函（預設：開啟）</YART_Settings_CompletionLetter>
   <YART_Settings_CompletionLetterDesc>開啟：以通知信函取代研究完成時顯示的原版快顯視窗。關閉：保留原版完成視窗。</YART_Settings_CompletionLetterDesc>
+  <YART_Settings_PauseOnOpen>開啟研究視窗時暫停遊戲（預設：關閉）</YART_Settings_PauseOnOpen>
+  <YART_Settings_PauseOnOpenDesc>開啟：開啟研究視窗時暫停遊戲，關閉視窗後恢復先前的遊戲速度。</YART_Settings_PauseOnOpenDesc>
   <YART_Settings_GridBackground>顯示格線背景（預設：開啟）</YART_Settings_GridBackground>
   <YART_Settings_GridBackgroundDesc>開啟：在研究樹背景繪製藍圖格線（線和交點點）。關閉：保留純色深色背景，不顯示格線。</YART_Settings_GridBackgroundDesc>
+  <YART_Settings_GroupClusterByTab>在統合研究樹與分頁群組中依分頁歸類研究（預設：開啟）</YART_Settings_GroupClusterByTab>
+  <YART_Settings_GroupClusterByTabDesc>在合併多個研究分頁的研究樹中，盡量將同一分頁的研究排在一起。</YART_Settings_GroupClusterByTabDesc>
+  <YART_Settings_ShowSourceIcon>在研究節點上顯示圖示（預設：開啟）</YART_Settings_ShowSourceIcon>
+  <YART_Settings_ShowSourceIconDesc>開啟：在每個研究節點右側顯示所屬模組／DLC 的圖示。</YART_Settings_ShowSourceIconDesc>
+  <YART_Settings_HiddenPrereqs>在研究樹中連接隱藏前置條件（預設：關閉）</YART_Settings_HiddenPrereqs>
+  <YART_Settings_HiddenPrereqsDesc>開啟：隱藏前置條件（hiddenPrerequisites）會像一般前置條件一樣，在研究樹佈局中以連線相接。</YART_Settings_HiddenPrereqsDesc>
+  <YART_Settings_RebuildNeeded>變更的設定尚未套用 — 請按下方的「重建研究圖譜」。</YART_Settings_RebuildNeeded>
   <YART_Settings_Rebuild>重建研究圖譜</YART_Settings_Rebuild>
   <YART_Settings_RebuildDesc>於背景重新產生研究樹。</YART_Settings_RebuildDesc>
   <YART_Settings_ExportGraph>將研究樹結構匯出至桌面（開發用）</YART_Settings_ExportGraph>
@@ -93,6 +124,7 @@
   <YART_TabDropdownTooltip>研究類別（由模組新增）</YART_TabDropdownTooltip>
   <YART_SwitchToVanilla>切換至原版研究視窗</YART_SwitchToVanilla>
   <YART_SwitchToYART>切換至 YART 研究樹</YART_SwitchToYART>
+  <YART_OpenSettings>開啟 YART 設定</YART_OpenSettings>
 
   <!-- Channel chip / zoom -->
   <YART_Idle>（閒置）</YART_Idle>
